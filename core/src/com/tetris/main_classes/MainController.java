@@ -1,4 +1,4 @@
-package com.tetris;
+package com.tetris.main_classes;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
