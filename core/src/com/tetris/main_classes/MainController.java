@@ -21,7 +21,7 @@ public class MainController extends Game {
     }
 
     private void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
     }
 
