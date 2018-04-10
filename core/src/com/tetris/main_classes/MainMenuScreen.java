@@ -16,7 +16,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        controller.font.draw(controller.batch, "Some example text!", 0, 480);
     }
 
     @Override
