@@ -12,7 +12,7 @@ public class GameScreen implements Screen {
     GameScreen(MainController controller, int boardNumber) {
         this.controller = controller;
         for (int i = 0; i < boardNumber; i++) {
-            boardArray.add(new Board(500, 720));
+            boardArray.add(new Board());
         }
     }
 
