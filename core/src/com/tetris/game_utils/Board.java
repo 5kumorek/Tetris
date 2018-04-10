@@ -1,7 +1,8 @@
-package com.tetris.other_classes;
+package com.tetris.game_utils;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tetris.other_classes.IBoard;
 
 public class Board implements IBoard {
     private Texture texture;
