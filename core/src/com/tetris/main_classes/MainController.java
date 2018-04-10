@@ -18,6 +18,7 @@ public class MainController extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
         this.setScreen(new GameScreen(this, 1));
+//      this method above is setting screen to GameScreen - at the end we want it first to set screen to MainMenuScreen
     }
 
     private void clearScreen() {
