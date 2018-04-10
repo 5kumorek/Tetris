@@ -1,7 +1,7 @@
 package com.tetris.main_classes;
 
 import com.badlogic.gdx.Screen;
-import com.tetris.other_classes.Board;
+import com.tetris.game_utils.Board;
 
 import java.util.ArrayList;
 
