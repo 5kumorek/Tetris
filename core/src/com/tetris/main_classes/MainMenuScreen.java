@@ -3,7 +3,6 @@ package com.tetris.main_classes;
 import com.badlogic.gdx.Screen;
 
 public class MainMenuScreen implements Screen {
-
     private final MainController controller;
 
     MainMenuScreen(MainController controller) {
