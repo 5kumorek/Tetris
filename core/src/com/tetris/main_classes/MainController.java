@@ -17,7 +17,7 @@ public class MainController extends Game {
         font = new BitmapFont();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new GameScreen(this, 1));
     }
 
     private void clearScreen() {
