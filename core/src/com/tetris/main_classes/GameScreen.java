@@ -1,12 +1,19 @@
 package com.tetris.main_classes;
 
 import com.badlogic.gdx.Screen;
+import com.tetris.other_classes.Board;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final MainController controller;
+    private ArrayList<Board> boardArray = new ArrayList<Board>();
 
-    GameScreen(MainController controller) {
+    GameScreen(MainController controller, int boardNumber) {
         this.controller = controller;
+        for (int i = 0; i < boardNumber; i++) {
+            boardArray.add(new Board(500, 720));
+        }
     }
 
     @Override
@@ -16,7 +23,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        for (Board board : boardArray) {
+            board.render(controller.batch);
+        }
     }
 
     @Override
