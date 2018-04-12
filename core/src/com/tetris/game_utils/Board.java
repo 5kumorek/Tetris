@@ -10,13 +10,14 @@ import com.badlogic.gdx.Input;
 
 public class Board implements IBoard {
     private final int WIDTH = 300;
-    private final int HEIGHT = 720;
+    private final int HEIGHT = 600;
 //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture texture;
     private ShapeRenderer shapeRenderer;
     private Square currentBlock;
-    private int currentX = 150;
-    private int currentY = 500;
+    private int currentX = 1280/2-30;
+    private int currentY = 540;
+    private int step = 30;
     private boolean isDown = false;
 
 
@@ -29,34 +30,63 @@ public class Board implements IBoard {
 
     public void render(SpriteBatch batch) {
         //batch.draw(texture, 0, 0);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 1, 0, 1);
-        for(int i = 0; i < 1280; i+=50)
+        drawGrid();
+        if(isDown)
         {
-            for(int j = 0; j < 720; j+=50)
-            shapeRenderer.rect(i, j, 50, 50);
+            currentBlock = new Square();
+            isDown = false;
+            currentX = 1280/2-30;
+            currentY = 540;
         }
-        shapeRenderer.end();
-        drawBlock(currentBlock, currentX, currentY);
+        try
+        {
+            Thread.sleep(400);
+        }
+        catch(InterruptedException e)
+        {
+            return;
+        }
         if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
         {
-            currentX += 50;
+            moveBlock(currentX + step, currentY + step);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
         {
-            currentX -= 50;
+            moveBlock(currentX - step, currentY + step);
         }
-
+        drawBlock(currentBlock, currentX, currentY);
+        moveBlock(currentX, currentY - step);
     }
 
     public void drawBlock(Square sq, int x, int y)
     {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 0, 0, 1);
         for(int i = 0; i < 4; i++)
         {
-            shapeRenderer.rect(x + 50*sq.getX(i), y + 50*sq.getY(i), 50, 50);
+            shapeRenderer.rect(x + step*sq.getX(i), y + step*sq.getY(i), step, step);
         }
         shapeRenderer.end();
+    }
+
+    public void drawGrid()
+    {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(1, 1, 0, 1);
+        for(int i = 1280/2 - WIDTH/2; i < 1280/2 + WIDTH/2; i+=step)
+        {
+            for(int j = 0; j < HEIGHT; j+=step)
+                shapeRenderer.rect(i, j, step, step);
+        }
+        shapeRenderer.end();
+    }
+
+    public void moveBlock(int x, int y)
+    {
+        if(x >= 1280/2 - WIDTH/2 && x <= 1280/2 + WIDTH/2)
+            currentX = x;
+        if(y >= step)
+            currentY = y;
+        else isDown = true;
     }
 }
