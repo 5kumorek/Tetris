@@ -33,5 +33,26 @@ public class Square implements Shape {
 
     public int getX(int index) {return position[index][0];}
     public int getY(int index) {return position[index][1];}
+    public int minX()
+    {
+        int min = position[0][0];
+        for(int i = 0; i < 4; i++)
+        {
+            if(position[i][0] < min)
+                min = position[i][0];
+        }
+        return min;
+    }
+
+    public int minY()
+    {
+        int min = position[0][1];
+        for(int i = 0; i < 4; i++)
+        {
+            if(position[i][1] < min)
+                min = position[i][1];
+        }
+        return min;
+    }
 
 }
