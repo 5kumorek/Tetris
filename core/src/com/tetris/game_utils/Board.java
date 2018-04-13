@@ -9,6 +9,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import java.util.Arrays;
+
 public class Board implements IBoard {
     private final int WIDTH = 300;
     private final int HEIGHT = 660;
@@ -35,19 +37,50 @@ public class Board implements IBoard {
         currentX = SIZE_X/2 + 1;
         currentY = SIZE_Y - 1 + currentBlock.minY();
     }
-
+    //TODO fix array -1 and Z/S shapes not falling correctly
     public void render(SpriteBatch batch) {
         //batch.draw(texture, 0, 0);
         drawGrid();
         if(isDown)
         {
             isDown = false;
+            int removeLine = -1;
             for (int i = 0; i < 4; i++)
             {
                 int x = currentX + currentBlock.getX(i);
                 int y = currentY + currentBlock.getY(i);
                 filledGrid[x-1][y-currentBlock.minY()] = true;
             }
+            int counter[] = new int[SIZE_Y];
+            for(int i = 0; i < SIZE_X; i++)
+            {
+                for(int j = 0; j < SIZE_Y; j++)
+                {
+                    if(filledGrid[i][j])
+                    {
+                        counter[j]++;
+                    }
+                    if(counter[j] == 10)
+                        removeLine = j;
+                }
+            }
+            if(removeLine >= 0)
+            {
+                for(int i = 0; i < SIZE_X; i++)
+                {
+                    filledGrid[i][removeLine] = false;
+                }
+                for(int i = 0; i < SIZE_X; i++)
+                {
+                    for(int j = removeLine; j < SIZE_Y-1; j++)
+                    {
+                        filledGrid[i][j] = filledGrid[i][j+1];
+                    }
+                }
+                removeLine = -1;
+                drawFilledGrid();
+            }
+            System.out.println(Arrays.toString(counter));
             currentBlock = new Square();
             currentX = SIZE_X/2 + 1;
             currentY = SIZE_Y - 1 + currentBlock.minY();
@@ -55,7 +88,7 @@ public class Board implements IBoard {
         drawFilledGrid();
         try
         {
-            Thread.sleep(400);
+            Thread.sleep(300);
         }
         catch(InterruptedException e)
         {
