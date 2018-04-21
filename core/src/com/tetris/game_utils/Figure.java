@@ -2,11 +2,11 @@ package com.tetris.game_utils;
 
 import java.util.Random;
 
-public class Square implements Shape {
+public class Figure implements Shape {
 
     private int position[][];
 
-    public Square()
+    public Figure()
     {
         position = new int[4][2];
         int [][][] coordinates = new int[][][] {

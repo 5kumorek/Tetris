@@ -1,11 +1,9 @@
 package com.tetris.game_utils;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tetris.other_classes.IBoard;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
@@ -17,7 +15,7 @@ public class Board implements IBoard {
 //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture texture;
     private ShapeRenderer shapeRenderer;
-    private Square currentBlock;
+    private Figure currentBlock;
     private int currentX = 0;
     private int currentY = 0;
     private int SIZE_X = 10;
@@ -31,7 +29,7 @@ public class Board implements IBoard {
         texture = new Texture("badlogic.jpg");
 //      this texture is only for testing purpouse, to see that this Board does anything
         shapeRenderer = new ShapeRenderer();
-        currentBlock = new Square();
+        currentBlock = new Figure();
         filledGrid = new boolean[SIZE_X][SIZE_Y];
 
         currentX = SIZE_X/2 + 1;
@@ -81,7 +79,7 @@ public class Board implements IBoard {
                 drawFilledGrid();
             }
             System.out.println(Arrays.toString(counter));
-            currentBlock = new Square();
+            currentBlock = new Figure();
             currentX = SIZE_X/2 + 1;
             currentY = SIZE_Y - 1 + currentBlock.minY();
         }
@@ -106,7 +104,7 @@ public class Board implements IBoard {
         moveBlock(currentX, currentY - 1);
     }
 
-    public void drawBlock(Square sq, float x, float y)
+    public void drawBlock(Figure sq, float x, float y)
     {
         x = ((x-1)/10 * WIDTH)+490;
         y = (y - currentBlock.minY())/22 * HEIGHT;
