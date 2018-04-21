@@ -3,7 +3,7 @@ package com.tetris.game_utils;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 
-class Figure implements Shape {
+class Figure {
     private Square squareArray[];
     private int center_x, center_y;
 
