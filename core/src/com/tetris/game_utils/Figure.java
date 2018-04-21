@@ -1,9 +1,18 @@
 package com.tetris.game_utils;
 
-import java.util.ArrayList;
-import java.util.Random;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Figure implements Shape {
+    private Square squareArray[];
+
+    Figure(Square[] squareArray) {
+        this.squareArray = squareArray;
+    }
+
+    void draw(SpriteBatch spriteBatch) {
+        for (Square square : squareArray)
+            square.draw(spriteBatch);
+    }
 
 //    private int position[][];
 //
