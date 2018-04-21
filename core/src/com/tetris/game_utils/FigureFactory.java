@@ -1,4 +1,7 @@
 package com.tetris.game_utils;
 
-public class FigureFactory {
+class FigureFactory {
+    Figure getFigure(int center_x, int center_y, FigureShape figureShape) {
+        return new Figure(center_x, center_y, figureShape.getSquareArray());
+    }
 }
