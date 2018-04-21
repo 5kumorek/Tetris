@@ -24,6 +24,14 @@ class Figure implements Shape {
         }
     }
 
+    boolean canMove(Direction direction, Square boardSquareArray[][]) {
+        for (Square square : squareArray) {
+            if (!square.canMove(direction, boardSquareArray))
+                return false;
+        }
+        return true;
+    }
+
     boolean reachedBottom() {
         for (Square square : squareArray) {
             if (square.getY() == 0)

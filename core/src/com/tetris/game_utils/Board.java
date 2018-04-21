@@ -54,7 +54,7 @@ public class Board implements IBoard {
         if (currentFigure == null) {
             createRandomFigure();
         } else {
-            if (currentFigure.reachedBottom())
+            if (currentFigure.reachedBottom() || !currentFigure.canMove(Direction.DOWN, squareArray))
                 decomposeCurrentFigure();
             else
                 currentFigure.move(Direction.DOWN);

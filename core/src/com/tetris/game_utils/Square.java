@@ -27,6 +27,12 @@ class Square {
         y += direction.getY();
     }
 
+    boolean canMove(Direction direction, Square boardSquareArray[][]) {
+        int newX = x + direction.getX();
+        int newY = y + direction.getY();
+        return boardSquareArray[newX][newY] == null;
+    }
+
     int getY() {
         return y;
     }
