@@ -51,6 +51,7 @@ public class Board implements IBoard {
     public void update() {
         if (currentFigure == null)
             createRandomFigure();
+        currentFigure.moveDown();
     }
 
     //TODO fix array -1 and Z/S shapes not falling correctly
