@@ -1,6 +1,7 @@
 package com.tetris.game_utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tetris.enums.Direction;
 
 class Figure implements Shape {
     private Square squareArray[];
@@ -17,16 +18,10 @@ class Figure implements Shape {
             square.draw(spriteBatch);
     }
 
-    void moveDown() {
-        translate(0, -1);
-    }
-
-    void moveLeft() {
-        translate(-1, 0);
-    }
-
-    void moveRight() {
-        translate(1, 0);
+    void move(Direction direction) {
+        for (Square square : squareArray) {
+            square.translate(direction.getX(), direction.getY());
+        }
     }
 
     boolean reachedBottom() {
@@ -41,11 +36,6 @@ class Figure implements Shape {
         return squareArray;
     }
 
-    private void translate(int x, int y) {
-        for (Square square : squareArray) {
-            square.translate(x, y);
-        }
-    }
 
 //    private int position[][];
 //
