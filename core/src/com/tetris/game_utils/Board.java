@@ -165,7 +165,7 @@ public class Board implements IBoard {
         FigureShape figureShapeValues[] = FigureShape.values();
         int randomNumber = new Random().nextInt(figureShapeValues.length);
         FigureShape randomFigureShape = figureShapeValues[randomNumber];
-        currentFigure = figureFactory.getFigure(randomFigureShape);
+        currentFigure = new Figure(4, 19, randomFigureShape);
     }
 
     private void drawSquareArray(SpriteBatch batch) {
