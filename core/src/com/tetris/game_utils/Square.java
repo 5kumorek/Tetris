@@ -28,9 +28,11 @@ class Square {
     }
 
     boolean canMove(Direction direction, Square boardSquareArray[][]) {
-        int newX = x + direction.getX();
-        int newY = y + direction.getY();
-        return boardSquareArray[newX][newY] == null;
+        int translatedX =
+                Helpers.limit(x + direction.getX(), 0, Board.ARRAY_WIDTH - 1);
+        int translatedY =
+                Helpers.limit(y + direction.getY(), 0, Board.ARRAY_HEIGHT - 1);
+        return boardSquareArray[translatedX][translatedY] == null;
     }
 
     int getY() {
