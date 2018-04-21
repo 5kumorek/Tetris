@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.tetris.enums.Direction;
+import com.tetris.enums.FigureShape;
 import com.tetris.other_classes.IBoard;
 
 import java.util.Random;
@@ -49,12 +51,13 @@ public class Board implements IBoard {
     }
 
     public void update() {
-        if (currentFigure == null)
+        if (currentFigure == null) {
             createRandomFigure();
-        else {
-            currentFigure.moveDown();
+        } else {
             if (currentFigure.reachedBottom())
                 decomposeCurrentFigure();
+            else
+                currentFigure.move(Direction.DOWN);
         }
     }
 
