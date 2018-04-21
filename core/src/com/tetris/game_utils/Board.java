@@ -18,8 +18,8 @@ public class Board implements IBoard {
     private Figure currentBlock;
     private int currentX = 0;
     private int currentY = 0;
-    private int SIZE_X = 10;
-    private int SIZE_Y = 22;
+    private int BOARD_WIDTH = 10;
+    private int BOARD_HEIGHT = 20;
     private int step = 30;
     private boolean isDown = false;
     private boolean filledGrid[][];
@@ -30,10 +30,10 @@ public class Board implements IBoard {
 //      this texture is only for testing purpouse, to see that this Board does anything
         shapeRenderer = new ShapeRenderer();
         currentBlock = new Figure();
-        filledGrid = new boolean[SIZE_X][SIZE_Y];
+        filledGrid = new boolean[BOARD_WIDTH][BOARD_HEIGHT];
 
-        currentX = SIZE_X / 2 + 1;
-        currentY = SIZE_Y - 1 + currentBlock.minY();
+        currentX = BOARD_WIDTH / 2 + 1;
+        currentY = BOARD_HEIGHT - 1 + currentBlock.minY();
     }
 
     //TODO fix array -1 and Z/S shapes not falling correctly
@@ -48,9 +48,9 @@ public class Board implements IBoard {
                 int y = currentY + currentBlock.getY(i);
                 filledGrid[x - 1][y - currentBlock.minY()] = true;
             }
-            int counter[] = new int[SIZE_Y];
-            for (int i = 0; i < SIZE_X; i++) {
-                for (int j = 0; j < SIZE_Y; j++) {
+            int counter[] = new int[BOARD_HEIGHT];
+            for (int i = 0; i < BOARD_WIDTH; i++) {
+                for (int j = 0; j < BOARD_HEIGHT; j++) {
                     if (filledGrid[i][j]) {
                         counter[j]++;
                     }
@@ -59,11 +59,11 @@ public class Board implements IBoard {
                 }
             }
             if (removeLine >= 0) {
-                for (int i = 0; i < SIZE_X; i++) {
+                for (int i = 0; i < BOARD_WIDTH; i++) {
                     filledGrid[i][removeLine] = false;
                 }
-                for (int i = 0; i < SIZE_X; i++) {
-                    for (int j = removeLine; j < SIZE_Y - 1; j++) {
+                for (int i = 0; i < BOARD_WIDTH; i++) {
+                    for (int j = removeLine; j < BOARD_HEIGHT - 1; j++) {
                         filledGrid[i][j] = filledGrid[i][j + 1];
                     }
                 }
@@ -72,8 +72,8 @@ public class Board implements IBoard {
             }
             System.out.println(Arrays.toString(counter));
             currentBlock = new Figure();
-            currentX = SIZE_X / 2 + 1;
-            currentY = SIZE_Y - 1 + currentBlock.minY();
+            currentX = BOARD_WIDTH / 2 + 1;
+            currentY = BOARD_HEIGHT - 1 + currentBlock.minY();
         }
         drawFilledGrid();
         try {
@@ -113,9 +113,9 @@ public class Board implements IBoard {
     }
 
     public void moveBlock(int x, int y) {
-        if (x > 0 && x < SIZE_X)
+        if (x > 0 && x < BOARD_WIDTH)
             currentX = x;
-        for (int i = 0; i < SIZE_Y; i++) {
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
             if (filledGrid[x - 1][i] && y <= i) {
                 isDown = true;
                 return;
