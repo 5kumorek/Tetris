@@ -21,7 +21,7 @@ class Square {
         batch.draw(squareTexture, PIXEL_SIZE * x, PIXEL_SIZE * y);
     }
 
-    void move(int x, int y) {
+    void translate(int x, int y) {
         this.x += x;
         this.y += y;
     }
