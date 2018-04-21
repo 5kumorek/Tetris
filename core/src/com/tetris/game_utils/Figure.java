@@ -30,11 +30,15 @@ class Figure implements Shape {
     }
 
     boolean reachedBottom() {
-        for (Square square: squareArray){
+        for (Square square : squareArray) {
             if (square.getY() == 0)
                 return true;
         }
         return false;
+    }
+
+    Square[] getSquareArray() {
+        return squareArray;
     }
 
     private void translate(int x, int y) {
