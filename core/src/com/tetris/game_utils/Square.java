@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tetris.enums.Direction;
 
 class Square {
     final static int PIXEL_SIZE = 35;
@@ -21,9 +22,9 @@ class Square {
         batch.draw(squareTexture, PIXEL_SIZE * x, PIXEL_SIZE * y);
     }
 
-    void translate(int x, int y) {
-        this.x += x;
-        this.y += y;
+    void move(Direction direction) {
+        x += direction.getX();
+        y += direction.getY();
     }
 
     int getY() {

@@ -20,7 +20,7 @@ class Figure implements Shape {
 
     void move(Direction direction) {
         for (Square square : squareArray) {
-            square.translate(direction.getX(), direction.getY());
+            square.move(direction);
         }
     }
 
