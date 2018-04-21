@@ -1,6 +1,7 @@
 package com.tetris.game_utils;
 
 import java.awt.*;
+import java.util.Arrays;
 
 enum FigureShape {
     I(new int[][]{{0, -1}, {0, 0}, {0, 1}, {0, 2}}),
@@ -23,6 +24,6 @@ enum FigureShape {
     }
 
     Point[] getSquareCoordinatesArray() {
-        return squareCoordinatesArray;
+        return Arrays.stream(squareCoordinatesArray).map(Point::new).toArray(Point[]::new);
     }
 }
