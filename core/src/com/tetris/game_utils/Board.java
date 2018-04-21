@@ -57,6 +57,7 @@ public class Board implements IBoard {
         //batch.draw(texture, 0, 0);
         batch.draw(boardTexture, 0, 0);
         drawSquareArray(batch);
+        currentFigure.draw(batch);
 //        drawGrid();
 //        if (isDown) {
 //            isDown = false;
