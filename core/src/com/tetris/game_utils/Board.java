@@ -51,7 +51,11 @@ public class Board implements IBoard {
     public void update() {
         if (currentFigure == null)
             createRandomFigure();
-        currentFigure.moveDown();
+        else {
+            currentFigure.moveDown();
+            if (currentFigure.reachedBottom())
+                decomposeCurrentFigure();
+        }
     }
 
     //TODO fix array -1 and Z/S shapes not falling correctly
@@ -59,7 +63,8 @@ public class Board implements IBoard {
         //batch.draw(texture, 0, 0);
         batch.draw(boardTexture, 0, 0);
         drawSquareArray(batch);
-        currentFigure.draw(batch);
+        if (currentFigure != null)
+            currentFigure.draw(batch);
 //        drawGrid();
 //        if (isDown) {
 //            isDown = false;
@@ -174,6 +179,14 @@ public class Board implements IBoard {
         int randomNumber = new Random().nextInt(figureShapeValues.length);
         FigureShape randomFigureShape = figureShapeValues[randomNumber];
         currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
+    }
+
+    private void decomposeCurrentFigure() {
+        Square figureSquareArray[] = currentFigure.getSquareArray();
+        for (Square square : figureSquareArray) {
+            squareArray[square.getX()][square.getY()] = square;
+        }
+        currentFigure = null;
     }
 
     private void drawSquareArray(SpriteBatch batch) {
