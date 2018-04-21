@@ -12,8 +12,8 @@ import com.tetris.other_classes.IBoard;
 import java.util.Random;
 
 public class Board implements IBoard {
-    private final int ARRAY_WIDTH = 10;
-    private final int ARRAY_HEIGHT = 20;
+    public static final int ARRAY_WIDTH = 10;
+    public static final int ARRAY_HEIGHT = 20;
     private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
