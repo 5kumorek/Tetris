@@ -29,12 +29,12 @@ public class Board implements IBoard {
     public Board() {
         createBoardTexture();
 
-        shapeRenderer = new ShapeRenderer();
-        currentBlock = new Figure();
-        filledGrid = new boolean[ARRAY_WIDTH][ARRAY_HEIGHT];
+//        shapeRenderer = new ShapeRenderer();
+//        currentBlock = new Figure();
+//        filledGrid = new boolean[ARRAY_WIDTH][ARRAY_HEIGHT];
 
-        currentX = ARRAY_WIDTH / 2 + 1;
-        currentY = ARRAY_HEIGHT - 1 + currentBlock.minY();
+//        currentX = ARRAY_WIDTH / 2 + 1;
+//        currentY = ARRAY_HEIGHT - 1 + currentBlock.minY();
     }
 
     //TODO fix array -1 and Z/S shapes not falling correctly
@@ -94,54 +94,54 @@ public class Board implements IBoard {
 //        moveBlock(currentX, currentY - 1);
     }
 
-    public void drawBlock(Figure sq, float x, float y) {
-        x = ((x - 1) / 10 * PIXEL_WIDTH) + 490;
-        y = (y - currentBlock.minY()) / 22 * PIXEL_HEIGHT;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 0, 0, 1);
-        for (int i = 0; i < 4; i++) {
-            shapeRenderer.rect(x + step * sq.getX(i), y + step * sq.getY(i), step, step);
-        }
-        shapeRenderer.end();
-    }
-
-    public void drawGrid() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 1, 0, 1);
-        for (int i = 1280 / 2 - PIXEL_WIDTH / 2; i < 1280 / 2 + PIXEL_WIDTH / 2; i += step) {
-            for (int j = 0; j < PIXEL_HEIGHT; j += step)
-                shapeRenderer.rect(i, j, step, step);
-        }
-        shapeRenderer.end();
-    }
-
-    public void moveBlock(int x, int y) {
-        if (x > 0 && x < ARRAY_WIDTH)
-            currentX = x;
-        for (int i = 0; i < ARRAY_HEIGHT; i++) {
-            if (filledGrid[x - 1][i] && y <= i) {
-                isDown = true;
-                return;
-            }
-        }
-        if (y >= 0)
-            currentY = y;
-        else isDown = true;
-    }
-
-    public void drawFilledGrid() {
-        boolean removeLine = false;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 0, 1, 1);
-        for (int i = 1280 / 2 - PIXEL_WIDTH / 2, k = 0; i < 1280 / 2 + PIXEL_WIDTH / 2; i += step, k++) {
-            for (int j = 0, l = 0; j < PIXEL_HEIGHT; j += step, l++) {
-                if (filledGrid[k][l]) {
-                    shapeRenderer.rect(i, j, step, step);
-                }
-            }
-        }
-        shapeRenderer.end();
-    }
+//    public void drawBlock(Figure sq, float x, float y) {
+//        x = ((x - 1) / 10 * PIXEL_WIDTH) + 490;
+//        y = (y - currentBlock.minY()) / 22 * PIXEL_HEIGHT;
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(1, 0, 0, 1);
+//        for (int i = 0; i < 4; i++) {
+//            shapeRenderer.rect(x + step * sq.getX(i), y + step * sq.getY(i), step, step);
+//        }
+//        shapeRenderer.end();
+//    }
+//
+//    public void drawGrid() {
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(1, 1, 0, 1);
+//        for (int i = 1280 / 2 - PIXEL_WIDTH / 2; i < 1280 / 2 + PIXEL_WIDTH / 2; i += step) {
+//            for (int j = 0; j < PIXEL_HEIGHT; j += step)
+//                shapeRenderer.rect(i, j, step, step);
+//        }
+//        shapeRenderer.end();
+//    }
+//
+//    public void moveBlock(int x, int y) {
+//        if (x > 0 && x < ARRAY_WIDTH)
+//            currentX = x;
+//        for (int i = 0; i < ARRAY_HEIGHT; i++) {
+//            if (filledGrid[x - 1][i] && y <= i) {
+//                isDown = true;
+//                return;
+//            }
+//        }
+//        if (y >= 0)
+//            currentY = y;
+//        else isDown = true;
+//    }
+//
+//    public void drawFilledGrid() {
+//        boolean removeLine = false;
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(0, 0, 1, 1);
+//        for (int i = 1280 / 2 - PIXEL_WIDTH / 2, k = 0; i < 1280 / 2 + PIXEL_WIDTH / 2; i += step, k++) {
+//            for (int j = 0, l = 0; j < PIXEL_HEIGHT; j += step, l++) {
+//                if (filledGrid[k][l]) {
+//                    shapeRenderer.rect(i, j, step, step);
+//                }
+//            }
+//        }
+//        shapeRenderer.end();
+//    }
 
 
     private void createBoardTexture() {
