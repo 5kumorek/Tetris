@@ -1,4 +1,4 @@
 package com.tetris.game_utils;
 
-public class Factory implements IFactory{
+public class Factory implements IFactory {
 }

@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Board implements IBoard {
     private final int WIDTH = 300;
     private final int HEIGHT = 660;
-//    width and height are placeholder values for now - they can be changed if this class will be implemented more
+    //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture texture;
     private ShapeRenderer shapeRenderer;
     private Figure currentBlock;
@@ -32,47 +32,39 @@ public class Board implements IBoard {
         currentBlock = new Figure();
         filledGrid = new boolean[SIZE_X][SIZE_Y];
 
-        currentX = SIZE_X/2 + 1;
+        currentX = SIZE_X / 2 + 1;
         currentY = SIZE_Y - 1 + currentBlock.minY();
     }
+
     //TODO fix array -1 and Z/S shapes not falling correctly
     public void render(SpriteBatch batch) {
         //batch.draw(texture, 0, 0);
         drawGrid();
-        if(isDown)
-        {
+        if (isDown) {
             isDown = false;
             int removeLine = -1;
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 int x = currentX + currentBlock.getX(i);
                 int y = currentY + currentBlock.getY(i);
-                filledGrid[x-1][y-currentBlock.minY()] = true;
+                filledGrid[x - 1][y - currentBlock.minY()] = true;
             }
             int counter[] = new int[SIZE_Y];
-            for(int i = 0; i < SIZE_X; i++)
-            {
-                for(int j = 0; j < SIZE_Y; j++)
-                {
-                    if(filledGrid[i][j])
-                    {
+            for (int i = 0; i < SIZE_X; i++) {
+                for (int j = 0; j < SIZE_Y; j++) {
+                    if (filledGrid[i][j]) {
                         counter[j]++;
                     }
-                    if(counter[j] == 10)
+                    if (counter[j] == 10)
                         removeLine = j;
                 }
             }
-            if(removeLine >= 0)
-            {
-                for(int i = 0; i < SIZE_X; i++)
-                {
+            if (removeLine >= 0) {
+                for (int i = 0; i < SIZE_X; i++) {
                     filledGrid[i][removeLine] = false;
                 }
-                for(int i = 0; i < SIZE_X; i++)
-                {
-                    for(int j = removeLine; j < SIZE_Y-1; j++)
-                    {
-                        filledGrid[i][j] = filledGrid[i][j+1];
+                for (int i = 0; i < SIZE_X; i++) {
+                    for (int j = removeLine; j < SIZE_Y - 1; j++) {
+                        filledGrid[i][j] = filledGrid[i][j + 1];
                     }
                 }
                 removeLine = -1;
@@ -80,83 +72,67 @@ public class Board implements IBoard {
             }
             System.out.println(Arrays.toString(counter));
             currentBlock = new Figure();
-            currentX = SIZE_X/2 + 1;
+            currentX = SIZE_X / 2 + 1;
             currentY = SIZE_Y - 1 + currentBlock.minY();
         }
         drawFilledGrid();
-        try
-        {
+        try {
             Thread.sleep(300);
-        }
-        catch(InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             return;
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
-        {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             moveBlock(currentX + 1, currentY + 1);
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
-        {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
             moveBlock(currentX - 1, currentY + 1);
         }
         drawBlock(currentBlock, currentX, currentY);
         moveBlock(currentX, currentY - 1);
     }
 
-    public void drawBlock(Figure sq, float x, float y)
-    {
-        x = ((x-1)/10 * WIDTH)+490;
-        y = (y - currentBlock.minY())/22 * HEIGHT;
+    public void drawBlock(Figure sq, float x, float y) {
+        x = ((x - 1) / 10 * WIDTH) + 490;
+        y = (y - currentBlock.minY()) / 22 * HEIGHT;
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 0, 0, 1);
-        for(int i = 0; i < 4; i++)
-        {
-            shapeRenderer.rect(x + step*sq.getX(i), y + step*sq.getY(i), step, step);
+        for (int i = 0; i < 4; i++) {
+            shapeRenderer.rect(x + step * sq.getX(i), y + step * sq.getY(i), step, step);
         }
         shapeRenderer.end();
     }
 
-    public void drawGrid()
-    {
+    public void drawGrid() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 0, 1);
-        for(int i = 1280/2 - WIDTH/2; i < 1280/2 + WIDTH/2; i+=step)
-        {
-            for(int j = 0; j < HEIGHT; j+=step)
+        for (int i = 1280 / 2 - WIDTH / 2; i < 1280 / 2 + WIDTH / 2; i += step) {
+            for (int j = 0; j < HEIGHT; j += step)
                 shapeRenderer.rect(i, j, step, step);
         }
         shapeRenderer.end();
     }
 
-    public void moveBlock(int x, int y)
-    {
-        if(x > 0 && x < SIZE_X)
+    public void moveBlock(int x, int y) {
+        if (x > 0 && x < SIZE_X)
             currentX = x;
-        for(int i = 0; i < SIZE_Y; i++)
-        {
-            if (filledGrid[x - 1][i] && y <= i)
-            {
+        for (int i = 0; i < SIZE_Y; i++) {
+            if (filledGrid[x - 1][i] && y <= i) {
                 isDown = true;
                 return;
             }
         }
-        if(y >= 0)
+        if (y >= 0)
             currentY = y;
         else isDown = true;
     }
 
-    public void drawFilledGrid()
-    {
+    public void drawFilledGrid() {
         boolean removeLine = false;
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 1, 1);
-        for(int i = 1280/2 - WIDTH/2, k = 0; i < 1280/2 + WIDTH/2; i+=step, k++)
-        {
-            for(int j = 0, l = 0; j < HEIGHT; j+=step, l++)
-            {
-                if (filledGrid[k][l])
-                {
+        for (int i = 1280 / 2 - WIDTH / 2, k = 0; i < 1280 / 2 + WIDTH / 2; i += step, k++) {
+            for (int j = 0, l = 0; j < HEIGHT; j += step, l++) {
+                if (filledGrid[k][l]) {
                     shapeRenderer.rect(i, j, step, step);
                 }
             }
