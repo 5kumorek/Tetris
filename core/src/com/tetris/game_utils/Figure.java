@@ -17,6 +17,24 @@ class Figure implements Shape {
             square.draw(spriteBatch);
     }
 
+    void moveDown() {
+        translate(0, -1);
+    }
+
+    void moveLeft() {
+        translate(-1, 0);
+    }
+
+    void moveRight() {
+        translate(1, 0);
+    }
+
+    private void translate(int x, int y) {
+        for (Square square : squareArray) {
+            square.translate(x, y);
+        }
+    }
+
 //    private int position[][];
 //
 //    public Figure() {
