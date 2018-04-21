@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tetris.enums.Direction;
 import com.tetris.enums.FigureShape;
-import com.tetris.other_classes.IBoard;
 
 import java.util.Random;
 
-public class Board implements IBoard {
+public class Board {
     public static final int ARRAY_WIDTH = 10;
     public static final int ARRAY_HEIGHT = 20;
     private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
