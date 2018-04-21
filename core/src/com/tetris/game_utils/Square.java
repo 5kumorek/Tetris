@@ -3,13 +3,22 @@ package com.tetris.game_utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Square {
+class Square {
     final static int PIXEL_SIZE = 35;
-    private Texture squareTexture;
 
-    public Square() {
+    private Texture squareTexture;
+    private int x, y;
+
+    Square(int x, int y) {
+        this.x = x;
+        this.y = y;
         createSquareTexture();
+    }
+
+    void draw(SpriteBatch batch) {
+        batch.draw(squareTexture, x, y);
     }
 
     private void createSquareTexture() {
