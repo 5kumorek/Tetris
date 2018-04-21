@@ -21,6 +21,11 @@ class Square {
         batch.draw(squareTexture, PIXEL_SIZE * x, PIXEL_SIZE * y);
     }
 
+    void move(int x, int y) {
+        this.x += x;
+        this.y += y;
+    }
+
     private void createSquareTexture() {
         Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
