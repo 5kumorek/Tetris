@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Figure implements Shape {
     private Square squareArray[];
+    private int x, y;
 
-    Figure(Square[] squareArray) {
+    Figure(int x, int y, Square[] squareArray) {
+        this.x = x;
+        this.y = y;
         this.squareArray = squareArray;
     }
 
