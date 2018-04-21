@@ -13,10 +13,10 @@ public class Board implements IBoard {
     private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
-    //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture boardTexture;
     private Square squareArray[][] = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
     private Figure currentBlock;
+    private FigureFactory figureFactory;
 
     private Texture texture;
     private ShapeRenderer shapeRenderer;
@@ -28,6 +28,7 @@ public class Board implements IBoard {
 
 
     public Board() {
+        figureFactory = new FigureFactory();
         createBoardTexture();
         // TODO: delete these example squares later
         squareArray[0][0] = new Square(0, 0);
