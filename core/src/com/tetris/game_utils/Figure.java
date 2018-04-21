@@ -29,6 +29,14 @@ class Figure implements Shape {
         translate(1, 0);
     }
 
+    boolean reachedBottom() {
+        for (Square square: squareArray){
+            if (square.getY() == 0)
+                return true;
+        }
+        return false;
+    }
+
     private void translate(int x, int y) {
         for (Square square : squareArray) {
             square.translate(x, y);
