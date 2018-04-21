@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tetris.other_classes.IBoard;
 
+import java.util.Random;
+
 public class Board implements IBoard {
     private final int ARRAY_WIDTH = 10;
     private final int ARRAY_HEIGHT = 20;
@@ -15,7 +17,7 @@ public class Board implements IBoard {
 
     private Texture boardTexture;
     private Square squareArray[][] = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
-    private Figure currentBlock;
+    private Figure currentFigure;
     private FigureFactory figureFactory;
 
     private Texture texture;
@@ -158,6 +160,13 @@ public class Board implements IBoard {
         pixmap.setColor(Color.SKY);
         pixmap.drawRectangle(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
         boardTexture = new Texture(pixmap);
+    }
+
+    private void createRandomFigure() {
+        FigureShape figureShapeValues[] = FigureShape.values();
+        int randomNumber = new Random().nextInt(figureShapeValues.length);
+        FigureShape randomFigureShape = figureShapeValues[randomNumber];
+        currentFigure = figureFactory.getFigure(randomFigureShape);
     }
 
     private void drawSquareArray(SpriteBatch batch) {
