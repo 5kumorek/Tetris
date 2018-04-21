@@ -53,10 +53,10 @@ public class Board {
         if (currentFigure == null) {
             createRandomFigure();
         } else {
-            if (currentFigure.reachedBottom() || !currentFigure.canMove(Direction.DOWN, squareArray))
-                decomposeCurrentFigure();
-            else
+            if (currentFigure.canMove(Direction.DOWN, squareArray))
                 currentFigure.move(Direction.DOWN);
+            else
+                decomposeCurrentFigure();
         }
     }
 
