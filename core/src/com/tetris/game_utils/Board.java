@@ -15,6 +15,7 @@ public class Board implements IBoard {
 
     //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture boardTexture;
+    private Square squareArray[][] = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
     private Texture texture;
     private ShapeRenderer shapeRenderer;
     private Figure currentBlock;
@@ -40,6 +41,7 @@ public class Board implements IBoard {
     public void render(SpriteBatch batch) {
         //batch.draw(texture, 0, 0);
         batch.draw(boardTexture, 0, 0);
+        drawSquareArray(batch);
 //        drawGrid();
 //        if (isDown) {
 //            isDown = false;
@@ -141,10 +143,19 @@ public class Board implements IBoard {
         shapeRenderer.end();
     }
 
+
     private void createBoardTexture() {
         Pixmap pixmap = new Pixmap(PIXEL_WIDTH, PIXEL_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.SKY);
         pixmap.drawRectangle(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
         boardTexture = new Texture(pixmap);
     }
+
+    private void drawSquareArray(SpriteBatch batch) {
+        for (Square[] squareRow : squareArray)
+            for (Square square : squareRow)
+                if (square != null)
+                    square.draw(batch);
+    }
+
 }
