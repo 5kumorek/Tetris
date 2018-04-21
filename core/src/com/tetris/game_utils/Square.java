@@ -26,6 +26,14 @@ class Square {
         this.y += y;
     }
 
+    int getY() {
+        return y;
+    }
+
+    int getX() {
+        return x;
+    }
+
     private void createSquareTexture() {
         Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
