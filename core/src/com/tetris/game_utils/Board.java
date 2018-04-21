@@ -18,7 +18,6 @@ public class Board implements IBoard {
     private Texture boardTexture;
     private Square squareArray[][] = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
     private Figure currentFigure;
-    private FigureFactory figureFactory;
 
     private Texture texture;
     private ShapeRenderer shapeRenderer;
@@ -30,8 +29,8 @@ public class Board implements IBoard {
 
 
     public Board() {
-        figureFactory = new FigureFactory();
         createBoardTexture();
+
         // TODO: delete these example squares later
         squareArray[0][0] = new Square(0, 0);
         squareArray[9][0] = new Square(9, 0);
