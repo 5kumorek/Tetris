@@ -6,10 +6,10 @@ class Figure implements Shape {
     private Square squareArray[];
     private int center_x, center_y;
 
-    Figure(int center_x, int center_y, Square[] squareArray) {
+    Figure(int center_x, int center_y, FigureShape squareArray) {
         this.center_x = center_x;
         this.center_y = center_y;
-        this.squareArray = squareArray;
+        this.squareArray = squareArray.getSquareArray();
     }
 
     void draw(SpriteBatch spriteBatch) {
