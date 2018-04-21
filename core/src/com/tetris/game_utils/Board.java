@@ -16,9 +16,10 @@ public class Board implements IBoard {
     //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture boardTexture;
     private Square squareArray[][] = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
+    private Figure currentBlock;
+
     private Texture texture;
     private ShapeRenderer shapeRenderer;
-    private Figure currentBlock;
     private int currentX = 0;
     private int currentY = 0;
     private int step = 30;
@@ -28,6 +29,13 @@ public class Board implements IBoard {
 
     public Board() {
         createBoardTexture();
+        // TODO: delete these example squares later
+        squareArray[0][0] = new Square(0, 0);
+        squareArray[9][0] = new Square(9, 0);
+        squareArray[4][5] = new Square(4, 5);
+        squareArray[1][1] = new Square(1, 1);
+        squareArray[0][2] = new Square(1, 2);
+        squareArray[3][3] = new Square(3, 3);
 
 //        shapeRenderer = new ShapeRenderer();
 //        currentBlock = new Figure();
