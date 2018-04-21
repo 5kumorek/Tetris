@@ -1,5 +1,7 @@
 package com.tetris.game_utils;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,6 +15,7 @@ public class Board implements IBoard {
     private final int WIDTH = 300;
     private final int HEIGHT = 660;
     //    width and height are placeholder values for now - they can be changed if this class will be implemented more
+    private Texture boardTexture;
     private Texture texture;
     private ShapeRenderer shapeRenderer;
     private Figure currentBlock;
@@ -27,6 +30,7 @@ public class Board implements IBoard {
 
     public Board() {
         texture = new Texture("badlogic.jpg");
+        createBoardTexture();
 //      this texture is only for testing purpouse, to see that this Board does anything
         shapeRenderer = new ShapeRenderer();
         currentBlock = new Figure();
@@ -138,5 +142,12 @@ public class Board implements IBoard {
             }
         }
         shapeRenderer.end();
+    }
+
+    private void createBoardTexture() {
+        Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.SKY);
+        pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+        boardTexture = new Texture(pixmap);
     }
 }
