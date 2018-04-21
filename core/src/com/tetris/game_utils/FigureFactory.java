@@ -1,5 +1,7 @@
 package com.tetris.game_utils;
 
+import com.tetris.enums.FigureShape;
+
 import java.awt.*;
 
 class FigureFactory {
