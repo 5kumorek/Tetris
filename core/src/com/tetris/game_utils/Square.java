@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Square {
-    final static int PIXEL_SIZE = 50;
+    final static int PIXEL_SIZE = 35;
     private Texture squareTexture;
 
     public Square() {
