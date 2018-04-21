@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tetris.other_classes.IBoard;
 
 public class Board implements IBoard {
-    private final int PIXEL_WIDTH = 300;
-    private final int PIXEL_HEIGHT = 660;
     private final int ARRAY_WIDTH = 10;
     private final int ARRAY_HEIGHT = 20;
+    private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
+    private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
     //    width and height are placeholder values for now - they can be changed if this class will be implemented more
     private Texture boardTexture;
