@@ -47,8 +47,13 @@ public class Board implements IBoard {
 //        currentY = ARRAY_HEIGHT - 1 + currentBlock.minY();
     }
 
+    public void update() {
+        if (currentFigure == null)
+            createRandomFigure();
+    }
+
     //TODO fix array -1 and Z/S shapes not falling correctly
-    public void render(SpriteBatch batch) {
+    public void draw(SpriteBatch batch) {
         //batch.draw(texture, 0, 0);
         batch.draw(boardTexture, 0, 0);
         drawSquareArray(batch);

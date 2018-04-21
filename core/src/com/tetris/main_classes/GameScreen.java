@@ -24,7 +24,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         for (Board board : boardArray) {
-            board.render(controller.batch);
+            board.update();
+            board.draw(controller.batch);
         }
     }
 
