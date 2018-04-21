@@ -26,9 +26,8 @@ public class Board implements IBoard {
 
 
     public Board() {
-        texture = new Texture("badlogic.jpg");
         createBoardTexture();
-//      this texture is only for testing purpouse, to see that this Board does anything
+
         shapeRenderer = new ShapeRenderer();
         currentBlock = new Figure();
         filledGrid = new boolean[ARRAY_WIDTH][ARRAY_HEIGHT];
