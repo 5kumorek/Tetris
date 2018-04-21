@@ -2,13 +2,13 @@ package com.tetris.game_utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Figure implements Shape {
+class Figure implements Shape {
     private Square squareArray[];
-    private int x, y;
+    private int center_x, center_y;
 
-    Figure(int x, int y, Square[] squareArray) {
-        this.x = x;
-        this.y = y;
+    Figure(int center_x, int center_y, Square[] squareArray) {
+        this.center_x = center_x;
+        this.center_y = center_y;
         this.squareArray = squareArray;
     }
 
