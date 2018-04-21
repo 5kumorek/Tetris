@@ -18,7 +18,7 @@ class Square {
     }
 
     void draw(SpriteBatch batch) {
-        batch.draw(squareTexture, x, y);
+        batch.draw(squareTexture, PIXEL_SIZE * x, PIXEL_SIZE * y);
     }
 
     private void createSquareTexture() {
