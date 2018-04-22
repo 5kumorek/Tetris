@@ -9,13 +9,14 @@ import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private static final float TIME_BETWEEN_FRAMES = 0.5f;
+
     private MainController controller;
     private ArrayList<Board> boardArray = new ArrayList<>();
     private float timeSinceLastFrame = 0;
 
-    GameScreen(MainController controller, int boardNumber) {
+    GameScreen(MainController controller, int boardCount) {
         this.controller = controller;
-        for (int i = 0; i < boardNumber; i++) {
+        for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i));
         }
     }
