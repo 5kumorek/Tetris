@@ -9,8 +9,8 @@ class Figure {
     private Square[] squareArray;
     private Point center;
 
-    Figure(int center_x, int center_y, Square[] squareArray) {
-        center = new Point(center_x, center_y);
+    Figure(int centerX, int centerY, Square[] squareArray) {
+        center = new Point(centerX, centerY);
         this.squareArray = squareArray;
     }
 
