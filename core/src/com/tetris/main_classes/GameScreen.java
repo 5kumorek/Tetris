@@ -74,8 +74,7 @@ public class GameScreen implements Screen {
     }
 
     private void drawBoards() {
-        for (Board board : boardArray) {
+        for (Board board : boardArray)
             board.draw(controller.batch);
-        }
     }
 }
