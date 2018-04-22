@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class Board {
     static final int ARRAY_WIDTH = 10;
     static final int ARRAY_HEIGHT = 20;
-    private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
+    public static final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
     private SpriteBatch batch = new SpriteBatch();
