@@ -22,10 +22,10 @@ public class Board {
     public static final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
-    private SpriteBatch batch = new SpriteBatch();
-    private Texture boardTexture;
-    private ArrayList<Square> squareArray = new ArrayList<>();
     private Figure currentFigure;
+    private Texture boardTexture;
+    private SpriteBatch batch = new SpriteBatch();
+    private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory = new FigureFactory();
 
     public Board(int boardNumber) {
