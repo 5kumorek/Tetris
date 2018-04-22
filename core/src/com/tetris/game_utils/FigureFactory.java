@@ -5,11 +5,11 @@ import com.tetris.enums.FigureShape;
 import java.awt.*;
 
 class FigureFactory {
-    Figure getFigure(int center_x, int center_y, FigureShape figureShape) {
+    Figure getFigure(int centerX, int centerY, FigureShape figureShape) {
         Point pointArray[] = figureShape.getSquareCoordinatesArray();
-        pointArray = translatePoints(center_x, center_y, pointArray);
+        pointArray = translatePoints(centerX, centerY, pointArray);
         Square squareArray[] = convertPointsToSquares(pointArray);
-        return new Figure(center_x, center_y, squareArray);
+        return new Figure(centerX, centerY, squareArray);
     }
 
     private Point[] translatePoints(int xTranslation, int yTranslation, final Point[] pointArray) {
