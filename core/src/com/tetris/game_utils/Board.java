@@ -46,6 +46,11 @@ public class Board {
     public void update() {
         if (currentFigure == null) {
             createRandomFigure();
+            if (currentFigure.isOverlapping(squareArray)) {
+//                 TODO: implement lose mechanism
+                System.out.println("PRZEGRANA");
+                System.exit(0);
+            }
         } else {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);

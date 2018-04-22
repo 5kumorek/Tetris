@@ -30,7 +30,7 @@ class Square {
     boolean canMove(Direction direction, Square[][] boardSquareArray) {
         int translatedX = coordinates.x + direction.getX();
         int translatedY = coordinates.y + direction.getY();
-        return (!willCollide(translatedX, translatedY, boardSquareArray) &&
+        return (!doCoordinatesCollide(translatedX, translatedY, boardSquareArray) &&
                 !willMoveOutOfBoard(translatedX, translatedY, direction));
     }
 
@@ -47,8 +47,12 @@ class Square {
         int deltaX = coordinates.x - figureCenter.x;
         int translatedX = figureCenter.x + deltaY;
         int translatedY = figureCenter.y - deltaX;
-        return (!willCollide(translatedX, translatedY, boardSquareArray) &&
+        return (!doCoordinatesCollide(translatedX, translatedY, boardSquareArray) &&
                 !willBeOutOfBoard(translatedX, translatedY));
+    }
+
+    boolean isOverlapping(Square[][] boardSquareArray) {
+        return doCoordinatesCollide(coordinates.x, coordinates.y, boardSquareArray);
     }
 
     int getY() {
@@ -67,7 +71,7 @@ class Square {
         squareTexture = new Texture(pixmap);
     }
 
-    private boolean willCollide(int translatedX, int translatedY, Square[][] boardSquareArray) {
+    private boolean doCoordinatesCollide(int translatedX, int translatedY, Square[][] boardSquareArray) {
         int limitedX = Helpers.limit(translatedX, 0, Board.ARRAY_WIDTH - 1);
         int limitedY = Helpers.limit(translatedY, 0, Board.ARRAY_HEIGHT - 1);
         return boardSquareArray[limitedX][limitedY] != null;

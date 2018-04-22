@@ -32,7 +32,7 @@ class Figure {
         return true;
     }
 
-    void rotate(){
+    void rotate() {
         for (Square square : squareArray)
             square.rotate(center);
     }
@@ -42,6 +42,13 @@ class Figure {
             if (!square.canRotate(center, boardSquareArray))
                 return false;
         return true;
+    }
+
+    boolean isOverlapping(Square[][] boardSquareArray) {
+        for (Square square : squareArray)
+            if (square.isOverlapping(boardSquareArray))
+                return true;
+        return false;
     }
 
     Square[] getSquareArray() {
