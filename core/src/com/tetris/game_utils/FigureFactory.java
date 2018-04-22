@@ -12,9 +12,9 @@ class FigureFactory {
         return new Figure(center_x, center_y, squareArray);
     }
 
-    private Point[] translatePoints(int x_translation, int y_translation, final Point[] pointArray) {
+    private Point[] translatePoints(int xTranslation, int yTranslation, final Point[] pointArray) {
         for (Point point : pointArray)
-            point.translate(x_translation, y_translation);
+            point.translate(xTranslation, yTranslation);
         return pointArray;
     }
 
