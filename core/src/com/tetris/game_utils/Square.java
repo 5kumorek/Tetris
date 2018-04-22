@@ -34,6 +34,21 @@ class Square {
                 !isOutOfBoard(translatedX, translatedY, direction));
     }
 
+    int getY() {
+        return y;
+    }
+
+    int getX() {
+        return x;
+    }
+
+    private void createSquareTexture() {
+        Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.drawRectangle(0, 0, PIXEL_SIZE, PIXEL_SIZE);
+        squareTexture = new Texture(pixmap);
+    }
+
     private boolean isColliding(int translatedX, int translatedY, Square boardSquareArray[][]) {
         int limitedX = Helpers.limit(translatedX, 0, Board.ARRAY_WIDTH - 1);
         int limitedY = Helpers.limit(translatedY, 0, Board.ARRAY_HEIGHT - 1);
@@ -53,20 +68,5 @@ class Square {
             default:
                 throw new IllegalStateException();
         }
-    }
-
-    int getY() {
-        return y;
-    }
-
-    int getX() {
-        return x;
-    }
-
-    private void createSquareTexture() {
-        Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.RED);
-        pixmap.drawRectangle(0, 0, PIXEL_SIZE, PIXEL_SIZE);
-        squareTexture = new Texture(pixmap);
     }
 }
