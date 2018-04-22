@@ -49,11 +49,8 @@ public class Board {
     public void update() {
         if (currentFigure == null) {
             createRandomFigure();
-            if (currentFigure.isOverlapping(squareArray)) {
-//                 TODO: implement lose mechanism
-                System.out.println("PRZEGRANA");
-                System.exit(0);
-            }
+            if (currentFigure.isOverlapping(squareArray))
+                loseGame();
         } else {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
@@ -121,5 +118,10 @@ public class Board {
 
     private void drawSquareArray(SpriteBatch batch) {
         squareArray.forEach(square -> square.draw(batch));
+    }
+
+    private void loseGame() {
+        System.out.println("PRZEGRANA");
+        System.exit(0);
     }
 }
