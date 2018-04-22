@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 class Square {
-    final static int PIXEL_SIZE = 35;
+    final static int PIXEL_SIZE = 30;
 
     private Texture squareTexture;
     private Point coordinates;
