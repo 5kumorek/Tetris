@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
 import com.tetris.enums.Direction;
 import com.tetris.enums.FigureShape;
 
@@ -19,13 +22,19 @@ public class Board {
     private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
+    private SpriteBatch batch = new SpriteBatch();
     private Texture boardTexture;
     private ArrayList<Square> squareArray = new ArrayList<>();
     private Figure currentFigure;
     private FigureFactory figureFactory = new FigureFactory();
 
-    public Board() {
+    public Board(int boardNumber) {
         createBoardTexture();
+        batch.setTransformMatrix(new Matrix4(
+                new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
+                new Quaternion(),
+                new Vector3(1, 1, 1))
+        );
     }
 
     public void handleKeyPress(int pressedKey) {
@@ -60,11 +69,13 @@ public class Board {
         }
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw() {
+        batch.begin();
         batch.draw(boardTexture, 0, 0);
         drawSquareArray(batch);
         if (currentFigure != null)
             currentFigure.draw(batch);
+        batch.end();
     }
 
     private void createBoardTexture() {

@@ -16,7 +16,7 @@ public class GameScreen implements Screen {
     GameScreen(MainController controller, int boardNumber) {
         this.controller = controller;
         for (int i = 0; i < boardNumber; i++) {
-            boardArray.add(new Board());
+            boardArray.add(new Board(i));
         }
     }
 
@@ -75,6 +75,6 @@ public class GameScreen implements Screen {
 
     private void drawBoards() {
         for (Board board : boardArray)
-            board.draw(controller.batch);
+            board.draw();
     }
 }
