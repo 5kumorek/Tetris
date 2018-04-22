@@ -10,7 +10,7 @@ public class MainController extends Game {
 
     public void create() {
         font = new BitmapFont();
-        this.setScreen(new GameScreen(this, 3));
+        this.setScreen(new GameScreen(this, 6));
 //      this method above is setting screen to GameScreen - at the end we want it first to set screen to MainMenuScreen
     }
 
