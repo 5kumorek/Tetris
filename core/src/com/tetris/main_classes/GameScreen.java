@@ -78,5 +78,4 @@ public class GameScreen implements Screen {
             board.draw(controller.batch);
         }
     }
-
 }

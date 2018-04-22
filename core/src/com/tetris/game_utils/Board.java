@@ -132,5 +132,4 @@ public class Board {
                 if (square != null)
                     square.draw(batch);
     }
-
 }
