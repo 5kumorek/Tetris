@@ -6,40 +6,40 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 
+import java.awt.*;
+
 class Square {
     final static int PIXEL_SIZE = 35;
 
     private Texture squareTexture;
-    private int x, y;
+    private Point coordinates;
 
     Square(int x, int y) {
-        this.x = x;
-        this.y = y;
+        coordinates = new Point(x, y);
         createSquareTexture();
     }
 
     void draw(SpriteBatch batch) {
-        batch.draw(squareTexture, PIXEL_SIZE * x, PIXEL_SIZE * y);
+        batch.draw(squareTexture, PIXEL_SIZE * coordinates.x, PIXEL_SIZE * coordinates.y);
     }
 
     void move(Direction direction) {
-        x += direction.getX();
-        y += direction.getY();
+        coordinates.translate(direction.getX(), direction.getY());
     }
 
     boolean canMove(Direction direction, Square[][] boardSquareArray) {
-        int translatedX = x + direction.getX();
-        int translatedY = y + direction.getY();
+        int translatedX = coordinates.x + direction.getX();
+        int translatedY = coordinates.y + direction.getY();
         return (!isColliding(translatedX, translatedY, boardSquareArray) &&
                 !isOutOfBoard(translatedX, translatedY, direction));
     }
 
     int getY() {
-        return y;
+        return coordinates.y;
     }
 
     int getX() {
-        return x;
+        return coordinates.x;
     }
 
     private void createSquareTexture() {
