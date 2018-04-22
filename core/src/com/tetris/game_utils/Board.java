@@ -89,7 +89,7 @@ public class Board {
         for (int row = ARRAY_HEIGHT - 1; row >= 0; row--) {
             if (isRowFull(row)) {
                 clearRow(row);
-                moveRowsDown(row);
+                moveRowsDown(row + 1);
             }
         }
     }
@@ -112,6 +112,9 @@ public class Board {
         for (int column = 0; column < ARRAY_WIDTH; column++) {
             for (int row = startingRow; row < ARRAY_HEIGHT; row++) {
                 Square currentSquare = squareArray[column][row];
+                squareArray[column][row - 1] = currentSquare;
+                squareArray[column][row] = null;
+
                 if (currentSquare != null)
                     currentSquare.move(Direction.DOWN);
             }
