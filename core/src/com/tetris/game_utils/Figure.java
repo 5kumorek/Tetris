@@ -34,6 +34,14 @@ class Figure {
         return true;
     }
 
+    boolean canRotate(Square[][] boardSquareArray) {
+        for (Square square : squareArray) {
+            if (!square.canRotate(center, boardSquareArray))
+                return false;
+        }
+        return true;
+    }
+
     Square[] getSquareArray() {
         return squareArray;
     }

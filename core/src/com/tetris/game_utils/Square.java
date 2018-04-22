@@ -34,6 +34,15 @@ class Square {
                 !willMoveOutOfBoard(translatedX, translatedY, direction));
     }
 
+    boolean canRotate(Point figureCenter, Square[][] boardSquareArray) {
+        int deltaY = coordinates.y - figureCenter.y;
+        int deltaX = coordinates.x - figureCenter.x;
+        int translatedX = figureCenter.x + deltaY;
+        int translatedY = figureCenter.y + deltaX;
+        return (!willCollide(translatedX, translatedY, boardSquareArray) &&
+                !willBeOutOfBoard(translatedX, translatedY));
+    }
+
     int getY() {
         return coordinates.y;
     }
@@ -68,5 +77,12 @@ class Square {
             default:
                 throw new IllegalStateException();
         }
+    }
+
+    private boolean willBeOutOfBoard(int translatedX, int translatedY) {
+        return (translatedX < 0 ||
+                translatedY < 0 ||
+                translatedX >= Board.ARRAY_WIDTH ||
+                translatedY >= Board.ARRAY_HEIGHT);
     }
 }
