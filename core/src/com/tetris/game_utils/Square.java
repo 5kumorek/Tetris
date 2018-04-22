@@ -65,7 +65,7 @@ class Square {
         return coordinates.y;
     }
 
-    int getX() {
+    private int getX() {
         return coordinates.x;
     }
 
