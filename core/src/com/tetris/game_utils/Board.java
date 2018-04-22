@@ -11,8 +11,8 @@ import com.tetris.enums.FigureShape;
 import java.util.Random;
 
 public class Board {
-    public static final int ARRAY_WIDTH = 10;
-    public static final int ARRAY_HEIGHT = 20;
+    static final int ARRAY_WIDTH = 10;
+    static final int ARRAY_HEIGHT = 20;
     private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
