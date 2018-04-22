@@ -34,11 +34,19 @@ class Square {
                 !willMoveOutOfBoard(translatedX, translatedY, direction));
     }
 
+    void rotate(Point figureCenter) {
+        int deltaY = coordinates.y - figureCenter.y;
+        int deltaX = coordinates.x - figureCenter.x;
+        int translatedX = figureCenter.x + deltaY;
+        int translatedY = figureCenter.y - deltaX;
+        coordinates.move(translatedX, translatedY);
+    }
+
     boolean canRotate(Point figureCenter, Square[][] boardSquareArray) {
         int deltaY = coordinates.y - figureCenter.y;
         int deltaX = coordinates.x - figureCenter.x;
         int translatedX = figureCenter.x + deltaY;
-        int translatedY = figureCenter.y + deltaX;
+        int translatedY = figureCenter.y - deltaX;
         return (!willCollide(translatedX, translatedY, boardSquareArray) &&
                 !willBeOutOfBoard(translatedX, translatedY));
     }

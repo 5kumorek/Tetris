@@ -34,6 +34,12 @@ class Figure {
         return true;
     }
 
+    void rotate(){
+        for (Square square : squareArray) {
+            square.rotate(center);
+        }
+    }
+
     boolean canRotate(Square[][] boardSquareArray) {
         for (Square square : squareArray) {
             if (!square.canRotate(center, boardSquareArray))

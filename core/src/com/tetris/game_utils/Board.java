@@ -36,6 +36,10 @@ public class Board {
                 if (currentFigure != null && currentFigure.canMove(Direction.RIGHT, squareArray))
                     currentFigure.move(Direction.RIGHT);
                 break;
+            case Input.Keys.SPACE:
+                if (currentFigure != null && currentFigure.canRotate(squareArray))
+                    currentFigure.rotate();
+                break;
         }
     }
 
