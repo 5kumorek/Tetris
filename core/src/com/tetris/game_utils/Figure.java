@@ -21,30 +21,26 @@ class Figure {
 
     void move(Direction direction) {
         center.translate(direction.getX(), direction.getY());
-        for (Square square : squareArray) {
+        for (Square square : squareArray)
             square.move(direction);
-        }
     }
 
     boolean canMove(Direction direction, Square[][] boardSquareArray) {
-        for (Square square : squareArray) {
+        for (Square square : squareArray)
             if (!square.canMove(direction, boardSquareArray))
                 return false;
-        }
         return true;
     }
 
     void rotate(){
-        for (Square square : squareArray) {
+        for (Square square : squareArray)
             square.rotate(center);
-        }
     }
 
     boolean canRotate(Square[][] boardSquareArray) {
-        for (Square square : squareArray) {
+        for (Square square : squareArray)
             if (!square.canRotate(center, boardSquareArray))
                 return false;
-        }
         return true;
     }
 
