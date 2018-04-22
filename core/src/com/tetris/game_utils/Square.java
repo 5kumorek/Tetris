@@ -60,9 +60,10 @@ class Square {
     }
 
     private void createSquareTexture() {
+        int offset = 2;
         Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
-        pixmap.drawRectangle(0, 0, PIXEL_SIZE, PIXEL_SIZE);
+        pixmap.fillRectangle(offset, offset, PIXEL_SIZE - offset, PIXEL_SIZE - offset);
         squareTexture = new Texture(pixmap);
     }
 
