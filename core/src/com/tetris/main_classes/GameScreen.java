@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final MainController controller;
-    private ArrayList<Board> boardArray = new ArrayList<Board>();
+    private ArrayList<Board> boardArray = new ArrayList<>();
 
     GameScreen(MainController controller, int boardNumber) {
         this.controller = controller;
