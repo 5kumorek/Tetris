@@ -6,9 +6,9 @@ import java.awt.*;
 
 class FigureFactory {
     Figure getFigure(int centerX, int centerY, FigureShape figureShape) {
-        Point pointArray[] = figureShape.getSquareCoordinatesArray();
+        Point[] pointArray = figureShape.getSquareCoordinatesArray();
         pointArray = translatePoints(centerX, centerY, pointArray);
-        Square squareArray[] = convertPointsToSquares(pointArray);
+        Square[] squareArray = convertPointsToSquares(pointArray);
         return new Figure(centerX, centerY, squareArray);
     }
 
