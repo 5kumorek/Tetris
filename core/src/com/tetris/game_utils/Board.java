@@ -8,16 +8,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 import com.tetris.enums.FigureShape;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Board {
-    static final int ARRAY_WIDTH = 10;
+    static final int ARRAY_WIDTH = 2;
     static final int ARRAY_HEIGHT = 20;
     private final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
     private Texture boardTexture;
-    private Square[][] squareArray = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
+    private ArrayList<Square> squareArray = new ArrayList<>();
     private Figure currentFigure;
     private FigureFactory figureFactory;
 
@@ -84,52 +87,39 @@ public class Board {
 
     private void decomposeCurrentFigure() {
         Square[] figureSquareArray = currentFigure.getSquareArray();
-        for (Square square : figureSquareArray) {
-            squareArray[square.getX()][square.getY()] = square;
-        }
+        squareArray.addAll(Arrays.asList(figureSquareArray));
         currentFigure = null;
     }
 
     private void deleteFilledRows() {
-        for (int row = ARRAY_HEIGHT - 1; row >= 0; row--) {
+        for (int row = ARRAY_HEIGHT - 1; row >= 0; row--)
             if (isRowFull(row)) {
                 clearRow(row);
                 moveRowsDown(row + 1);
             }
-        }
     }
 
     private boolean isRowFull(int rowIndex) {
-        for (int i = 0; i < ARRAY_WIDTH; i++) {
-            if (squareArray[i][rowIndex] == null)
-                return false;
-        }
-        return true;
+        int squaresInRow = squareArray.stream()
+                .filter(square -> square.getY() == rowIndex)
+                .collect(Collectors.toCollection(ArrayList::new))
+                .size();
+        return squaresInRow == ARRAY_WIDTH;
     }
 
     private void clearRow(int rowIndex) {
-        for (int column = 0; column < ARRAY_WIDTH; column++) {
-            squareArray[column][rowIndex] = null;
-        }
+        squareArray = squareArray.stream()
+                .filter(square -> square.getY() != rowIndex)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private void moveRowsDown(int startingRow) {
-        for (int column = 0; column < ARRAY_WIDTH; column++) {
-            for (int row = startingRow; row < ARRAY_HEIGHT; row++) {
-                Square currentSquare = squareArray[column][row];
-                squareArray[column][row - 1] = currentSquare;
-                squareArray[column][row] = null;
-
-                if (currentSquare != null)
-                    currentSquare.move(Direction.DOWN);
-            }
-        }
+        squareArray.stream()
+                .filter(square -> square.getY() >= startingRow)
+                .forEach(square -> square.move(Direction.DOWN));
     }
 
     private void drawSquareArray(SpriteBatch batch) {
-        for (Square[] squareRow : squareArray)
-            for (Square square : squareRow)
-                if (square != null)
-                    square.draw(batch);
+        squareArray.forEach(square -> square.draw(batch));
     }
 }

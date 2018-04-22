@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 class Figure {
     private Square[] squareArray;
@@ -25,7 +26,7 @@ class Figure {
             square.move(direction);
     }
 
-    boolean canMove(Direction direction, Square[][] boardSquareArray) {
+    boolean canMove(Direction direction, ArrayList<Square> boardSquareArray) {
         for (Square square : squareArray)
             if (!square.canMove(direction, boardSquareArray))
                 return false;
@@ -37,14 +38,14 @@ class Figure {
             square.rotate(center);
     }
 
-    boolean canRotate(Square[][] boardSquareArray) {
+    boolean canRotate(ArrayList<Square> boardSquareArray) {
         for (Square square : squareArray)
             if (!square.canRotate(center, boardSquareArray))
                 return false;
         return true;
     }
 
-    boolean isOverlapping(Square[][] boardSquareArray) {
+    boolean isOverlapping(ArrayList<Square> boardSquareArray) {
         for (Square square : squareArray)
             if (square.isOverlapping(boardSquareArray))
                 return true;

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 class Square {
     final static int PIXEL_SIZE = 35;
@@ -27,7 +28,7 @@ class Square {
         coordinates.translate(direction.getX(), direction.getY());
     }
 
-    boolean canMove(Direction direction, Square[][] boardSquareArray) {
+    boolean canMove(Direction direction, ArrayList<Square> boardSquareArray) {
         Point translatedCoordinates = (Point) coordinates.clone();
         translatedCoordinates.translate(direction.getX(), direction.getY());
 
@@ -45,7 +46,7 @@ class Square {
         coordinates.setLocation(translatedCoordinates);
     }
 
-    boolean canRotate(Point figureCenter, Square[][] boardSquareArray) {
+    boolean canRotate(Point figureCenter, ArrayList<Square> boardSquareArray) {
         Point deltaCoordinates = (Point) coordinates.clone();
         deltaCoordinates.translate(-figureCenter.x, -figureCenter.y);
 
@@ -56,7 +57,7 @@ class Square {
                 !willBeOutOfBoard(translatedCoordinates));
     }
 
-    boolean isOverlapping(Square[][] boardSquareArray) {
+    boolean isOverlapping(ArrayList<Square> boardSquareArray) {
         return doCoordinatesCollide(coordinates, boardSquareArray);
     }
 
@@ -76,10 +77,9 @@ class Square {
         squareTexture = new Texture(pixmap);
     }
 
-    private boolean doCoordinatesCollide(Point coordinatesToCheck, Square[][] boardSquareArray) {
-        int limitedX = Helpers.limit(coordinatesToCheck.x, 0, Board.ARRAY_WIDTH - 1);
-        int limitedY = Helpers.limit(coordinatesToCheck.y, 0, Board.ARRAY_HEIGHT - 1);
-        return boardSquareArray[limitedX][limitedY] != null;
+    private boolean doCoordinatesCollide(Point coordinatesToCheck, ArrayList<Square> boardSquareArray) {
+        return boardSquareArray.stream().anyMatch(square ->
+                square.getX() == coordinatesToCheck.getX() && square.getY() == coordinatesToCheck.getY());
     }
 
     private boolean willMoveOutOfBoard(Point coordinatesToCheck, Direction direction) {
