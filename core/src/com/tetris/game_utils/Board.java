@@ -22,10 +22,9 @@ public class Board {
     private Texture boardTexture;
     private ArrayList<Square> squareArray = new ArrayList<>();
     private Figure currentFigure;
-    private FigureFactory figureFactory;
+    private FigureFactory figureFactory = new FigureFactory();
 
     public Board() {
-        figureFactory = new FigureFactory();
         createBoardTexture();
     }
 
