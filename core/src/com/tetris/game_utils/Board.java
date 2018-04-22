@@ -43,10 +43,12 @@ public class Board {
         if (currentFigure == null) {
             createRandomFigure();
         } else {
-            if (currentFigure.canMove(Direction.DOWN, squareArray))
+            if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
-            else
+            } else {
                 decomposeCurrentFigure();
+                deleteFilledRows();
+            }
         }
     }
 
@@ -77,6 +79,39 @@ public class Board {
             squareArray[square.getX()][square.getY()] = square;
         }
         currentFigure = null;
+    }
+
+    private void deleteFilledRows() {
+        for (int row = ARRAY_HEIGHT - 1; row >= 0; row--) {
+            if (isRowFull(row)) {
+                clearRow(row);
+                moveRowsDown(row);
+            }
+        }
+    }
+
+    private boolean isRowFull(int rowIndex) {
+        for (int i = 0; i < ARRAY_WIDTH; i++) {
+            if (squareArray[i][rowIndex] == null)
+                return false;
+        }
+        return true;
+    }
+
+    private void clearRow(int rowIndex) {
+        for (int column = 0; column < ARRAY_WIDTH; column++) {
+            squareArray[column][rowIndex] = null;
+        }
+    }
+
+    private void moveRowsDown(int startingRow) {
+        for (int column = 0; column < ARRAY_WIDTH; column++) {
+            for (int row = startingRow; row < ARRAY_HEIGHT; row++) {
+                Square currentSquare = squareArray[column][row];
+                if (currentSquare != null)
+                    currentSquare.move(Direction.DOWN);
+            }
+        }
     }
 
     private void drawSquareArray(SpriteBatch batch) {
