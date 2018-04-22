@@ -18,7 +18,7 @@ public enum FigureShape {
         squareCoordinatesArray = new Point[intCoordinatesArray.length];
 
         for (int i = 0; i < intCoordinatesArray.length; i++) {
-            int coordinates[] = intCoordinatesArray[i];
+            int[] coordinates = intCoordinatesArray[i];
             squareCoordinatesArray[i] = new Point(coordinates[0], coordinates[1]);
         }
     }

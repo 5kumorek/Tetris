@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 
 class Figure {
-    private Square squareArray[];
+    private Square[] squareArray;
     private int center_x, center_y;
 
     Figure(int center_x, int center_y, Square[] squareArray) {
@@ -24,7 +24,7 @@ class Figure {
         }
     }
 
-    boolean canMove(Direction direction, Square boardSquareArray[][]) {
+    boolean canMove(Direction direction, Square[][] boardSquareArray) {
         for (Square square : squareArray) {
             if (!square.canMove(direction, boardSquareArray))
                 return false;

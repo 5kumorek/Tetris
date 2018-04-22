@@ -27,7 +27,7 @@ class Square {
         y += direction.getY();
     }
 
-    boolean canMove(Direction direction, Square boardSquareArray[][]) {
+    boolean canMove(Direction direction, Square[][] boardSquareArray) {
         int translatedX = x + direction.getX();
         int translatedY = y + direction.getY();
         return (!isColliding(translatedX, translatedY, boardSquareArray) &&
@@ -49,7 +49,7 @@ class Square {
         squareTexture = new Texture(pixmap);
     }
 
-    private boolean isColliding(int translatedX, int translatedY, Square boardSquareArray[][]) {
+    private boolean isColliding(int translatedX, int translatedY, Square[][] boardSquareArray) {
         int limitedX = Helpers.limit(translatedX, 0, Board.ARRAY_WIDTH - 1);
         int limitedY = Helpers.limit(translatedY, 0, Board.ARRAY_HEIGHT - 1);
         return boardSquareArray[limitedX][limitedY] != null;

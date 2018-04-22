@@ -17,7 +17,7 @@ public class Board {
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
     private Texture boardTexture;
-    private Square squareArray[][] = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
+    private Square[][] squareArray = new Square[ARRAY_WIDTH][ARRAY_HEIGHT];
     private Figure currentFigure;
     private FigureFactory figureFactory;
 
@@ -67,14 +67,14 @@ public class Board {
     }
 
     private void createRandomFigure() {
-        FigureShape figureShapeValues[] = FigureShape.values();
+        FigureShape[] figureShapeValues = FigureShape.values();
         int randomNumber = new Random().nextInt(figureShapeValues.length);
         FigureShape randomFigureShape = figureShapeValues[randomNumber];
         currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
     }
 
     private void decomposeCurrentFigure() {
-        Square figureSquareArray[] = currentFigure.getSquareArray();
+        Square[] figureSquareArray = currentFigure.getSquareArray();
         for (Square square : figureSquareArray) {
             squareArray[square.getX()][square.getY()] = square;
         }

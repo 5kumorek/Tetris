@@ -19,7 +19,7 @@ class FigureFactory {
     }
 
     private Square[] convertPointsToSquares(Point[] pointArray) {
-        Square squareArray[] = new Square[pointArray.length];
+        Square[] squareArray = new Square[pointArray.length];
 
         for (int i = 0; i < pointArray.length; i++) {
             Point coordinates = pointArray[i];
