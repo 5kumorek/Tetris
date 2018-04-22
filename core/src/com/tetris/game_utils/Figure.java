@@ -3,13 +3,14 @@ package com.tetris.game_utils;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.enums.Direction;
 
+import java.awt.*;
+
 class Figure {
     private Square[] squareArray;
-    private int center_x, center_y;
+    private Point center;
 
     Figure(int center_x, int center_y, Square[] squareArray) {
-        this.center_x = center_x;
-        this.center_y = center_y;
+        center = new Point(center_x, center_y);
         this.squareArray = squareArray;
     }
 
@@ -19,6 +20,7 @@ class Figure {
     }
 
     void move(Direction direction) {
+        center.translate(direction.getX(), direction.getY());
         for (Square square : squareArray) {
             square.move(direction);
         }
