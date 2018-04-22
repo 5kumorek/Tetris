@@ -28,31 +28,36 @@ class Square {
     }
 
     boolean canMove(Direction direction, Square[][] boardSquareArray) {
-        int translatedX = coordinates.x + direction.getX();
-        int translatedY = coordinates.y + direction.getY();
-        return (!doCoordinatesCollide(translatedX, translatedY, boardSquareArray) &&
-                !willMoveOutOfBoard(translatedX, translatedY, direction));
+        Point translatedCoordinates = (Point) coordinates.clone();
+        translatedCoordinates.translate(direction.getX(), direction.getY());
+
+        return (!doCoordinatesCollide(translatedCoordinates, boardSquareArray) &&
+                !willMoveOutOfBoard(translatedCoordinates, direction));
     }
 
     void rotate(Point figureCenter) {
-        int deltaY = coordinates.y - figureCenter.y;
-        int deltaX = coordinates.x - figureCenter.x;
-        int translatedX = figureCenter.x + deltaY;
-        int translatedY = figureCenter.y - deltaX;
-        coordinates.move(translatedX, translatedY);
+        Point deltaCoordinates = (Point) coordinates.clone();
+        deltaCoordinates.translate(-figureCenter.x, -figureCenter.y);
+
+        Point translatedCoordinates = (Point) figureCenter.clone();
+        translatedCoordinates.translate(deltaCoordinates.y, -deltaCoordinates.x);
+
+        coordinates.setLocation(translatedCoordinates);
     }
 
     boolean canRotate(Point figureCenter, Square[][] boardSquareArray) {
-        int deltaY = coordinates.y - figureCenter.y;
-        int deltaX = coordinates.x - figureCenter.x;
-        int translatedX = figureCenter.x + deltaY;
-        int translatedY = figureCenter.y - deltaX;
-        return (!doCoordinatesCollide(translatedX, translatedY, boardSquareArray) &&
-                !willBeOutOfBoard(translatedX, translatedY));
+        Point deltaCoordinates = (Point) coordinates.clone();
+        deltaCoordinates.translate(-figureCenter.x, -figureCenter.y);
+
+        Point translatedCoordinates = (Point) figureCenter.clone();
+        translatedCoordinates.translate(deltaCoordinates.y, -deltaCoordinates.x);
+
+        return (!doCoordinatesCollide(translatedCoordinates, boardSquareArray) &&
+                !willBeOutOfBoard(translatedCoordinates));
     }
 
     boolean isOverlapping(Square[][] boardSquareArray) {
-        return doCoordinatesCollide(coordinates.x, coordinates.y, boardSquareArray);
+        return doCoordinatesCollide(coordinates, boardSquareArray);
     }
 
     int getY() {
@@ -71,31 +76,31 @@ class Square {
         squareTexture = new Texture(pixmap);
     }
 
-    private boolean doCoordinatesCollide(int translatedX, int translatedY, Square[][] boardSquareArray) {
-        int limitedX = Helpers.limit(translatedX, 0, Board.ARRAY_WIDTH - 1);
-        int limitedY = Helpers.limit(translatedY, 0, Board.ARRAY_HEIGHT - 1);
+    private boolean doCoordinatesCollide(Point coordinatesToCheck, Square[][] boardSquareArray) {
+        int limitedX = Helpers.limit(coordinatesToCheck.x, 0, Board.ARRAY_WIDTH - 1);
+        int limitedY = Helpers.limit(coordinatesToCheck.y, 0, Board.ARRAY_HEIGHT - 1);
         return boardSquareArray[limitedX][limitedY] != null;
     }
 
-    private boolean willMoveOutOfBoard(int translatedX, int translatedY, Direction direction) {
+    private boolean willMoveOutOfBoard(Point coordinatesToCheck, Direction direction) {
         switch (direction) {
             case UP:
-                return translatedY >= Board.ARRAY_HEIGHT;
+                return coordinatesToCheck.y >= Board.ARRAY_HEIGHT;
             case DOWN:
-                return translatedY < 0;
+                return coordinatesToCheck.y < 0;
             case LEFT:
-                return translatedX < 0;
+                return coordinatesToCheck.x < 0;
             case RIGHT:
-                return translatedX >= Board.ARRAY_WIDTH;
+                return coordinatesToCheck.x >= Board.ARRAY_WIDTH;
             default:
                 throw new IllegalStateException();
         }
     }
 
-    private boolean willBeOutOfBoard(int translatedX, int translatedY) {
-        return (translatedX < 0 ||
-                translatedY < 0 ||
-                translatedX >= Board.ARRAY_WIDTH ||
-                translatedY >= Board.ARRAY_HEIGHT);
+    private boolean willBeOutOfBoard(Point coordinatesToCheck) {
+        return (coordinatesToCheck.x < 0 ||
+                coordinatesToCheck.y < 0 ||
+                coordinatesToCheck.x >= Board.ARRAY_WIDTH ||
+                coordinatesToCheck.y >= Board.ARRAY_HEIGHT);
     }
 }
