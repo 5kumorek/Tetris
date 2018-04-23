@@ -14,17 +14,19 @@ public class MainController extends Game {
 //      this method above is setting screen to GameScreen - at the end we want it first to set screen to MainMenuScreen
     }
 
-    private void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-    }
-
+    @Override
     public void render() {
         clearScreen();
         super.render();
     }
 
+    @Override
     public void dispose() {
         font.dispose();
+    }
+
+    private void clearScreen() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
     }
 }
