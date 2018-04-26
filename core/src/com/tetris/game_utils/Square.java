@@ -1,58 +1,106 @@
 package com.tetris.game_utils;
 
-import java.util.Random;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tetris.enums.Direction;
 
-public class Square implements Shape {
+import java.awt.*;
+import java.util.ArrayList;
 
-    private int position[][];
+class Square {
+    final static int PIXEL_SIZE = 30;
 
-    public Square()
-    {
-        position = new int[4][2];
-        int [][][] coordinates = new int[][][] {
-                {{0, -1}, {0, 0}, {0, 1}, {0, 2}}, //I
-                {{0, 0}, {0, 1}, {1, 0}, {1, 1}}, //O
-                {{0, -1}, {0, 0}, {0, 1}, {1, 0}}, //T
-                {{0, -1}, {0, 0}, {1, 0}, {1, 1}}, //S
-                {{-1, 1}, {0, -1}, {0, 0}, {-1, 0}}, //Z
-                {{1, -1}, {0, -1}, {0, 0}, {0, 1}}, //J
-                {{-1, -1}, {0, -1}, {0, 0}, {0, 1}} //L
-        };
+    private Texture squareTexture;
+    private Point coordinates;
 
-        Random rand = new Random();
-        int randomPiece = Math.abs(rand.nextInt()) % 7;
+    Square(int x, int y) {
+        coordinates = new Point(x, y);
+        createSquareTexture();
+    }
 
-        for(int i = 0; i < 4; i++)
-        {
-            for(int j = 0; j < 2; j++)
-            {
-                position[i][j] = coordinates[randomPiece][i][j];
-            }
+    void draw(SpriteBatch batch) {
+        batch.draw(squareTexture, PIXEL_SIZE * coordinates.x, PIXEL_SIZE * coordinates.y);
+    }
+
+    void move(Direction direction) {
+        coordinates.translate(direction.getX(), direction.getY());
+    }
+
+    boolean canMove(Direction direction, ArrayList<Square> boardSquareArray) {
+        Point translatedCoordinates = (Point) coordinates.clone();
+        translatedCoordinates.translate(direction.getX(), direction.getY());
+
+        return (!doCoordinatesCollide(translatedCoordinates, boardSquareArray) &&
+                !willMoveOutOfBoard(translatedCoordinates, direction));
+    }
+
+    void rotate(Point figureCenter) {
+        Point deltaCoordinates = (Point) coordinates.clone();
+        deltaCoordinates.translate(-figureCenter.x, -figureCenter.y);
+
+        Point translatedCoordinates = (Point) figureCenter.clone();
+        translatedCoordinates.translate(deltaCoordinates.y, -deltaCoordinates.x);
+
+        coordinates.setLocation(translatedCoordinates);
+    }
+
+    boolean canRotate(Point figureCenter, ArrayList<Square> boardSquareArray) {
+        Point deltaCoordinates = (Point) coordinates.clone();
+        deltaCoordinates.translate(-figureCenter.x, -figureCenter.y);
+
+        Point translatedCoordinates = (Point) figureCenter.clone();
+        translatedCoordinates.translate(deltaCoordinates.y, -deltaCoordinates.x);
+
+        return (!doCoordinatesCollide(translatedCoordinates, boardSquareArray) &&
+                !willBeOutOfBoard(translatedCoordinates));
+    }
+
+    boolean isOverlapping(ArrayList<Square> boardSquareArray) {
+        return doCoordinatesCollide(coordinates, boardSquareArray);
+    }
+
+    int getY() {
+        return coordinates.y;
+    }
+
+    private int getX() {
+        return coordinates.x;
+    }
+
+    private void createSquareTexture() {
+        int offset = 2;
+        Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.fillRectangle(offset, offset, PIXEL_SIZE - offset, PIXEL_SIZE - offset);
+        squareTexture = new Texture(pixmap);
+    }
+
+    private boolean doCoordinatesCollide(Point coordinatesToCheck, ArrayList<Square> boardSquareArray) {
+        return boardSquareArray.stream().anyMatch(square ->
+                square.getX() == coordinatesToCheck.getX() && square.getY() == coordinatesToCheck.getY());
+    }
+
+    private boolean willMoveOutOfBoard(Point coordinatesToCheck, Direction direction) {
+        switch (direction) {
+            case UP:
+                return coordinatesToCheck.y >= Board.ARRAY_HEIGHT;
+            case DOWN:
+                return coordinatesToCheck.y < 0;
+            case LEFT:
+                return coordinatesToCheck.x < 0;
+            case RIGHT:
+                return coordinatesToCheck.x >= Board.ARRAY_WIDTH;
+            default:
+                throw new IllegalStateException();
         }
     }
 
-    public int getX(int index) {return position[index][0];}
-    public int getY(int index) {return position[index][1];}
-    public int minX()
-    {
-        int min = position[0][0];
-        for(int i = 0; i < 4; i++)
-        {
-            if(position[i][0] < min)
-                min = position[i][0];
-        }
-        return min;
+    private boolean willBeOutOfBoard(Point coordinatesToCheck) {
+        return (coordinatesToCheck.x < 0 ||
+                coordinatesToCheck.y < 0 ||
+                coordinatesToCheck.x >= Board.ARRAY_WIDTH ||
+                coordinatesToCheck.y >= Board.ARRAY_HEIGHT);
     }
-
-    public int minY()
-    {
-        int min = position[0][1];
-        for(int i = 0; i < 4; i++)
-        {
-            if(position[i][1] < min)
-                min = position[i][1];
-        }
-        return min;
-    }
-
 }

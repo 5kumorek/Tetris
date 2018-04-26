@@ -1,168 +1,137 @@
 package com.tetris.game_utils;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.tetris.other_classes.IBoard;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
+import com.tetris.enums.Direction;
+import com.tetris.enums.FigureShape;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.stream.Collectors;
 
-public class Board implements IBoard {
-    private final int WIDTH = 300;
-    private final int HEIGHT = 660;
-//    width and height are placeholder values for now - they can be changed if this class will be implemented more
-    private Texture texture;
-    private ShapeRenderer shapeRenderer;
-    private Square currentBlock;
-    private int currentX = 0;
-    private int currentY = 0;
-    private int SIZE_X = 10;
-    private int SIZE_Y = 22;
-    private int step = 30;
-    private boolean isDown = false;
-    private boolean filledGrid[][];
+public class Board {
+    static final int ARRAY_WIDTH = 10;
+    static final int ARRAY_HEIGHT = 20;
+    public static final int PIXEL_WIDTH = ARRAY_WIDTH * Square.PIXEL_SIZE;
+    private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
+    private Figure currentFigure;
+    private Texture boardTexture;
+    private SpriteBatch batch = new SpriteBatch();
+    private ArrayList<Square> squareArray = new ArrayList<>();
+    private FigureFactory figureFactory = new FigureFactory();
 
-    public Board() {
-        texture = new Texture("badlogic.jpg");
-//      this texture is only for testing purpouse, to see that this Board does anything
-        shapeRenderer = new ShapeRenderer();
-        currentBlock = new Square();
-        filledGrid = new boolean[SIZE_X][SIZE_Y];
-
-        currentX = SIZE_X/2 + 1;
-        currentY = SIZE_Y - 1 + currentBlock.minY();
-    }
-    //TODO fix array -1 and Z/S shapes not falling correctly
-    public void render(SpriteBatch batch) {
-        //batch.draw(texture, 0, 0);
-        drawGrid();
-        if(isDown)
-        {
-            isDown = false;
-            int removeLine = -1;
-            for (int i = 0; i < 4; i++)
-            {
-                int x = currentX + currentBlock.getX(i);
-                int y = currentY + currentBlock.getY(i);
-                filledGrid[x-1][y-currentBlock.minY()] = true;
-            }
-            int counter[] = new int[SIZE_Y];
-            for(int i = 0; i < SIZE_X; i++)
-            {
-                for(int j = 0; j < SIZE_Y; j++)
-                {
-                    if(filledGrid[i][j])
-                    {
-                        counter[j]++;
-                    }
-                    if(counter[j] == 10)
-                        removeLine = j;
-                }
-            }
-            if(removeLine >= 0)
-            {
-                for(int i = 0; i < SIZE_X; i++)
-                {
-                    filledGrid[i][removeLine] = false;
-                }
-                for(int i = 0; i < SIZE_X; i++)
-                {
-                    for(int j = removeLine; j < SIZE_Y-1; j++)
-                    {
-                        filledGrid[i][j] = filledGrid[i][j+1];
-                    }
-                }
-                removeLine = -1;
-                drawFilledGrid();
-            }
-            System.out.println(Arrays.toString(counter));
-            currentBlock = new Square();
-            currentX = SIZE_X/2 + 1;
-            currentY = SIZE_Y - 1 + currentBlock.minY();
-        }
-        drawFilledGrid();
-        try
-        {
-            Thread.sleep(300);
-        }
-        catch(InterruptedException e)
-        {
-            return;
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
-        {
-            moveBlock(currentX + 1, currentY + 1);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
-        {
-            moveBlock(currentX - 1, currentY + 1);
-        }
-        drawBlock(currentBlock, currentX, currentY);
-        moveBlock(currentX, currentY - 1);
+    public Board(int boardNumber) {
+        createBoardTexture();
+        batch.setTransformMatrix(new Matrix4(
+                new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
+                new Quaternion(),
+                new Vector3(1, 1, 1))
+        );
     }
 
-    public void drawBlock(Square sq, float x, float y)
-    {
-        x = ((x-1)/10 * WIDTH)+490;
-        y = (y - currentBlock.minY())/22 * HEIGHT;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 0, 0, 1);
-        for(int i = 0; i < 4; i++)
-        {
-            shapeRenderer.rect(x + step*sq.getX(i), y + step*sq.getY(i), step, step);
+    public void handleKeyPress(int pressedKey) {
+        switch (pressedKey) {
+            case Input.Keys.LEFT:
+                if (currentFigure != null && currentFigure.canMove(Direction.LEFT, squareArray))
+                    currentFigure.move(Direction.LEFT);
+                break;
+            case Input.Keys.RIGHT:
+                if (currentFigure != null && currentFigure.canMove(Direction.RIGHT, squareArray))
+                    currentFigure.move(Direction.RIGHT);
+                break;
+            case Input.Keys.SPACE:
+                if (currentFigure != null && currentFigure.canRotate(squareArray))
+                    currentFigure.rotate();
+                break;
         }
-        shapeRenderer.end();
     }
 
-    public void drawGrid()
-    {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 1, 0, 1);
-        for(int i = 1280/2 - WIDTH/2; i < 1280/2 + WIDTH/2; i+=step)
-        {
-            for(int j = 0; j < HEIGHT; j+=step)
-                shapeRenderer.rect(i, j, step, step);
-        }
-        shapeRenderer.end();
-    }
-
-    public void moveBlock(int x, int y)
-    {
-        if(x > 0 && x < SIZE_X)
-            currentX = x;
-        for(int i = 0; i < SIZE_Y; i++)
-        {
-            if (filledGrid[x - 1][i] && y <= i)
-            {
-                isDown = true;
-                return;
+    public void update() {
+        if (currentFigure == null) {
+            createRandomFigure();
+            if (currentFigure.isOverlapping(squareArray))
+                loseGame();
+        } else {
+            if (currentFigure.canMove(Direction.DOWN, squareArray)) {
+                currentFigure.move(Direction.DOWN);
+            } else {
+                decomposeCurrentFigure();
+                deleteFilledRows();
             }
         }
-        if(y >= 0)
-            currentY = y;
-        else isDown = true;
     }
 
-    public void drawFilledGrid()
-    {
-        boolean removeLine = false;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 0, 1, 1);
-        for(int i = 1280/2 - WIDTH/2, k = 0; i < 1280/2 + WIDTH/2; i+=step, k++)
-        {
-            for(int j = 0, l = 0; j < HEIGHT; j+=step, l++)
-            {
-                if (filledGrid[k][l])
-                {
-                    shapeRenderer.rect(i, j, step, step);
-                }
+    public void draw() {
+        batch.begin();
+        batch.draw(boardTexture, 0, 0);
+        drawSquareArray(batch);
+        if (currentFigure != null)
+            currentFigure.draw(batch);
+        batch.end();
+    }
+
+    private void createBoardTexture() {
+        Pixmap pixmap = new Pixmap(PIXEL_WIDTH, PIXEL_HEIGHT, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.SKY);
+        pixmap.drawRectangle(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
+        boardTexture = new Texture(pixmap);
+    }
+
+    private void createRandomFigure() {
+        FigureShape[] figureShapeValues = FigureShape.values();
+        int randomNumber = new Random().nextInt(figureShapeValues.length);
+        FigureShape randomFigureShape = figureShapeValues[randomNumber];
+        currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
+    }
+
+    private void decomposeCurrentFigure() {
+        Square[] figureSquareArray = currentFigure.getSquareArray();
+        squareArray.addAll(Arrays.asList(figureSquareArray));
+        currentFigure = null;
+    }
+
+    private void deleteFilledRows() {
+        for (int row = ARRAY_HEIGHT - 1; row >= 0; row--)
+            if (isRowFull(row)) {
+                clearRow(row);
+                moveRowsDown(row + 1);
             }
-        }
-        shapeRenderer.end();
+    }
+
+    private boolean isRowFull(int rowIndex) {
+        int squaresInRow = squareArray.stream()
+                .filter(square -> square.getY() == rowIndex)
+                .collect(Collectors.toCollection(ArrayList::new))
+                .size();
+        return squaresInRow == ARRAY_WIDTH;
+    }
+
+    private void clearRow(int rowIndex) {
+        squareArray = squareArray.stream()
+                .filter(square -> square.getY() != rowIndex)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private void moveRowsDown(int startingRow) {
+        squareArray.stream()
+                .filter(square -> square.getY() >= startingRow)
+                .forEach(square -> square.move(Direction.DOWN));
+    }
+
+    private void drawSquareArray(SpriteBatch batch) {
+        squareArray.forEach(square -> square.draw(batch));
+    }
+
+    private void loseGame() {
+        System.out.println("PRZEGRANA");
+        System.exit(0);
     }
 }
