@@ -14,10 +14,10 @@ public class FigureFactoryTest {
 
     @Test
     public void testGetFigure() {
-/*        FigureShape[] figureShapeValues = FigureShape.values();
+        FigureShape[] figureShapeValues = FigureShape.values();
         int randomNumber = new Random().nextInt(figureShapeValues.length);
         FigureShape randomFigureShape = figureShapeValues[randomNumber];
         FigureFactory figureFactory = createNiceMock(FigureFactory.class);
-        Figure currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);*/
+        Figure currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
     }
 }

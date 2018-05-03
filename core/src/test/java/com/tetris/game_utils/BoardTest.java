@@ -13,6 +13,22 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
 
+    @Before
+    public void setUp(){
+    }
+
+    @Test
+    public void handleKeyPress() {
+    }
+
+    @Test
+    public void update() {
+    }
+
+    @Test
+    public void draw() {
+    }
+
     @Test
     public void sayThat0BoardsIsBad(){
 
@@ -28,7 +44,7 @@ public class BoardTest {
 
     @Test
     public void sayThat2BoardsIsGood(){
-        //Board b = EasyMock.createMockBuilder(Board.class).withConstructor(1).createMock();
+        Board b = EasyMock.createMockBuilder(Board.class).withConstructor(1).createMock();
         //java.lang.UnsatisfiedLinkError
 
         assertTrue(true);
