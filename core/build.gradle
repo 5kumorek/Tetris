@@ -5,11 +5,6 @@ sourceCompatibility = 1.8
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-repositories { jcenter() }
-dependencies {
-    testCompile 'junit:junit:4.12'
-    compile 'junit:junit:4.12'
-}
 
 eclipse.project {
     name = appName + "-core"
