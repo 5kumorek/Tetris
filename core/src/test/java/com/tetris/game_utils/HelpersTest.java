@@ -1,5 +1,6 @@
 package com.tetris.game_utils;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.tetris.game_utils.Helpers.limit;
@@ -38,9 +39,10 @@ public class HelpersTest {
     }
 
     //TODO:Test wymaga rzucania wyjątku przez metodę "limit" w klasie Helpers gdy lowerBound > upperBound
-/*    @Test(expected = IllegalArgumentException.class)
+/*    @Ignore("Ignored because of not thrown IllegalArgumentException")
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrownIllegalArgumentExceptionOnWrongParameters() {
-        limit(4,3,4);
+        limit(4,4,3);
     }*/
 
 }
