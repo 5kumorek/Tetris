@@ -10,8 +10,9 @@ import org.powermock.modules.junit4.*;
 import static org.junit.Assert.*;
 
 
-@RunWith(PowerMockRunner.class)
 public class FigureTest {
+
+
 
     @Test
     public void test() {
