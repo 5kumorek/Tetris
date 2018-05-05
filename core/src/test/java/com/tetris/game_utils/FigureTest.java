@@ -10,23 +10,19 @@ import org.powermock.modules.junit4.*;
 import static org.junit.Assert.*;
 
 
-public class FigureTest {
+public class FigureTest extends GameTestBase{
 
-
-
-    @Test
+/*    @Test
     public void test() {
-/*       Point p = new Point(1,1);
         FigureShape[] figureShapeValues = FigureShape.values();
         FigureShape figureShape = figureShapeValues[1];
         Point[] pointArray = figureShape.getSquareCoordinatesArray();
-        //pointArray = translatePoints(centerX, centerY, pointArray);
         Square[] squareArray = new Square[pointArray.length];
         for (int i = 0; i < pointArray.length; i++) {
             Point coordinates = pointArray[i];
             squareArray[i] = new Square(coordinates.x, coordinates.y);
         }
-        Figure f = new Figure(1,1, squareArray);*/
-    }
+        Figure f = new Figure(1,1, squareArray);
+    }*/
 
 }

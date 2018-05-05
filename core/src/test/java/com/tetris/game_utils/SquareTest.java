@@ -28,8 +28,7 @@ public class SquareTest extends GameTestBase{
         //pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
     }
 
-
-   @Test
+    @Test
     public void textureCanBeDrawn()
     {
         SpriteBatch spriteBatch = createNiceMock(SpriteBatch.class);

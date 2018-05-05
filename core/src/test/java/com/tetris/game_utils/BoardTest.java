@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 
 /*
-public class BoardTest {
+public class BoardTest extends GameTestBase{
 
     @Test
     public void sayThat0BoardsIsBad(){

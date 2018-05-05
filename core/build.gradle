@@ -35,6 +35,10 @@ dependencies {
     testCompile group: 'org.objenesis', name: 'objenesis', version: '2.6'
 }
 
+test {
+    dependsOn 'cleanTest'
+}
+
 eclipse.project {
     name = appName + "-core"
 }
