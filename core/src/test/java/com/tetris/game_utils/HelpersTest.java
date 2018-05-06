@@ -39,10 +39,9 @@ public class HelpersTest {
     }
 
     //TODO:Test wymaga rzucania wyjątku przez metodę "limit" w klasie Helpers gdy lowerBound > upperBound
-/*
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrownIllegalArgumentExceptionOnWrongParameters() {
-        limit(4,4,3);
-    }*/
+        int temp = limit(4,4,3);
+    }
 
 }
