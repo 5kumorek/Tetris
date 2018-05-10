@@ -1,6 +1,8 @@
 package com.tetris.game_utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,9 +29,11 @@ public class Board {
     private SpriteBatch batch = new SpriteBatch();
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory = new FigureFactory();
+    private Sound sound;
 
     public Board(int boardNumber) {
         createBoardTexture();
+        sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));
         batch.setTransformMatrix(new Matrix4(
                 new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
                 new Quaternion(),
@@ -67,6 +71,7 @@ public class Board {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
             } else {
+                sound.play();
                 decomposeCurrentFigure();
                 deleteFilledRows();
             }
