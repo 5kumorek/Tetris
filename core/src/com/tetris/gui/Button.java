@@ -3,8 +3,8 @@ package com.tetris.gui;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Button {
-    public final int BUTTON_WIDTH = 300;
-    public final int BUTTON_HEIGHT = 100;
+    public static final int BUTTON_WIDTH = 300;
+    public static final int BUTTON_HEIGHT = 100;
     private Texture buttonTexture;
 
     public Button(String path)

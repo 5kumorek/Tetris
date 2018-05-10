@@ -17,7 +17,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(startButton.getButtonTexture(), 680 ,440, startButton.BUTTON_WIDTH, startButton.BUTTON_HEIGHT);
+        batch.draw(startButton.getButtonTexture(), 680 ,440, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         controller.font.draw(batch, "Tetris", 680, 700);
         batch.end();
     }
