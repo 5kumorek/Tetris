@@ -1,7 +1,6 @@
 package com.tetris.main_classes;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.gui.Button;
 
@@ -18,7 +17,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(startButton.getButtonTexture(), 680 ,440);
+        batch.draw(startButton.getButtonTexture(), 680 ,440, startButton.BUTTON_WIDTH, startButton.BUTTON_HEIGHT);
         controller.font.draw(batch, "Tetris", 680, 700);
         batch.end();
     }
