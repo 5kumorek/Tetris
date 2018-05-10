@@ -61,6 +61,8 @@ public class GameScreen implements Screen {
             pressedKey = Input.Keys.RIGHT;
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
             pressedKey = Input.Keys.SPACE;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            pressedKey = Input.Keys.DOWN;
         if (pressedKey != 0)
             for (Board board : boardArray)
                 board.handleKeyPress(pressedKey);
