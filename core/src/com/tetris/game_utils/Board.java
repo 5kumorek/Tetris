@@ -26,6 +26,7 @@ public class Board {
 
     private Figure currentFigure;
     private Texture boardTexture;
+    private Texture boardFrame;
     private SpriteBatch batch = new SpriteBatch();
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory = new FigureFactory();
@@ -81,6 +82,7 @@ public class Board {
     public void draw() {
         batch.begin();
         batch.draw(boardTexture, 0, 0);
+        batch.draw(boardFrame, 0, 0);
         drawSquareArray(batch);
         if (currentFigure != null)
             currentFigure.draw(batch);
@@ -91,7 +93,8 @@ public class Board {
         Pixmap pixmap = new Pixmap(PIXEL_WIDTH, PIXEL_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.SKY);
         pixmap.drawRectangle(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
-        boardTexture = new Texture(pixmap);
+        boardFrame = new Texture(pixmap);
+        boardTexture = new Texture("background1.png");
     }
 
     private void createRandomFigure() {
