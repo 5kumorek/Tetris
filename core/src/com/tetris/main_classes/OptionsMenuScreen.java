@@ -131,7 +131,6 @@ public class OptionsMenuScreen implements Screen {
         if(Gdx.input.getX() > xPixmap && Gdx.input.getX() < xPixmap + pixmapWidth && 720 - Gdx.input.getY() > yPixmap && 720 - Gdx.input.getY() < yPixmap+pixmapHeight) {
             if(Gdx.input.isTouched()){
                 squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,720 - Gdx.input.getY() - yPixmap);
-                System.out.println(squareColor);
             }
         }
         batch.end();
