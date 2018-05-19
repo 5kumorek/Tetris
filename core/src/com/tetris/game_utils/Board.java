@@ -32,8 +32,8 @@ public class Board {
     private FigureFactory figureFactory = new FigureFactory();
     private Sound sound;
 
-    public Board(int boardNumber) {
-        createBoardTexture();
+    public Board(int boardNumber, String boardBackground) {
+        createBoardTexture(boardBackground);
         sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));
         batch.setTransformMatrix(new Matrix4(
                 new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
@@ -81,7 +81,8 @@ public class Board {
 
     public void draw() {
         batch.begin();
-        batch.draw(boardTexture, 0, 0);
+        if (boardTexture != null)
+            batch.draw(boardTexture, 0, 0);
         batch.draw(boardFrame, 0, 0);
         drawSquareArray(batch);
         if (currentFigure != null)
@@ -89,12 +90,15 @@ public class Board {
         batch.end();
     }
 
-    private void createBoardTexture() {
+    private void createBoardTexture(String boardBackground) {
         Pixmap pixmap = new Pixmap(PIXEL_WIDTH, PIXEL_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.SKY);
         pixmap.drawRectangle(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
         boardFrame = new Texture(pixmap);
-        boardTexture = new Texture("background1.png");
+        if (boardBackground != null)
+            boardTexture = new Texture(boardBackground);
+        else
+            boardTexture = null;
     }
 
     private void createRandomFigure() {

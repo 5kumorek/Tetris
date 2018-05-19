@@ -14,10 +14,10 @@ public class GameScreen implements Screen {
     private ArrayList<Board> boardArray = new ArrayList<>();
     private float timeSinceLastFrame = 0;
 
-    GameScreen(MainController controller, int boardCount) {
+    GameScreen(MainController controller, int boardCount, String boardBackground) {
         this.controller = controller;
         for (int i = 0; i < boardCount; i++) {
-            boardArray.add(new Board(i));
+            boardArray.add(new Board(i, boardBackground));
         }
     }
 

@@ -28,7 +28,7 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+200 && 720 - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
-                controller.setScreen(new GameScreen(controller, 6));
+                controller.setScreen(new GameScreen(controller, 6, null));
             }
         }
         else {
