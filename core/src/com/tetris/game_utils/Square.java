@@ -15,9 +15,9 @@ class Square {
     private Texture squareTexture;
     private Point coordinates;
 
-    Square(int x, int y) {
+    Square(int x, int y, int squareColor) {
         coordinates = new Point(x, y);
-        createSquareTexture();
+        createSquareTexture(squareColor);
     }
 
     void draw(SpriteBatch batch) {
@@ -69,10 +69,10 @@ class Square {
         return coordinates.x;
     }
 
-    private void createSquareTexture() {
+    private void createSquareTexture(int squareColor) {
         int offset = 2;
         Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.RED);
+        pixmap.setColor(squareColor);
         pixmap.fillRectangle(offset, offset, PIXEL_SIZE - offset, PIXEL_SIZE - offset);
         squareTexture = new Texture(pixmap);
     }

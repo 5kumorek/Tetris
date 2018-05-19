@@ -29,12 +29,13 @@ public class Board {
     private Texture boardFrame;
     private SpriteBatch batch = new SpriteBatch();
     private ArrayList<Square> squareArray = new ArrayList<>();
-    private FigureFactory figureFactory = new FigureFactory();
+    private FigureFactory figureFactory;
     private Sound sound;
 
-    public Board(int boardNumber, String boardBackground) {
+    public Board(int boardNumber, String boardBackground, int squareColor) {
         createBoardTexture(boardBackground);
         sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));
+        figureFactory = new FigureFactory(squareColor);
         batch.setTransformMatrix(new Matrix4(
                 new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
                 new Quaternion(),

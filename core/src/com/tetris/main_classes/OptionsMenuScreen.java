@@ -27,12 +27,14 @@ public class OptionsMenuScreen implements Screen {
     private int boardNumber;
     private String boardBackground;
     private Button startButton;
+    private int squareColor;
 
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
         stage = new Stage(new ScreenViewport());
         boardNumber = 6;
         boardBackground = null;
+        squareColor = Color.rgba8888(Color.RED);
         startButton = new Button("start_button");
     }
 
@@ -96,17 +98,42 @@ public class OptionsMenuScreen implements Screen {
         stage.draw();
         int xButtonStart = 680;
         int yButtonStart = 240;
+        int xPixmap = 420;
+        int yPixmap = 100;
+        int pixmapWidth = 300;
+        int pixmapHeight = 50;
         batch.begin();
         if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+200 && 720 - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
-                controller.setScreen(new GameScreen(controller, boardNumber, boardBackground));
+                controller.setScreen(new GameScreen(controller, boardNumber, boardBackground, squareColor));
             }
         }
         else {
             batch.draw(startButton.getButtonTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
         controller.font.draw(batch, "Number of boards: " + boardNumber, xButtonStart+Button.BUTTON_WIDTH / 2, 300);
+        Pixmap pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.fillRectangle(0,0, 50, 50);
+        pixmap.setColor(Color.YELLOW);
+        pixmap.fillRectangle(50,0, 50, 50);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fillRectangle(100,0, 50, 50);
+        pixmap.setColor(Color.CYAN);
+        pixmap.fillRectangle(150,0, 50, 50);
+        pixmap.setColor(Color.BLUE);
+        pixmap.fillRectangle(200,0, 50, 50);
+        pixmap.setColor(Color.PURPLE);
+        pixmap.fillRectangle(250,0, 50, 50);
+        Texture pixTexture = new Texture( pixmap );
+        batch.draw(pixTexture, xPixmap, yPixmap);
+        if(Gdx.input.getX() > xPixmap && Gdx.input.getX() < xPixmap + pixmapWidth && 720 - Gdx.input.getY() > yPixmap && 720 - Gdx.input.getY() < yPixmap+pixmapHeight) {
+            if(Gdx.input.isTouched()){
+                squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,720 - Gdx.input.getY() - yPixmap);
+                System.out.println(squareColor);
+            }
+        }
         batch.end();
     }
 

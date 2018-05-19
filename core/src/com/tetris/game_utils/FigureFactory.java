@@ -5,6 +5,12 @@ import com.tetris.enums.FigureShape;
 import java.awt.*;
 
 class FigureFactory {
+    private int squareColor;
+
+    FigureFactory(int squareColor){
+        this.squareColor = squareColor;
+    }
+
     Figure getFigure(int centerX, int centerY, FigureShape figureShape) {
         Point[] pointArray = figureShape.getSquareCoordinatesArray();
         pointArray = translatePoints(centerX, centerY, pointArray);
@@ -23,7 +29,7 @@ class FigureFactory {
 
         for (int i = 0; i < pointArray.length; i++) {
             Point coordinates = pointArray[i];
-            squareArray[i] = new Square(coordinates.x, coordinates.y);
+            squareArray[i] = new Square(coordinates.x, coordinates.y, squareColor);
         }
 
         return squareArray;
