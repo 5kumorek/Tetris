@@ -47,6 +47,9 @@ public class OptionsMenuScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
+        Table table2 = new Table();
+        table2.setFillParent(true);
+        stage.addActor(table2);
 
         Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
@@ -82,11 +85,11 @@ public class OptionsMenuScreen implements Screen {
             return false;
         });
 
+        table.setPosition(0, -150);
         table.add(numberOfBoards);
-        table.row();
-        table.add(background1);
-        table.row();
-        table.add(background2);
+        table2.setPosition(300, -150);
+        table2.add(background1).padLeft(50);
+        table2.add(background2).padLeft(50);
 
     }
 
@@ -137,8 +140,13 @@ public class OptionsMenuScreen implements Screen {
         selectedColor.setColor(squareColor);
         selectedColor.fillRectangle(0, 0, 50, 50);
         Texture selectedColorTexture = new Texture(selectedColor);
+        controller.font.draw(batch, "Background: ", 1200, 300);
         controller.font.draw(batch, "Selected color: ", xPixmap + pixmapWidth / 2 - 50, 300);
         batch.draw(selectedColorTexture,xPixmap + pixmapWidth / 2 - 25 , 200);
+        Texture back1 = new Texture("background1.png");
+        Texture back2 = new Texture("background2.png");
+        batch.draw(back1, 1160, 220, 50, 50);
+        batch.draw(back2, 1235, 220, 50, 50);
         batch.end();
     }
 
