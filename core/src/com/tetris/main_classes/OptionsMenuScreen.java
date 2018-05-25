@@ -67,6 +67,8 @@ public class OptionsMenuScreen implements Screen {
                 background2.setChecked(false);
             if(background1.isChecked() && !background2.isChecked())
                 boardBackground = "background1.png";
+            if(!background1.isChecked() && !background2.isChecked())
+                boardBackground = null;
             return false;
         });
 
@@ -77,6 +79,8 @@ public class OptionsMenuScreen implements Screen {
                 background1.setChecked(false);
             if(!background1.isChecked() && background2.isChecked())
                 boardBackground = "background2.png";
+            if(!background1.isChecked() && !background2.isChecked())
+                boardBackground = null;
             return false;
         });
 
