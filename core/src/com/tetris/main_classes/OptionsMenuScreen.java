@@ -133,6 +133,12 @@ public class OptionsMenuScreen implements Screen {
                 squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,720 - Gdx.input.getY() - yPixmap);
             }
         }
+        Pixmap selectedColor = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
+        selectedColor.setColor(squareColor);
+        selectedColor.fillRectangle(0, 0, 50, 50);
+        Texture selectedColorTexture = new Texture(selectedColor);
+        controller.font.draw(batch, "Selected color: ", xPixmap + pixmapWidth / 2 - 50, 300);
+        batch.draw(selectedColorTexture,xPixmap + pixmapWidth / 2 - 25 , 200);
         batch.end();
     }
 
