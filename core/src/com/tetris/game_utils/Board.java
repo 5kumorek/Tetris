@@ -1,5 +1,6 @@
 package com.tetris.game_utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -24,20 +25,25 @@ public class Board {
 
     private Figure currentFigure;
     private Texture boardTexture;
+    private int xCoordinateOfBoard;
     private SpriteBatch batch = new SpriteBatch();
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory = new FigureFactory();
 
     public Board(int boardNumber) {
         createBoardTexture();
+        xCoordinateOfBoard = boardNumber * PIXEL_WIDTH;
         batch.setTransformMatrix(new Matrix4(
-                new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
+                new Vector3(xCoordinateOfBoard, 0, 0),
                 new Quaternion(),
                 new Vector3(1, 1, 1))
         );
     }
 
     public void handleKeyPress(int pressedKey) {
+        if (!isMouseInsideBoard())
+            return;
+
         switch (pressedKey) {
             case Input.Keys.LEFT:
                 if (currentFigure != null && currentFigure.canMove(Direction.LEFT, squareArray))
@@ -67,6 +73,15 @@ public class Board {
                 deleteFilledRows();
             }
         }
+    }
+
+    private boolean isMouseInsideBoard() {
+        int x = Gdx.input.getX();
+        int y = Gdx.input.getY();
+        return x >= xCoordinateOfBoard
+                && x < xCoordinateOfBoard + PIXEL_WIDTH
+                && y >= 0
+                && y < PIXEL_HEIGHT;
     }
 
     public void draw() {
