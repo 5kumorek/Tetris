@@ -24,11 +24,12 @@ public class Board {
 
     private Figure currentFigure;
     private Texture boardTexture;
-    private SpriteBatch batch = new SpriteBatch();
+    private SpriteBatch batch;
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory = new FigureFactory();
 
-    public Board(int boardNumber) {
+    public Board(int boardNumber, SpriteBatch spriteBatch) {
+        batch = spriteBatch;
         createBoardTexture();
         batch.setTransformMatrix(new Matrix4(
                 new Vector3(boardNumber * PIXEL_WIDTH, 0, 0),
