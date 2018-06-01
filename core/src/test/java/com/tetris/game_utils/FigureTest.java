@@ -1,36 +1,261 @@
 package com.tetris.game_utils;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.tetris.enums.Direction;
 import com.tetris.enums.FigureShape;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.powermock.modules.junit4.*;
 
+import static com.tetris.game_utils.Board.ARRAY_HEIGHT;
+import static com.tetris.game_utils.Board.ARRAY_WIDTH;
+import static org.easymock.EasyMock.createNiceMock;
 import static org.junit.Assert.*;
 
-/*
+
 
 public class FigureTest extends GameTestBase{
 
     @Test
-    public void test() {
-        FigureShape[] figureShapeValues = FigureShape.values();
-        FigureShape figureShape = figureShapeValues[1];
-        Point[] pointArray = figureShape.getSquareCoordinatesArray();
+    public void figureCanBeDrawn()
+    {
+        Square[] squareArray = new Square[1];
+        squareArray[0] = new Square(2,2);
+        SpriteBatch spriteBatch = new SpriteBatch(10, createNiceMock(ShaderProgram.class));
+        spriteBatch.begin();
+        Figure testFigure = new Figure(2,2, squareArray);
+        testFigure.draw(spriteBatch);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void figureShouldNotBeDrawn()
+    {
+        Square[] squareArray = new Square[1];
+        squareArray[0] = new Square(2,2);
+        SpriteBatch spriteBatch = new SpriteBatch(10, createNiceMock(ShaderProgram.class));
+        Figure testFigure = new Figure(2,2, squareArray);
+        //there is no spriteBatch.begin();
+        testFigure.draw(spriteBatch);
+    }
+
+    @Test
+    public void shouldCreateSimpleFigure() {
+        Point[] pointArray = FigureShape.I.getSquareCoordinatesArray();
         Square[] squareArray = new Square[pointArray.length];
         for (int i = 0; i < pointArray.length; i++) {
             Point coordinates = pointArray[i];
             squareArray[i] = new Square(coordinates.x, coordinates.y);
         }
-        Figure f = new Figure(1,1, squareArray);
+        new Figure(2,2, squareArray);
+    }
 
-        @Test
+    //TODO: Potrzebne zabezpieczenia przed wyjsciem poza planszę dla poniższych trzech testów
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotCreateFigureOutOfBoardFromLeft() {
+        Point[] pointArray = FigureShape.I.getSquareCoordinatesArray();
+        Square[] squareArray = new Square[pointArray.length];
+        for (int i = 0; i < pointArray.length; i++) {
+            Point coordinates = pointArray[i];
+            squareArray[i] = new Square(coordinates.x, coordinates.y);
+        }
+        new Figure(-1,2, squareArray);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotCreateFigureOutOfBoardFromRight() {
+        Point[] pointArray = FigureShape.I.getSquareCoordinatesArray();
+        Square[] squareArray = new Square[pointArray.length];
+        for (int i = 0; i < pointArray.length; i++) {
+            Point coordinates = pointArray[i];
+            squareArray[i] = new Square(coordinates.x, coordinates.y);
+        }
+        new Figure(ARRAY_WIDTH,2, squareArray);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotCreateFigureOutOfBoardFromBottom() {
+        Point[] pointArray = FigureShape.I.getSquareCoordinatesArray();
+        Square[] squareArray = new Square[pointArray.length];
+        for (int i = 0; i < pointArray.length; i++) {
+            Point coordinates = pointArray[i];
+            squareArray[i] = new Square(coordinates.x, coordinates.y);
+        }
+        new Figure(2,-1, squareArray);
+    }
+
+    @Test
+    public void figureShouldNotBeAbleToMoveOutOfBoardFromLeft() {
         FigureFactory figureFactory = new FigureFactory();
-        Figure currentFigure = figureFactory.getFigure( 0, 1, FigureShape.I); //(0.0 , 0.1, 0.2, 0.3)
-        ArrayList<Square> squareArray = new ArrayList<>(Arrays.asList(currentFigure.getSquareArray()));
-        //Square[] s = currentFigure.getSquareArray();
+        Figure testFigure = figureFactory.getFigure(0, 1, FigureShape.I);
+        assertFalse(testFigure.canMove(Direction.LEFT, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveLeft() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, 1, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.LEFT, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveLeftOnlyOnce() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, 1, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.LEFT, new ArrayList<>()));
+        testFigure.move(Direction.LEFT);
+        assertFalse(testFigure.canMove(Direction.LEFT, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldNotBeAbleToMoveOutOfBoardFromRight() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(ARRAY_WIDTH-1, 1, FigureShape.I);
+        assertFalse(testFigure.canMove(Direction.RIGHT, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveRight() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(ARRAY_WIDTH-2, 1, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.RIGHT, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveRightOnlyOnce() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(ARRAY_WIDTH-2, 1, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.RIGHT, new ArrayList<>()));
+        testFigure.move(Direction.RIGHT);
+        assertFalse(testFigure.canMove(Direction.RIGHT, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldNotBeAbleToMoveOutOfBoardFromBottom() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, 1, FigureShape.I);
+        assertFalse(testFigure.canMove(Direction.DOWN, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveBottom() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, 2, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.DOWN, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveBottomOnlyOnce() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, 2, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.DOWN, new ArrayList<>()));
+        testFigure.move(Direction.DOWN);
+        assertFalse(testFigure.canMove(Direction.DOWN, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldNotBeAbleToMoveOutOfBoardFromTop() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, ARRAY_HEIGHT-3, FigureShape.I);
+        assertFalse(testFigure.canMove(Direction.UP, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveTop() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, ARRAY_HEIGHT-4, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.UP, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureShouldBeAbleToMoveTopOnlyOnce() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, ARRAY_HEIGHT-4, FigureShape.I);
+        assertTrue(testFigure.canMove(Direction.UP, new ArrayList<>()));
+        testFigure.move(Direction.UP);
+        assertFalse(testFigure.canMove(Direction.UP, new ArrayList<>()));
+    }
+
+    @Test
+    public void figureCannotBeRotatedCloseToLeftEndOfBoard() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(0, 2, FigureShape.I);
+        assertFalse(testFigure.canRotate(new ArrayList<>()));
+    }
+
+    @Test
+    public void figureCanBeRotatedCloseToLeftEndOfBoard() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(1, 2, FigureShape.I);
+        assertTrue(testFigure.canRotate(new ArrayList<>()));
+    }
+
+    @Test
+    public void figureCannotBeRotatedCloseToRightEndOfBoard() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(ARRAY_WIDTH-1, 2, FigureShape.I);
+        assertFalse(testFigure.canRotate(new ArrayList<>()));
+    }
+
+    @Test
+    public void figureCanBeRotatedCloseToRightEndOfBoard() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(ARRAY_WIDTH-3, 2, FigureShape.I);
+        assertTrue(testFigure.canRotate(new ArrayList<>()));
+    }
+
+    @Test
+    public void figureCannotBeRotatedCloseToBottomEndOfBoard() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(2, 0, FigureShape.O);
+        assertFalse(testFigure.canRotate(new ArrayList<>()));
+    }
+
+    @Test
+    public void figureCanBeRotatedCloseToBottomEndOfBoard() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(2, 1, FigureShape.O);
+        assertTrue(testFigure.canRotate(new ArrayList<>()));
+    }
+
+    @Test
+    public void rotationShouldWorkCorrectly(){
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(2, 2, FigureShape.I);
+        testFigure.rotate();
+        Square[] rotated = testFigure.getSquareArray();
+        Square[] expected = new Square[FigureShape.I.getSquareCoordinatesArray().length];
+        expected[0] = new Square(1,2); //(-1,0)+(2,2)
+        expected[1] = new Square(2,2); //(0,0)+(2,2)
+        expected[2] = new Square(3,2); //(1,0)+(2,2)
+        expected[3] = new Square(4,2); //(2,0)+(2,2)
+        for(int i = 0; i < 4; i++) {
+            assertEquals(rotated[i].getX(), expected[i].getX());
+            assertEquals(rotated[i].getY(), expected[i].getY());
         }
     }
 
-}*/
+    @Test
+    public void figuresShouldOverlap() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(2, 2, FigureShape.I); // (2,1),(2,2),(2,3),(2,4)
+        ArrayList<Square> squareArray = new ArrayList<>();
+        squareArray.add(new Square(2, 1));
+        assertTrue(testFigure.isOverlapping(squareArray));
+    }
+
+    @Test
+    public void figuresShouldNotOverlap() {
+        FigureFactory figureFactory = new FigureFactory();
+        Figure testFigure = figureFactory.getFigure(2, 2, FigureShape.I); // (2,1),(2,2),(2,3),(2,4)
+        ArrayList<Square> squareArray = new ArrayList<>();
+        squareArray.add(new Square(1, 2));
+        assertFalse(testFigure.isOverlapping(squareArray));
+    }
+
+}

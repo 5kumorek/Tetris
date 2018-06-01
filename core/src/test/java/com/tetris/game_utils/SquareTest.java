@@ -19,6 +19,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.xml.soap.Text;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,8 +28,8 @@ import static com.tetris.game_utils.Board.ARRAY_WIDTH;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest(Direction.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Direction.class)
 public class SquareTest extends GameTestBase{
 
     @Before
@@ -112,17 +113,6 @@ public class SquareTest extends GameTestBase{
         assertFalse(testSquare.canMove(Direction.DOWN, new ArrayList<>()));
     }
 
-    //@TODO: nie mam pojęcia, dlaczego ta atrapa nie wpada w switchu do default tylko do pierwszego case-a, a nie jest UP
-/*  //Nie rzuca wyjątku a powinno, w Board.java w metodzie willMoveOutOfBoard
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrownIllegalArgumentExceptionOnUnknownDirection() {
-        Square testSquare = new Square(0, 0);
-        Direction mockedDirection = PowerMock.createMock(Direction.class);
-        expect(mockedDirection.getX()).andReturn(1).anyTimes();
-        expect(mockedDirection.getY()).andReturn(1).anyTimes();
-        PowerMock.replay(mockedDirection);
-        testSquare.canMove(mockedDirection, new ArrayList<>());
-    }*/
 
     @Test
     public void squareCannotBeRotatedCloseToLeftEndOfBoard() {
