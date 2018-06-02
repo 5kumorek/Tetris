@@ -35,6 +35,7 @@ public class Board {
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory;
     private Sound sound;
+    private int points = 0;
 
 
     public Board(int boardNumber, String boardBackground, int squareColor, SpriteBatch spriteBatch) {
@@ -138,6 +139,7 @@ public class Board {
         for (int row = ARRAY_HEIGHT - 1; row >= 0; row--)
             if (isRowFull(row)) {
                 clearRow(row);
+                points++;
                 moveRowsDown(row + 1);
             }
     }
@@ -169,5 +171,9 @@ public class Board {
     private void loseGame() {
         System.out.println("PRZEGRANA");
         System.exit(0);
+    }
+
+    public int getPoints(){
+        return points;
     }
 }

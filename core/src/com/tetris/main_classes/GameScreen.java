@@ -14,9 +14,11 @@ public class GameScreen implements Screen {
     private MainController controller;
     private ArrayList<Board> boardArray = new ArrayList<>();
     private float timeSinceLastFrame = 0;
+    private SpriteBatch batch;
 
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
+        batch = new SpriteBatch();
         for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
@@ -27,6 +29,9 @@ public class GameScreen implements Screen {
         timeSinceLastFrame += delta;
         handleKeyboardPress();
         updateBoardsIfTimePassed();
+        batch.begin();
+        controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 710);
+        batch.end();
         drawBoards();
     }
 
@@ -80,5 +85,13 @@ public class GameScreen implements Screen {
     private void drawBoards() {
         for (Board board : boardArray)
             board.draw();
+    }
+
+    private int sumPoints(){
+        int sum = 0;
+        for (Board board : boardArray){
+            sum += board.getPoints();
+        }
+        return sum;
     }
 }
