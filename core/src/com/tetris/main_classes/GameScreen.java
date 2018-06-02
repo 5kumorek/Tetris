@@ -9,7 +9,7 @@ import com.tetris.game_utils.Board;
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
-    private static final float TIME_BETWEEN_FRAMES = 0.5f;
+    private static float TIME_BETWEEN_FRAMES = 0.5f;
 
     private MainController controller;
     private ArrayList<Board> boardArray = new ArrayList<>();
@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
         timeSinceLastFrame += delta;
         handleKeyboardPress();
         updateBoardsIfTimePassed();
+        TIME_BETWEEN_FRAMES = 0.5f - sumPoints()*0.05f;
         batch.begin();
         controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 710);
         batch.end();
