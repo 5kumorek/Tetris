@@ -2,6 +2,7 @@ package com.tetris.game_utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,13 +26,22 @@ public class Board {
 
     private Figure currentFigure;
     private Texture boardTexture;
-    private int xCoordinateOfBoard;
-    private SpriteBatch batch = new SpriteBatch();
-    private ArrayList<Square> squareArray = new ArrayList<>();
-    private FigureFactory figureFactory = new FigureFactory();
 
-    public Board(int boardNumber) {
-        createBoardTexture();
+    private Texture boardFrame;
+
+    private int xCoordinateOfBoard;
+
+    private SpriteBatch batch;
+    private ArrayList<Square> squareArray = new ArrayList<>();
+    private FigureFactory figureFactory;
+    private Sound sound;
+
+
+    public Board(int boardNumber, String boardBackground, int squareColor, SpriteBatch spriteBatch) {
+        createBoardTexture(boardBackground);
+        batch = new SpriteBatch();
+        sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));
+        figureFactory = new FigureFactory(squareColor);
         xCoordinateOfBoard = boardNumber * PIXEL_WIDTH;
         batch.setTransformMatrix(new Matrix4(
                 new Vector3(xCoordinateOfBoard, 0, 0),
@@ -57,6 +67,10 @@ public class Board {
                 if (currentFigure != null && currentFigure.canRotate(squareArray))
                     currentFigure.rotate();
                 break;
+            case Input.Keys.DOWN:
+                if (currentFigure != null && currentFigure.canMove(Direction.DOWN, squareArray))
+                    currentFigure.move(Direction.DOWN);
+                break;
         }
     }
 
@@ -69,6 +83,7 @@ public class Board {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
             } else {
+                sound.play();
                 decomposeCurrentFigure();
                 deleteFilledRows();
             }
@@ -86,18 +101,24 @@ public class Board {
 
     public void draw() {
         batch.begin();
-        batch.draw(boardTexture, 0, 0);
+        if (boardTexture != null)
+            batch.draw(boardTexture, 0, 0);
+        batch.draw(boardFrame, 0, 0);
         drawSquareArray(batch);
         if (currentFigure != null)
             currentFigure.draw(batch);
         batch.end();
     }
 
-    private void createBoardTexture() {
+    private void createBoardTexture(String boardBackground) {
         Pixmap pixmap = new Pixmap(PIXEL_WIDTH, PIXEL_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.SKY);
         pixmap.drawRectangle(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
-        boardTexture = new Texture(pixmap);
+        boardFrame = new Texture(pixmap);
+        if (boardBackground != null)
+            boardTexture = new Texture(boardBackground);
+        else
+            boardTexture = null;
     }
 
     private void createRandomFigure() {

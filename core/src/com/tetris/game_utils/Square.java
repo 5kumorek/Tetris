@@ -1,6 +1,5 @@
 package com.tetris.game_utils;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,9 +14,9 @@ class Square {
     private Texture squareTexture;
     private Point coordinates;
 
-    Square(int x, int y) {
+    Square(int x, int y, int squareColor) {
         coordinates = new Point(x, y);
-        createSquareTexture();
+        createSquareTexture(squareColor);
     }
 
     void draw(SpriteBatch batch) {
@@ -61,18 +60,18 @@ class Square {
         return doCoordinatesCollide(coordinates, boardSquareArray);
     }
 
-    int getY() {
+    public int getY() {
         return coordinates.y;
     }
 
-    private int getX() {
+    public int getX() {
         return coordinates.x;
     }
 
-    private void createSquareTexture() {
+    private void createSquareTexture(int squareColor) {
         int offset = 2;
         Pixmap pixmap = new Pixmap(PIXEL_SIZE, PIXEL_SIZE, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.RED);
+        pixmap.setColor(squareColor);
         pixmap.fillRectangle(offset, offset, PIXEL_SIZE - offset, PIXEL_SIZE - offset);
         squareTexture = new Texture(pixmap);
     }

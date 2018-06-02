@@ -3,6 +3,7 @@ package com.tetris.main_classes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.game_utils.Board;
 
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ public class GameScreen implements Screen {
     private ArrayList<Board> boardArray = new ArrayList<>();
     private float timeSinceLastFrame = 0;
 
-    GameScreen(MainController controller, int boardCount) {
+    GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
         for (int i = 0; i < boardCount; i++) {
-            boardArray.add(new Board(i));
+            boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
     }
 
@@ -61,6 +62,8 @@ public class GameScreen implements Screen {
             pressedKey = Input.Keys.RIGHT;
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
             pressedKey = Input.Keys.SPACE;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            pressedKey = Input.Keys.DOWN;
         if (pressedKey != 0)
             for (Board board : boardArray)
                 board.handleKeyPress(pressedKey);
