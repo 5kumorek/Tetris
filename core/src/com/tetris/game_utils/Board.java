@@ -25,6 +25,8 @@ public class Board {
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
     private Figure currentFigure;
+    private Figure nextFigure;
+    private Figure nextNextFigure;
     private Texture boardTexture;
 
     private Texture boardFrame;
@@ -76,7 +78,14 @@ public class Board {
     }
 
     public void update() {
-        if (currentFigure == null) {
+        if (nextNextFigure == null){
+            createRandomFigure();
+            nextFigure = nextNextFigure;
+            createRandomFigure();
+        }
+        else if (currentFigure == null) {
+            currentFigure = nextFigure;
+            nextFigure = nextNextFigure;
             createRandomFigure();
             if (currentFigure.isOverlapping(squareArray))
                 loseGame();
@@ -108,6 +117,10 @@ public class Board {
         drawSquareArray(batch);
         if (currentFigure != null)
             currentFigure.draw(batch);
+        if (nextFigure != null)
+            nextFigure.drawNext(batch, true);
+        if (nextNextFigure != null)
+            nextNextFigure.drawNext(batch, false);
         batch.end();
     }
 
@@ -126,7 +139,7 @@ public class Board {
         FigureShape[] figureShapeValues = FigureShape.values();
         int randomNumber = new Random().nextInt(figureShapeValues.length);
         FigureShape randomFigureShape = figureShapeValues[randomNumber];
-        currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
+        nextNextFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
     }
 
     private void decomposeCurrentFigure() {
