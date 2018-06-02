@@ -37,7 +37,7 @@ public class Board {
     private Sound sound;
 
 
-    public Board(int boardNumber, String boardBackground, int squareColor) {
+    public Board(int boardNumber, String boardBackground, int squareColor, SpriteBatch spriteBatch) {
         createBoardTexture(boardBackground);
         batch = new SpriteBatch();
         sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));

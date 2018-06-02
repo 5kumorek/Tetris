@@ -3,6 +3,7 @@ package com.tetris.main_classes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.game_utils.Board;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class GameScreen implements Screen {
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
         for (int i = 0; i < boardCount; i++) {
-            boardArray.add(new Board(i, boardBackground, squareColor));
+            boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
     }
 
