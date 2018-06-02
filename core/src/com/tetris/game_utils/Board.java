@@ -31,7 +31,7 @@ public class Board {
 
     private int xCoordinateOfBoard;
 
-    private SpriteBatch batch = new SpriteBatch();
+    private SpriteBatch batch;
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory;
     private Sound sound;
@@ -39,6 +39,7 @@ public class Board {
 
     public Board(int boardNumber, String boardBackground, int squareColor) {
         createBoardTexture(boardBackground);
+        batch = new SpriteBatch();
         sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));
         figureFactory = new FigureFactory(squareColor);
         xCoordinateOfBoard = boardNumber * PIXEL_WIDTH;

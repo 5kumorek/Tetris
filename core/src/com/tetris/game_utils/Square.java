@@ -60,11 +60,11 @@ class Square {
         return doCoordinatesCollide(coordinates, boardSquareArray);
     }
 
-    int getY() {
+    public int getY() {
         return coordinates.y;
     }
 
-    private int getX() {
+    public int getX() {
         return coordinates.x;
     }
 
