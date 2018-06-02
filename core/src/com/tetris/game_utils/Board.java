@@ -13,9 +13,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.tetris.enums.Direction;
 import com.tetris.enums.FigureShape;
 
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -77,7 +80,7 @@ public class Board {
         }
     }
 
-    public void update() {
+    public void update(int pointsSum, int boardNumber) {
         if (nextNextFigure == null){
             createRandomFigure();
             nextFigure = nextNextFigure;
@@ -88,7 +91,7 @@ public class Board {
             nextFigure = nextNextFigure;
             createRandomFigure();
             if (currentFigure.isOverlapping(squareArray))
-                loseGame();
+                loseGame(pointsSum, boardNumber);
         } else {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
@@ -181,8 +184,60 @@ public class Board {
         squareArray.forEach(square -> square.draw(batch));
     }
 
-    private void loseGame() {
+    private void loseGame(int pointsSum, int boardNumber) {
         System.out.println("PRZEGRANA");
+        int topScores [][] = new int[6][10];
+        try
+        {
+            Scanner s = new Scanner(new File("TopScores.txt"));
+            for (int i = 0; i < 6; i++)
+                for(int j = 0; j < 10; j++)
+                    topScores[i][j] = s.nextInt();
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("Unable to find a file");
+        }
+
+        int ind;
+        boolean change = false;
+        for(ind = 0; ind < 10; ind++)
+            if(topScores[boardNumber][ind] < pointsSum)
+            {
+                change = true;
+                break;
+            }
+
+        if(change)
+        {
+            int tmp = topScores[boardNumber][ind];
+            topScores[boardNumber][ind] = pointsSum;
+            for(int i = ind; i < topScores[boardNumber].length - 1; i++)
+            {
+                int tmp2 = topScores[boardNumber][i + 1];
+                topScores[boardNumber][i + 1] = tmp;
+                tmp = tmp2;
+            }
+        }
+
+
+        for (int i = 0; i < 6; i++)
+        System.out.println(Arrays.toString(topScores[i]));
+
+        BufferedWriter outputWriter;
+        try
+        {
+            outputWriter = new BufferedWriter(new FileWriter("TopScores.txt"));
+            for (int i = 0; i < 6; i++)
+                for(int j = 0; j < 10; j++)
+                outputWriter.write(topScores[i][j] + "\n");
+            outputWriter.flush();
+            outputWriter.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Unable to save score");
+        }
         System.exit(0);
     }
 

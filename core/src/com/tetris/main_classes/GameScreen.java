@@ -15,10 +15,12 @@ public class GameScreen implements Screen {
     private ArrayList<Board> boardArray = new ArrayList<>();
     private float timeSinceLastFrame = 0;
     private SpriteBatch batch;
+    private int boardNumber;
 
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
         batch = new SpriteBatch();
+        boardNumber = boardCount - 1;
         for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
@@ -79,7 +81,7 @@ public class GameScreen implements Screen {
         if (timeSinceLastFrame >= TIME_BETWEEN_FRAMES) {
             timeSinceLastFrame -= TIME_BETWEEN_FRAMES;
             for (Board board : boardArray)
-                board.update();
+                board.update(sumPoints(), boardNumber);
         }
     }
 
