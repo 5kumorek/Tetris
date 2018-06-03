@@ -9,14 +9,18 @@ import com.tetris.game_utils.Board;
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
-    private static final float TIME_BETWEEN_FRAMES = 0.5f;
+    private static float TIME_BETWEEN_FRAMES = 0.5f;
 
     private MainController controller;
     private ArrayList<Board> boardArray = new ArrayList<>();
     private float timeSinceLastFrame = 0;
+    private SpriteBatch batch;
+    private int boardNumber;
 
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
+        batch = new SpriteBatch();
+        boardNumber = boardCount - 1;
         for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
@@ -27,6 +31,10 @@ public class GameScreen implements Screen {
         timeSinceLastFrame += delta;
         handleKeyboardPress();
         updateBoardsIfTimePassed();
+        TIME_BETWEEN_FRAMES = 0.5f - sumPoints()*0.05f;
+        batch.begin();
+        controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 710);
+        batch.end();
         drawBoards();
     }
 
@@ -73,12 +81,20 @@ public class GameScreen implements Screen {
         if (timeSinceLastFrame >= TIME_BETWEEN_FRAMES) {
             timeSinceLastFrame -= TIME_BETWEEN_FRAMES;
             for (Board board : boardArray)
-                board.update();
+                board.update(sumPoints(), boardNumber);
         }
     }
 
     private void drawBoards() {
         for (Board board : boardArray)
             board.draw();
+    }
+
+    private int sumPoints(){
+        int sum = 0;
+        for (Board board : boardArray){
+            sum += board.getPoints();
+        }
+        return sum;
     }
 }

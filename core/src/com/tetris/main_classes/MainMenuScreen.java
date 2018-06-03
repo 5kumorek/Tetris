@@ -11,12 +11,14 @@ public class MainMenuScreen implements Screen {
     private SpriteBatch batch = new SpriteBatch();
     private Button startButton;
     private Button optionsButton;
+    private Button topButton;
     private Button exitButton;
 
     MainMenuScreen(MainController controller) {
         this.controller = controller;
         startButton = new Button("start_button");
         optionsButton = new Button("options_button");
+        topButton = new Button("top_button");
         exitButton = new Button("exit_button");
     }
 
@@ -44,13 +46,22 @@ public class MainMenuScreen implements Screen {
             batch.draw(optionsButton.getButtonTexture(), xButtonStart, yButtonStart+100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
         if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart && 720 - Gdx.input.getY() < yButtonStart+Button.BUTTON_HEIGHT) {
-            batch.draw(exitButton.getButtonActiveTexture(), xButtonStart, yButtonStart, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
+            batch.draw(topButton.getButtonActiveTexture(), xButtonStart, yButtonStart, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
+            if(Gdx.input.isTouched()){
+                controller.setScreen(new TopScoresScreen(controller));
+            }
+        }
+        else {
+            batch.draw(topButton.getButtonTexture(), xButtonStart, yButtonStart, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
+        }
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart-100 && 720 - Gdx.input.getY() < yButtonStart-100+Button.BUTTON_HEIGHT) {
+            batch.draw(exitButton.getButtonActiveTexture(), xButtonStart, yButtonStart - 100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
                 Gdx.app.exit();
             }
         }
         else {
-            batch.draw(exitButton.getButtonTexture(), xButtonStart, yButtonStart, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
+            batch.draw(exitButton.getButtonTexture(), xButtonStart, yButtonStart - 100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
         controller.font.draw(batch, "Tetris", xButtonStart, 700);
         batch.end();

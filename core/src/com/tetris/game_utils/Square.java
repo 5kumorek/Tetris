@@ -23,6 +23,15 @@ class Square {
         batch.draw(squareTexture, PIXEL_SIZE * coordinates.x, PIXEL_SIZE * coordinates.y);
     }
 
+    void drawNext(SpriteBatch batch, boolean isFirstNext) {
+        if(isFirstNext) {
+            batch.draw(squareTexture, PIXEL_SIZE * coordinates.x + 50, PIXEL_SIZE * coordinates.y + 60);
+        }
+        else {
+            batch.draw(squareTexture, PIXEL_SIZE * coordinates.x - 100, PIXEL_SIZE * coordinates.y + 60);
+        }
+    }
+
     void move(Direction direction) {
         coordinates.translate(direction.getX(), direction.getY());
     }

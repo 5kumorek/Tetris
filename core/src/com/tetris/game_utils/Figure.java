@@ -20,6 +20,11 @@ class Figure {
             square.draw(spriteBatch);
     }
 
+    void drawNext(SpriteBatch spriteBatch, boolean isFirstNext) {
+        for (Square square : squareArray)
+            square.drawNext(spriteBatch, isFirstNext);
+    }
+
     void move(Direction direction) {
         center.translate(direction.getX(), direction.getY());
         for (Square square : squareArray)

@@ -13,9 +13,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.tetris.enums.Direction;
 import com.tetris.enums.FigureShape;
 
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -25,6 +28,8 @@ public class Board {
     private final int PIXEL_HEIGHT = ARRAY_HEIGHT * Square.PIXEL_SIZE;
 
     private Figure currentFigure;
+    private Figure nextFigure;
+    private Figure nextNextFigure;
     private Texture boardTexture;
 
     private Texture boardFrame;
@@ -35,6 +40,7 @@ public class Board {
     private ArrayList<Square> squareArray = new ArrayList<>();
     private FigureFactory figureFactory;
     private Sound sound;
+    private int points = 0;
 
 
     public Board(int boardNumber, String boardBackground, int squareColor, SpriteBatch spriteBatch) {
@@ -74,11 +80,18 @@ public class Board {
         }
     }
 
-    public void update() {
-        if (currentFigure == null) {
+    public void update(int pointsSum, int boardNumber) {
+        if (nextNextFigure == null){
+            createRandomFigure();
+            nextFigure = nextNextFigure;
+            createRandomFigure();
+        }
+        else if (currentFigure == null) {
+            currentFigure = nextFigure;
+            nextFigure = nextNextFigure;
             createRandomFigure();
             if (currentFigure.isOverlapping(squareArray))
-                loseGame();
+                loseGame(pointsSum, boardNumber);
         } else {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
@@ -107,6 +120,10 @@ public class Board {
         drawSquareArray(batch);
         if (currentFigure != null)
             currentFigure.draw(batch);
+        if (nextFigure != null)
+            nextFigure.drawNext(batch, true);
+        if (nextNextFigure != null)
+            nextNextFigure.drawNext(batch, false);
         batch.end();
     }
 
@@ -125,7 +142,7 @@ public class Board {
         FigureShape[] figureShapeValues = FigureShape.values();
         int randomNumber = new Random().nextInt(figureShapeValues.length);
         FigureShape randomFigureShape = figureShapeValues[randomNumber];
-        currentFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
+        nextNextFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
     }
 
     private void decomposeCurrentFigure() {
@@ -138,6 +155,7 @@ public class Board {
         for (int row = ARRAY_HEIGHT - 1; row >= 0; row--)
             if (isRowFull(row)) {
                 clearRow(row);
+                points++;
                 moveRowsDown(row + 1);
             }
     }
@@ -166,8 +184,64 @@ public class Board {
         squareArray.forEach(square -> square.draw(batch));
     }
 
-    private void loseGame() {
+    private void loseGame(int pointsSum, int boardNumber) {
         System.out.println("PRZEGRANA");
+        int topScores [][] = new int[6][10];
+        try
+        {
+            Scanner s = new Scanner(new File("TopScores.txt"));
+            for (int i = 0; i < 6; i++)
+                for(int j = 0; j < 10; j++)
+                    topScores[i][j] = s.nextInt();
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("Unable to find a file");
+        }
+
+        int ind;
+        boolean change = false;
+        for(ind = 0; ind < 10; ind++)
+            if(topScores[boardNumber][ind] < pointsSum)
+            {
+                change = true;
+                break;
+            }
+
+        if(change)
+        {
+            int tmp = topScores[boardNumber][ind];
+            topScores[boardNumber][ind] = pointsSum;
+            for(int i = ind; i < topScores[boardNumber].length - 1; i++)
+            {
+                int tmp2 = topScores[boardNumber][i + 1];
+                topScores[boardNumber][i + 1] = tmp;
+                tmp = tmp2;
+            }
+        }
+
+
+        for (int i = 0; i < 6; i++)
+        System.out.println(Arrays.toString(topScores[i]));
+
+        BufferedWriter outputWriter;
+        try
+        {
+            outputWriter = new BufferedWriter(new FileWriter("TopScores.txt"));
+            for (int i = 0; i < 6; i++)
+                for(int j = 0; j < 10; j++)
+                outputWriter.write(topScores[i][j] + "\n");
+            outputWriter.flush();
+            outputWriter.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Unable to save score");
+        }
         System.exit(0);
+    }
+
+    public int getPoints(){
+        return points;
     }
 }
