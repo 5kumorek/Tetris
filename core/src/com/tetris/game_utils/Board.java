@@ -103,7 +103,8 @@ public class Board {
         }
     }
 
-    private boolean isMouseInsideBoard() {
+    @SuppressWarnings("WeakerAccess")
+    public boolean isMouseInsideBoard() {
         int x = Gdx.input.getX();
         int y = Gdx.input.getY();
         return x >= xCoordinateOfBoard
