@@ -1,6 +1,8 @@
 package com.tetris.game_utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,9 +29,6 @@ import static com.tetris.game_utils.Board.ARRAY_WIDTH;
 import static java.lang.System.out;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
@@ -42,8 +41,28 @@ import static org.powermock.api.support.membermodification.MemberMatcher.method;
 public class BoardTest extends GameTestBase{
 
     @Test
-    public void createSimpleBoard(){
-        new Board(1, null, Color.rgba8888(Color.RED), createNiceMock(SpriteBatch.class));
+    public void handlingKeyPressedCorrectlyWhenOutOfBoard() {
+        Board d = new Board(1, null , Color.rgba8888(Color.RED), createNiceMock(SpriteBatch.class));
+        Board b = spy(d);
+        Class c = d.getClass();
+        FigureFactory figureFactory = new FigureFactory(Color.rgba8888(Color.RED));
+        Figure f = figureFactory.getFigure(ARRAY_WIDTH / 2, 1, FigureShape.I);
+        try {
+            String name = "currentFigure";
+            Field field = c.getDeclaredField(name);
+            field.setAccessible(true);
+            field.set(b,f);
+        }catch (NoSuchFieldException | IllegalAccessException e){
+            out.println(e.toString());
+        }
+        try {
+            org.powermock.api.mockito.PowerMockito.when(b, "isMouseInsideBoard").thenReturn(false);
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+        b.handleKeyPress(Input.Keys.LEFT);
+        Square[] square = f.getSquareArray();
+        assertEquals(square[0].getX(),ARRAY_WIDTH / 2);
     }
 
     @Test
@@ -160,10 +179,9 @@ public class BoardTest extends GameTestBase{
         }
     }
 
-    /*
     @Test
     public void boardTextureIsNotNull() {
-        Board b = new Board(1, "background1.png", Color.rgba8888(Color.RED), createNiceMock(SpriteBatch.class));
+        Board b = new Board(1, "assets/background1.png", Color.rgba8888(Color.RED), createNiceMock(SpriteBatch.class));
         b.update(0,0);
         try {
             Field field = Board.class.getDeclaredField("boardTexture");
@@ -174,8 +192,6 @@ public class BoardTest extends GameTestBase{
            fail("Exception was thrown");
         }
     }
-    TODO: trzeba jakoś załadować ten plik (background1.png)
-    */
 
     @Test
     public void boardTextureIsNull() {
@@ -190,7 +206,6 @@ public class BoardTest extends GameTestBase{
             fail("Exception was thrown");
         }
     }
-
 
     @Test
     public void drawIsExecutedCorrectly() {
@@ -260,6 +275,32 @@ public class BoardTest extends GameTestBase{
             Field field = Board.class.getDeclaredField("currentFigure");
             field.setAccessible(true);
             field.set(b,f);
+        }catch (NoSuchFieldException | IllegalAccessException e){
+            out.println(e.toString());
+        }
+        b.update(0,0);
+        try {
+            Field field = Board.class.getDeclaredField("currentFigure");
+            field.setAccessible(true);
+            assertNotNull(field.get(b));
+        }catch (NoSuchFieldException | IllegalAccessException e){
+            out.println(e.toString());
+            fail("Exception was thrown");
+        }
+    }
+
+    @Test
+    public void figureShouldMoveDown() {
+        Board b = new Board(1, null , Color.rgba8888(Color.RED), createNiceMock(SpriteBatch.class));
+        FigureFactory figureFactory = new FigureFactory(Color.rgba8888(Color.RED));
+        Figure f = figureFactory.getFigure(ARRAY_WIDTH / 2, 2, FigureShape.I);
+        try {
+            Field field = Board.class.getDeclaredField("currentFigure");
+            field.setAccessible(true);
+            field.set(b,f);
+            Field field2 = Board.class.getDeclaredField("nextNextFigure");
+            field2.setAccessible(true);
+            field2.set(b,f);
         }catch (NoSuchFieldException | IllegalAccessException e){
             out.println(e.toString());
         }
@@ -347,6 +388,20 @@ public class BoardTest extends GameTestBase{
             out.println(e.toString());
         }
         b.update(0,0);
+    }
+
+    @Test
+    public void testIfSoundPlayIsPossible() {
+        Board b = new Board(1, null , Color.rgba8888(Color.RED), createNiceMock(SpriteBatch.class));
+        try {
+            Field field = Board.class.getDeclaredField("sound");
+            field.setAccessible(true);
+            Sound s = (Sound) field.get(b);
+            assertNotEquals(s.play(), -1);
+        }catch (NoSuchFieldException | IllegalAccessException e){
+            out.println(e.toString());
+            fail("Exception was thrown");
+        }
     }
 
     @Test
