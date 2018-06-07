@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
         else {
             batch.draw(exitButton.getButtonTexture(), xButtonStart, yButtonStart - 100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        controller.font.draw(batch, "Tetris", Gdx.graphics.getWidth()/2, 700);
+        controller.font.draw(batch, "Tetris", Gdx.graphics.getWidth()/2, 690);
         batch.end();
     }
 

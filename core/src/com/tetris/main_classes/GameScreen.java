@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
         if(TIME_BETWEEN_FRAMES > 0.2f)
             TIME_BETWEEN_FRAMES = 0.5f - sumPoints()*0.05f;
         batch.begin();
-        controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 710);
+        controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 690);
         batch.end();
         drawBoards();
     }
