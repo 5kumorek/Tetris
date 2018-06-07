@@ -115,7 +115,7 @@ public class Board {
     public void draw() {
         batch.begin();
         if (boardTexture != null)
-            batch.draw(boardTexture, 0, 0);
+            batch.draw(boardTexture, 0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
         batch.draw(boardFrame, 0, 0);
         drawSquareArray(batch);
         if (currentFigure != null)
