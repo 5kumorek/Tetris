@@ -1,7 +1,6 @@
 package com.tetris.gui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.main_classes.MainController;
@@ -30,15 +29,13 @@ public class Button {
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
     }
 
-    public void drawButton(int x, int y, int width, int height, Screen screen)
+    public void drawBackButton(int x, int y, int width, int height)
     {
         batch.begin();
         if(Gdx.input.getX() > x && Gdx.input.getX() < x + width && Gdx.graphics.getHeight() - Gdx.input.getY() > y && Gdx.graphics.getHeight() - Gdx.input.getY() < y+height) {
             batch.draw(buttonActiveTexture, x, y, width, height);
             if(Gdx.input.isTouched()){
-                if (screen != null)
-                    controller.setScreen(screen);
-                else System.exit(0);
+                controller.setScreen(new MainMenuScreen(controller));
             }
         }
         else {

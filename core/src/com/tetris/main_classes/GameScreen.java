@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 690);
         batch.end();
         drawBoards();
-        backButton.drawButton(10, Gdx.graphics.getHeight() - 60, 120, 50, new MainMenuScreen(controller));
+        backButton.drawBackButton(10, Gdx.graphics.getHeight() - 60, 120, 50);
 
     }
 

@@ -40,7 +40,7 @@ public class TopScoresScreen implements Screen
         for(int i = 0; i < 6; i++) {
             drawScore(i);
         }
-        backButton.drawButton(10, 10, 120, 50, new MainMenuScreen(controller));
+        backButton.drawBackButton(10, 10, 120, 50);
     }
 
     @Override

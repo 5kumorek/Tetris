@@ -14,7 +14,7 @@ public class MainMenuScreen implements Screen {
     private Button topButton;
     private Button exitButton;
 
-    MainMenuScreen(MainController controller) {
+    public MainMenuScreen(MainController controller) {
         this.controller = controller;
         startButton = new Button("start_button");
         optionsButton = new Button("options_button");

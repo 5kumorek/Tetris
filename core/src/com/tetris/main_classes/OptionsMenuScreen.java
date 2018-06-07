@@ -101,7 +101,7 @@ public class OptionsMenuScreen implements Screen {
     @Override
     public void render(float delta)
     {
-        backButton.drawButton(10, 10, 120, 50, new MainMenuScreen(controller));
+        backButton.drawBackButton(10, 10, 120, 50);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
         int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
