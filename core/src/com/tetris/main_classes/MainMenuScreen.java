@@ -24,8 +24,14 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        int xButtonStart = 680;
-        int yButtonStart = 240;
+        int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
+        int yButtonStart = Gdx.graphics.getHeight()/2 - Button.BUTTON_HEIGHT/2;
+        System.out.println("Width: " + Gdx.graphics.getWidth() + "\t" + Gdx.graphics.getWidth()/2);
+        System.out.println("Height: " + Gdx.graphics.getHeight() + "\t" + Gdx.graphics.getHeight()/2);
+        System.out.println("ButtonWidth: " + Button.BUTTON_WIDTH + "\t" + Button.BUTTON_WIDTH/2);
+        System.out.println("ButtonHeight: " + Button.BUTTON_HEIGHT + "\t" + Button.BUTTON_HEIGHT/2);
+        System.out.println("xButtonStart: " + xButtonStart);
+        System.out.println("yButtonStart: " + yButtonStart);
         batch.begin();
         if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+200 && 720 - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
@@ -63,7 +69,7 @@ public class MainMenuScreen implements Screen {
         else {
             batch.draw(exitButton.getButtonTexture(), xButtonStart, yButtonStart - 100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        controller.font.draw(batch, "Tetris", xButtonStart, 700);
+        controller.font.draw(batch, "Tetris", Gdx.graphics.getWidth()/2, 700);
         batch.end();
     }
 
