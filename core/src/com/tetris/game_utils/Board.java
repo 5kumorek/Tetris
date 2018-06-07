@@ -105,7 +105,7 @@ public class Board {
 
     private boolean isMouseInsideBoard() {
         int x = Gdx.input.getX();
-        int y = Gdx.input.getY();
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
         return x >= xCoordinateOfBoard
                 && x < xCoordinateOfBoard + PIXEL_WIDTH
                 && y >= 0
