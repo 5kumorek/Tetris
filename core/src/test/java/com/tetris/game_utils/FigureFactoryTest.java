@@ -20,7 +20,7 @@ public class FigureFactoryTest extends GameTestBase {
     @Test(expected = IllegalArgumentException.class)
     public void getFigureOutBoardFromLeft() {
         FigureFactory figureFactory = new FigureFactory(Color.rgba8888(Color.RED));
-        figureFactory.getFigure(0, ARRAY_HEIGHT - 1, FigureShape.T);
+        figureFactory.getFigure(0, ARRAY_HEIGHT - 2, FigureShape.T);
     }
 
     @Test(expected = IllegalArgumentException.class)
