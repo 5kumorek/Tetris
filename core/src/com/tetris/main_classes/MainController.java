@@ -10,6 +10,7 @@ public class MainController extends Game {
 
     public void create() {
         font = new BitmapFont();
+        Gdx.graphics.setTitle("Tetris");
         this.setScreen(new MainMenuScreen(this));
     }
 
