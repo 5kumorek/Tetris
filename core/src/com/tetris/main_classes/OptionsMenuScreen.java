@@ -23,6 +23,8 @@ public class OptionsMenuScreen implements Screen {
     private String boardBackground;
     private Button startButton;
     private int squareColor;
+    private Texture back1;
+    private Texture back2;
 
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
@@ -31,6 +33,8 @@ public class OptionsMenuScreen implements Screen {
         boardBackground = null;
         squareColor = Color.rgba8888(Color.RED);
         startButton = new Button("start_button");
+        back1 = new Texture("background1.png");
+        back2 = new Texture("background2.png");
     }
 
     @Override
@@ -98,9 +102,9 @@ public class OptionsMenuScreen implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        int xButtonStart = 680;
-        int yButtonStart = 240;
-        int xPixmap = 420;
+        int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
+        int yButtonStart = Gdx.graphics.getHeight()/2 - Button.BUTTON_HEIGHT/2;
+        int xPixmap = Gdx.graphics.getWidth()/7;
         int yPixmap = 100;
         int pixmapWidth = 300;
         int pixmapHeight = 50;
@@ -114,7 +118,7 @@ public class OptionsMenuScreen implements Screen {
         else {
             batch.draw(startButton.getButtonTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        controller.font.draw(batch, "Number of boards: " + boardNumber, xButtonStart+Button.BUTTON_WIDTH / 2, 300);
+        controller.font.draw(batch, "Number of boards: " + boardNumber, xButtonStart+50, 300);
         Pixmap pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fillRectangle(0,0, 50, 50);
@@ -142,10 +146,8 @@ public class OptionsMenuScreen implements Screen {
         controller.font.draw(batch, "Background: ", 1200, 300);
         controller.font.draw(batch, "Selected color: ", xPixmap + pixmapWidth / 2 - 50, 300);
         batch.draw(selectedColorTexture,xPixmap + pixmapWidth / 2 - 25 , 200);
-        Texture back1 = new Texture("background1.png");
-        Texture back2 = new Texture("background2.png");
-        batch.draw(back1, 1160, 220, 50, 50);
-        batch.draw(back2, 1235, 220, 50, 50);
+        batch.draw(back1, 860, 220, 50, 50);
+        batch.draw(back2, 935, 220, 50, 50);
         batch.end();
     }
 
