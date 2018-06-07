@@ -12,6 +12,8 @@ class FigureFactory {
     }
 
     Figure getFigure(int centerX, int centerY, FigureShape figureShape) {
+        if (centerX < 0 || centerX >= Board.ARRAY_WIDTH || centerY < 0 || centerY > Board.ARRAY_HEIGHT)
+            throw new IllegalArgumentException();
         Point[] pointArray = figureShape.getSquareCoordinatesArray();
         pointArray = translatePoints(centerX, centerY, pointArray);
         Square[] squareArray = convertPointsToSquares(pointArray);

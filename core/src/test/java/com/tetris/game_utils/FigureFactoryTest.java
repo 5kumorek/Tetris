@@ -46,7 +46,7 @@ public class FigureFactoryTest extends GameTestBase {
 
     @Test
     public void factoryPlacesPointsCorrectly() {
-        int notTheCenter = 10;
+        int notTheCenter = 5;
         FigureFactory figureFactory = new FigureFactory(Color.rgba8888(Color.RED));
         FigureShape[] figureShapes = FigureShape.values();
         for (FigureShape actualShape : figureShapes) {
