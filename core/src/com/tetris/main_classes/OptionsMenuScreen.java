@@ -25,6 +25,7 @@ public class OptionsMenuScreen implements Screen {
     private int squareColor;
     private Texture back1;
     private Texture back2;
+    private Button backButton;
 
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
@@ -35,6 +36,7 @@ public class OptionsMenuScreen implements Screen {
         startButton = new Button("start_button");
         back1 = new Texture("background1.png");
         back2 = new Texture("background2.png");
+        backButton = new Button("back_button", controller);
     }
 
     @Override
@@ -99,7 +101,7 @@ public class OptionsMenuScreen implements Screen {
     @Override
     public void render(float delta)
     {
-
+        backButton.drawButton(10, 10, 120, 50, new MainMenuScreen(controller));
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
         int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;

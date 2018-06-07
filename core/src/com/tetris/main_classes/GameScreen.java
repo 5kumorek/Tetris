@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.game_utils.Board;
+import com.tetris.gui.Button;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class GameScreen implements Screen {
     private float timeSinceLastFrame = 0;
     private SpriteBatch batch;
     private int boardNumber;
+    private Button backButton;
 
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
@@ -24,6 +26,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
+        backButton = new Button("back_button", controller);
     }
 
     @Override
@@ -37,6 +40,8 @@ public class GameScreen implements Screen {
         controller.font.draw(batch, "Points: " + sumPoints(), Board.PIXEL_WIDTH * 6 / 2 - 30, 690);
         batch.end();
         drawBoards();
+        backButton.drawButton(10, Gdx.graphics.getHeight() - 60, 120, 50, new MainMenuScreen(controller));
+
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.tetris.main_classes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tetris.gui.Button;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,12 +17,15 @@ public class TopScoresScreen implements Screen
     private int topScores [][];
     private int height;
     private int width;
+    private Button backButton;
 
     TopScoresScreen(MainController controller) {
         this.controller = controller;
         topScores = new int[6][10];
         height = Gdx.graphics.getHeight();
         width = Gdx.graphics.getWidth();
+        backButton = new Button("back_button", controller);
+        loadScores();
     }
 
     @Override
@@ -32,20 +37,10 @@ public class TopScoresScreen implements Screen
     @Override
     public void render(float delta)
     {
-        try
-        {
-            Scanner s = new Scanner(new File("TopScores.txt"));
-            for (int i = 0; i < 6; i++)
-                for(int j = 0; j < 10; j++)
-                    topScores[i][j] = s.nextInt();
-        }
-        catch (FileNotFoundException e)
-        {
-            System.out.println("Unable to find a file");
-        }
         for(int i = 0; i < 6; i++) {
             drawScore(i);
         }
+        backButton.drawButton(10, 10, 120, 50, new MainMenuScreen(controller));
     }
 
     @Override
@@ -86,5 +81,19 @@ public class TopScoresScreen implements Screen
             controller.font.draw(batch, (i+1) + ".  " + topScores[boardNumber][i], width/10+width/30+boardNumber*(width/7), height-height/8-i*height/12);
         }
         batch.end();
+    }
+
+    private void loadScores(){
+        try
+        {
+            Scanner s = new Scanner(new File("TopScores.txt"));
+            for (int i = 0; i < 6; i++)
+                for(int j = 0; j < 10; j++)
+                    topScores[i][j] = s.nextInt();
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("Unable to find a file");
+        }
     }
 }
