@@ -1,5 +1,6 @@
 package com.tetris.main_classes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -12,10 +13,14 @@ public class TopScoresScreen implements Screen
     private final MainController controller;
     private SpriteBatch batch = new SpriteBatch();
     private int topScores [][];
+    private int height;
+    private int width;
 
     public TopScoresScreen(MainController controller) {
         this.controller = controller;
         topScores = new int[6][10];
+        height = Gdx.graphics.getHeight();
+        width = Gdx.graphics.getWidth();
     }
 
     @Override
@@ -75,10 +80,10 @@ public class TopScoresScreen implements Screen
 
     public void drawScore(int boardNumber)  {
         batch.begin();
-        controller.font.draw(batch, "Number of boards: " + (boardNumber+1), 300+boardNumber*200, 600);
+        controller.font.draw(batch, "Number of boards: " + (boardNumber+1), width/6+boardNumber*(width/9), height-height/11);
         for(int i = 0; i < 10; i++)
         {
-            controller.font.draw(batch, (i+1) + ".  " + topScores[boardNumber][i], 350+boardNumber*200, 550-i*50);
+            controller.font.draw(batch, (i+1) + ".  " + topScores[boardNumber][i], width/6+width/30+boardNumber*(width/9), height-height/8-i*height/12);
         }
         batch.end();
     }
