@@ -185,7 +185,6 @@ public class Board {
     }
 
     private void loseGame(int pointsSum, int boardNumber) {
-        System.out.println("PRZEGRANA");
         int topScores [][] = new int[6][10];
         try
         {
@@ -219,10 +218,6 @@ public class Board {
                 tmp = tmp2;
             }
         }
-
-
-        for (int i = 0; i < 6; i++)
-        System.out.println(Arrays.toString(topScores[i]));
 
         BufferedWriter outputWriter;
         try
