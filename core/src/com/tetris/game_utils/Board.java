@@ -80,7 +80,7 @@ public class Board {
         }
     }
 
-    public void update(int pointsSum, int boardNumber) {
+    public boolean update(int pointsSum, int boardNumber) {
         if (nextNextFigure == null){
             createRandomFigure();
             nextFigure = nextNextFigure;
@@ -90,8 +90,10 @@ public class Board {
             currentFigure = nextFigure;
             nextFigure = nextNextFigure;
             createRandomFigure();
-            if (currentFigure.isOverlapping(squareArray))
+            if (currentFigure.isOverlapping(squareArray)) {
                 loseGame(pointsSum, boardNumber);
+                return true;
+            }
         } else {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
@@ -101,6 +103,7 @@ public class Board {
                 deleteFilledRows();
             }
         }
+        return false;
     }
 
     private boolean isMouseInsideBoard() {
@@ -233,7 +236,6 @@ public class Board {
         {
             System.out.println("Unable to save score");
         }
-        System.exit(0);
     }
 
     public int getPoints(){

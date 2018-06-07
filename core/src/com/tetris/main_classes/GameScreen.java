@@ -82,7 +82,8 @@ public class GameScreen implements Screen {
         if (timeSinceLastFrame >= TIME_BETWEEN_FRAMES) {
             timeSinceLastFrame -= TIME_BETWEEN_FRAMES;
             for (Board board : boardArray)
-                board.update(sumPoints(), boardNumber);
+                if(board.update(sumPoints(), boardNumber))
+                    controller.setScreen(new MainMenuScreen(controller));
         }
     }
 
