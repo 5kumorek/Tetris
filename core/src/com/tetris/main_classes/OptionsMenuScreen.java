@@ -19,10 +19,7 @@ public class OptionsMenuScreen implements Screen {
     private final MainController controller;
     private SpriteBatch batch = new SpriteBatch();
     private Stage stage;
-    private int boardNumber;
-    private String boardBackground;
     private Button startButton;
-    private int squareColor;
     private Texture back1;
     private Texture back2;
     private Button backButton;
@@ -30,9 +27,6 @@ public class OptionsMenuScreen implements Screen {
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
         stage = new Stage(new ScreenViewport());
-        boardNumber = 6;
-        boardBackground = null;
-        squareColor = Color.rgba8888(Color.RED);
         startButton = new Button("start_button");
         back1 = new Texture("background1.png");
         back2 = new Texture("background2.png");
@@ -56,10 +50,10 @@ public class OptionsMenuScreen implements Screen {
 
 
         final Slider numberOfBoards = new Slider(1, 6, 1, false, skin);
-        numberOfBoards.setValue(boardNumber);
+        numberOfBoards.setValue(MainMenuScreen.boardNumber);
         numberOfBoards.addListener(event ->
         {
-            boardNumber = (int)numberOfBoards.getValue();
+            MainMenuScreen.boardNumber = (int)numberOfBoards.getValue();
             return false;
         });
 
@@ -67,14 +61,25 @@ public class OptionsMenuScreen implements Screen {
         final CheckBox background1 = new CheckBox(null, skin);
         final CheckBox background2 = new CheckBox(null, skin);
 
+        if(MainMenuScreen.boardBackground != null){
+            if (MainMenuScreen.boardBackground.equals("background1.png"))
+                background1.setChecked(true);
+            else if (MainMenuScreen.boardBackground.equals("background2.png"))
+                background2.setChecked(true);
+            else {
+                background1.setChecked(false);
+                background2.setChecked(false);
+            }
+        }
+
         background1.addListener(event ->
         {
             if(background1.isChecked() && background2.isChecked())
                 background2.setChecked(false);
             if(background1.isChecked() && !background2.isChecked())
-                boardBackground = "background1.png";
+                MainMenuScreen.boardBackground = "background1.png";
             if(!background1.isChecked() && !background2.isChecked())
-                boardBackground = null;
+                MainMenuScreen.boardBackground = null;
             return false;
         });
 
@@ -84,9 +89,9 @@ public class OptionsMenuScreen implements Screen {
             if(background1.isChecked() && background2.isChecked())
                 background1.setChecked(false);
             if(!background1.isChecked() && background2.isChecked())
-                boardBackground = "background2.png";
+                MainMenuScreen.boardBackground = "background2.png";
             if(!background1.isChecked() && !background2.isChecked())
-                boardBackground = null;
+                MainMenuScreen.boardBackground = null;
             return false;
         });
 
@@ -111,16 +116,16 @@ public class OptionsMenuScreen implements Screen {
         int pixmapWidth = 300;
         int pixmapHeight = 50;
         batch.begin();
-        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+200 && 720 - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart+200 && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
-                controller.setScreen(new GameScreen(controller, boardNumber, boardBackground, squareColor));
+                controller.setScreen(new GameScreen(controller, MainMenuScreen.boardNumber, MainMenuScreen.boardBackground, MainMenuScreen.squareColor));
             }
         }
         else {
             batch.draw(startButton.getButtonTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        controller.font.draw(batch, "Number of boards: " + boardNumber, xButtonStart+50, 300);
+        controller.font.draw(batch, "Number of boards: " + MainMenuScreen.boardNumber, xButtonStart+50, 300);
         Pixmap pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fillRectangle(0,0, 50, 50);
@@ -136,13 +141,13 @@ public class OptionsMenuScreen implements Screen {
         pixmap.fillRectangle(250,0, 50, 50);
         Texture pixTexture = new Texture( pixmap );
         batch.draw(pixTexture, xPixmap, yPixmap);
-        if(Gdx.input.getX() > xPixmap && Gdx.input.getX() < xPixmap + pixmapWidth && 720 - Gdx.input.getY() > yPixmap && 720 - Gdx.input.getY() < yPixmap+pixmapHeight) {
+        if(Gdx.input.getX() > xPixmap && Gdx.input.getX() < xPixmap + pixmapWidth && Gdx.graphics.getHeight() - Gdx.input.getY() > yPixmap && Gdx.graphics.getHeight() - Gdx.input.getY() < yPixmap+pixmapHeight) {
             if(Gdx.input.isTouched()){
-                squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,720 - Gdx.input.getY() - yPixmap);
+                MainMenuScreen.squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,Gdx.graphics.getHeight() - Gdx.input.getY() - yPixmap);
             }
         }
         Pixmap selectedColor = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
-        selectedColor.setColor(squareColor);
+        selectedColor.setColor(MainMenuScreen.squareColor);
         selectedColor.fillRectangle(0, 0, 50, 50);
         Texture selectedColorTexture = new Texture(selectedColor);
         controller.font.draw(batch, "Background: ", 1200, 300);

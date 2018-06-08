@@ -3,6 +3,7 @@ package com.tetris.main_classes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.gui.Button;
 
@@ -13,6 +14,10 @@ public class MainMenuScreen implements Screen {
     private Button optionsButton;
     private Button topButton;
     private Button exitButton;
+    public static int boardNumber = 6;
+    public static String boardBackground = null;
+    public static int squareColor = Color.rgba8888(Color.RED);
+
 
     public MainMenuScreen(MainController controller) {
         this.controller = controller;
@@ -27,16 +32,16 @@ public class MainMenuScreen implements Screen {
         int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
         int yButtonStart = Gdx.graphics.getHeight()/2 - Button.BUTTON_HEIGHT/2;
         batch.begin();
-        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+200 && 720 - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart+200 && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
-                controller.setScreen(new GameScreen(controller, 6, null, Color.rgba8888(Color.RED)));
+                controller.setScreen(new GameScreen(controller, boardNumber, boardBackground, squareColor));
             }
         }
         else {
             batch.draw(startButton.getButtonTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+100 && 720 - Gdx.input.getY() < yButtonStart+100+Button.BUTTON_HEIGHT) {
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart+100 && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart+100+Button.BUTTON_HEIGHT) {
             batch.draw(optionsButton.getButtonActiveTexture(), xButtonStart, yButtonStart+100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
                 controller.setScreen(new OptionsMenuScreen(controller));
@@ -45,7 +50,7 @@ public class MainMenuScreen implements Screen {
         else {
             batch.draw(optionsButton.getButtonTexture(), xButtonStart, yButtonStart+100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart && 720 - Gdx.input.getY() < yButtonStart+Button.BUTTON_HEIGHT) {
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart+Button.BUTTON_HEIGHT) {
             batch.draw(topButton.getButtonActiveTexture(), xButtonStart, yButtonStart, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
                 controller.setScreen(new TopScoresScreen(controller));
@@ -54,7 +59,7 @@ public class MainMenuScreen implements Screen {
         else {
             batch.draw(topButton.getButtonTexture(), xButtonStart, yButtonStart, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart-100 && 720 - Gdx.input.getY() < yButtonStart-100+Button.BUTTON_HEIGHT) {
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart-100 && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart-100+Button.BUTTON_HEIGHT) {
             batch.draw(exitButton.getButtonActiveTexture(), xButtonStart, yButtonStart - 100, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
                 Gdx.app.exit();
