@@ -23,14 +23,36 @@ public class OptionsMenuScreen implements Screen {
     private Texture back1;
     private Texture back2;
     private Button backButton;
+    private Skin skin;
+    private Table table;
+    private Table table2;
+    private final Slider numberOfBoards;
+    private final CheckBox background1;
+    private final CheckBox background2;
+    private Pixmap pixmap;
+    private Pixmap selectedColor;
+    private int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
+    private int yButtonStart = Gdx.graphics.getHeight()/2 - Button.BUTTON_HEIGHT/2;
+    private int xPixmap = Gdx.graphics.getWidth()/7;
+    private int yPixmap = 100;
+    private int pixmapWidth = 300;
+    private int pixmapHeight = 50;
 
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
+        skin = new Skin(Gdx.files.internal("glassy-ui.json"));
         stage = new Stage(new ScreenViewport());
         startButton = new Button("start_button");
         back1 = new Texture("background1.png");
         back2 = new Texture("background2.png");
         backButton = new Button("back_button", controller);
+        table = new Table();
+        table2 = new Table();
+        numberOfBoards = new Slider(1, 6, 1, false, skin);
+        background1 = new CheckBox(null, skin);
+        background2 = new CheckBox(null, skin);
+        selectedColor = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
+        pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
     }
 
     @Override
@@ -39,17 +61,11 @@ public class OptionsMenuScreen implements Screen {
         stage.clear();
         Gdx.input.setInputProcessor(stage);
 
-        Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        Table table2 = new Table();
         table2.setFillParent(true);
         stage.addActor(table2);
 
-        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
-
-
-        final Slider numberOfBoards = new Slider(1, 6, 1, false, skin);
         numberOfBoards.setValue(MainMenuScreen.boardNumber);
         numberOfBoards.addListener(event ->
         {
@@ -57,9 +73,6 @@ public class OptionsMenuScreen implements Screen {
             return false;
         });
 
-
-        final CheckBox background1 = new CheckBox(null, skin);
-        final CheckBox background2 = new CheckBox(null, skin);
 
         if(MainMenuScreen.boardBackground != null){
             if (MainMenuScreen.boardBackground.equals("background1.png"))
@@ -109,12 +122,6 @@ public class OptionsMenuScreen implements Screen {
         backButton.drawBackButton(10, 10, 120, 50);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
-        int yButtonStart = Gdx.graphics.getHeight()/2 - Button.BUTTON_HEIGHT/2;
-        int xPixmap = Gdx.graphics.getWidth()/7;
-        int yPixmap = 100;
-        int pixmapWidth = 300;
-        int pixmapHeight = 50;
         batch.begin();
         if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart+200 && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
@@ -126,7 +133,6 @@ public class OptionsMenuScreen implements Screen {
             batch.draw(startButton.getButtonTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
         controller.font.draw(batch, "Number of boards: " + MainMenuScreen.boardNumber, xButtonStart+50, 300);
-        Pixmap pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fillRectangle(0,0, 50, 50);
         pixmap.setColor(Color.YELLOW);
@@ -146,7 +152,6 @@ public class OptionsMenuScreen implements Screen {
                 MainMenuScreen.squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,Gdx.graphics.getHeight() - Gdx.input.getY() - yPixmap);
             }
         }
-        Pixmap selectedColor = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
         selectedColor.setColor(MainMenuScreen.squareColor);
         selectedColor.fillRectangle(0, 0, 50, 50);
         Texture selectedColorTexture = new Texture(selectedColor);
