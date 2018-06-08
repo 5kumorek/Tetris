@@ -22,6 +22,7 @@ public class GameScreen implements Screen {
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
         batch = new SpriteBatch();
+        TIME_BETWEEN_FRAMES = 0.5f;
         boardNumber = boardCount - 1;
         for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
