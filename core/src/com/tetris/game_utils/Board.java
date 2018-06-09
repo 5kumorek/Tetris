@@ -101,7 +101,7 @@ public class Board {
      * @param pointsSum   sum of points
      * @param boardNumber number of board
      */
-    public void update(int pointsSum, int boardNumber) {
+    public boolean update(int pointsSum, int boardNumber) {
         if (nextNextFigure == null) {
             createRandomFigure();
             nextFigure = nextNextFigure;
@@ -110,8 +110,10 @@ public class Board {
             currentFigure = nextFigure;
             nextFigure = nextNextFigure;
             createRandomFigure();
-            if (currentFigure.isOverlapping(squareArray))
+            if (currentFigure.isOverlapping(squareArray)) {
                 loseGame(pointsSum, boardNumber);
+                return true;
+            }
         } else {
             if (currentFigure.canMove(Direction.DOWN, squareArray)) {
                 currentFigure.move(Direction.DOWN);
@@ -121,6 +123,7 @@ public class Board {
                 deleteFilledRows();
             }
         }
+        return false;
     }
 
     /**
@@ -130,7 +133,7 @@ public class Board {
      */
     private boolean isMouseInsideBoard() {
         int x = Gdx.input.getX();
-        int y = Gdx.input.getY();
+        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
         return x >= xCoordinateOfBoard
                 && x < xCoordinateOfBoard + PIXEL_WIDTH
                 && y >= 0
@@ -143,7 +146,7 @@ public class Board {
     public void draw() {
         batch.begin();
         if (boardTexture != null)
-            batch.draw(boardTexture, 0, 0);
+            batch.draw(boardTexture, 0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
         batch.draw(boardFrame, 0, 0);
         drawSquareArray(batch);
         if (currentFigure != null)
@@ -253,7 +256,6 @@ public class Board {
      * @param boardNumber number of board
      */
     private void loseGame(int pointsSum, int boardNumber) {
-        System.out.println("PRZEGRANA");
         int topScores[][] = new int[6][10];
         try {
             Scanner s = new Scanner(new File("TopScores.txt"));
@@ -282,10 +284,6 @@ public class Board {
             }
         }
 
-
-        for (int i = 0; i < 6; i++)
-            System.out.println(Arrays.toString(topScores[i]));
-
         BufferedWriter outputWriter;
         try {
             outputWriter = new BufferedWriter(new FileWriter("TopScores.txt"));
@@ -297,7 +295,6 @@ public class Board {
         } catch (IOException e) {
             System.out.println("Unable to save score");
         }
-        System.exit(0);
     }
 
     /**

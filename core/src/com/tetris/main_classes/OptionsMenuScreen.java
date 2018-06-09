@@ -19,18 +19,40 @@ public class OptionsMenuScreen implements Screen {
     private final MainController controller;
     private SpriteBatch batch = new SpriteBatch();
     private Stage stage;
-    private int boardNumber;
-    private String boardBackground;
     private Button startButton;
-    private int squareColor;
+    private Texture back1;
+    private Texture back2;
+    private Button backButton;
+    private Skin skin;
+    private Table table;
+    private Table table2;
+    private final Slider numberOfBoards;
+    private final CheckBox background1;
+    private final CheckBox background2;
+    private Pixmap pixmap;
+    private Pixmap selectedColor;
+    private int xButtonStart = Gdx.graphics.getWidth()/2 - Button.BUTTON_WIDTH/2;
+    private int yButtonStart = Gdx.graphics.getHeight()/2 - Button.BUTTON_HEIGHT/2;
+    private int xPixmap = Gdx.graphics.getWidth()/7;
+    private int yPixmap = 100;
+    private int pixmapWidth = 300;
+    private int pixmapHeight = 50;
 
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
+        skin = new Skin(Gdx.files.internal("glassy-ui.json"));
         stage = new Stage(new ScreenViewport());
-        boardNumber = 6;
-        boardBackground = null;
-        squareColor = Color.rgba8888(Color.RED);
         startButton = new Button("start_button");
+        back1 = new Texture("background1.png");
+        back2 = new Texture("background2.png");
+        backButton = new Button("back_button", controller);
+        table = new Table();
+        table2 = new Table();
+        numberOfBoards = new Slider(1, 6, 1, false, skin);
+        background1 = new CheckBox(null, skin);
+        background2 = new CheckBox(null, skin);
+        selectedColor = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
+        pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
     }
 
     @Override
@@ -39,36 +61,38 @@ public class OptionsMenuScreen implements Screen {
         stage.clear();
         Gdx.input.setInputProcessor(stage);
 
-        Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        Table table2 = new Table();
         table2.setFillParent(true);
         stage.addActor(table2);
 
-        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
-
-
-        final Slider numberOfBoards = new Slider(1, 6, 1, false, skin);
-        numberOfBoards.setValue(boardNumber);
+        numberOfBoards.setValue(MainMenuScreen.boardNumber);
         numberOfBoards.addListener(event ->
         {
-            boardNumber = (int)numberOfBoards.getValue();
+            MainMenuScreen.boardNumber = (int)numberOfBoards.getValue();
             return false;
         });
 
 
-        final CheckBox background1 = new CheckBox(null, skin);
-        final CheckBox background2 = new CheckBox(null, skin);
+        if(MainMenuScreen.boardBackground != null){
+            if (MainMenuScreen.boardBackground.equals("background1.png"))
+                background1.setChecked(true);
+            else if (MainMenuScreen.boardBackground.equals("background2.png"))
+                background2.setChecked(true);
+            else {
+                background1.setChecked(false);
+                background2.setChecked(false);
+            }
+        }
 
         background1.addListener(event ->
         {
             if(background1.isChecked() && background2.isChecked())
                 background2.setChecked(false);
             if(background1.isChecked() && !background2.isChecked())
-                boardBackground = "background1.png";
+                MainMenuScreen.boardBackground = "background1.png";
             if(!background1.isChecked() && !background2.isChecked())
-                boardBackground = null;
+                MainMenuScreen.boardBackground = null;
             return false;
         });
 
@@ -78,9 +102,9 @@ public class OptionsMenuScreen implements Screen {
             if(background1.isChecked() && background2.isChecked())
                 background1.setChecked(false);
             if(!background1.isChecked() && background2.isChecked())
-                boardBackground = "background2.png";
+                MainMenuScreen.boardBackground = "background2.png";
             if(!background1.isChecked() && !background2.isChecked())
-                boardBackground = null;
+                MainMenuScreen.boardBackground = null;
             return false;
         });
 
@@ -95,27 +119,20 @@ public class OptionsMenuScreen implements Screen {
     @Override
     public void render(float delta)
     {
-
+        backButton.drawBackButton(10, 10, 120, 50);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        int xButtonStart = 680;
-        int yButtonStart = 240;
-        int xPixmap = 420;
-        int yPixmap = 100;
-        int pixmapWidth = 300;
-        int pixmapHeight = 50;
         batch.begin();
-        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && 720 - Gdx.input.getY() > yButtonStart+200 && 720 - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
+        if(Gdx.input.getX() > xButtonStart && Gdx.input.getX() < xButtonStart + Button.BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() > yButtonStart+200 && Gdx.graphics.getHeight() - Gdx.input.getY() < yButtonStart+200+Button.BUTTON_HEIGHT) {
             batch.draw(startButton.getButtonActiveTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
             if(Gdx.input.isTouched()){
-                controller.setScreen(new GameScreen(controller, boardNumber, boardBackground, squareColor));
+                controller.setScreen(new GameScreen(controller, MainMenuScreen.boardNumber, MainMenuScreen.boardBackground, MainMenuScreen.squareColor));
             }
         }
         else {
             batch.draw(startButton.getButtonTexture(), xButtonStart, yButtonStart+200, Button.BUTTON_WIDTH, Button.BUTTON_HEIGHT);
         }
-        controller.font.draw(batch, "Number of boards: " + boardNumber, xButtonStart+Button.BUTTON_WIDTH / 2, 300);
-        Pixmap pixmap = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
+        controller.font.draw(batch, "Number of boards: " + MainMenuScreen.boardNumber, xButtonStart+50, 300);
         pixmap.setColor(Color.RED);
         pixmap.fillRectangle(0,0, 50, 50);
         pixmap.setColor(Color.YELLOW);
@@ -130,22 +147,19 @@ public class OptionsMenuScreen implements Screen {
         pixmap.fillRectangle(250,0, 50, 50);
         Texture pixTexture = new Texture( pixmap );
         batch.draw(pixTexture, xPixmap, yPixmap);
-        if(Gdx.input.getX() > xPixmap && Gdx.input.getX() < xPixmap + pixmapWidth && 720 - Gdx.input.getY() > yPixmap && 720 - Gdx.input.getY() < yPixmap+pixmapHeight) {
+        if(Gdx.input.getX() > xPixmap && Gdx.input.getX() < xPixmap + pixmapWidth && Gdx.graphics.getHeight() - Gdx.input.getY() > yPixmap && Gdx.graphics.getHeight() - Gdx.input.getY() < yPixmap+pixmapHeight) {
             if(Gdx.input.isTouched()){
-                squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,720 - Gdx.input.getY() - yPixmap);
+                MainMenuScreen.squareColor = pixmap.getPixel(Gdx.input.getX() - xPixmap,Gdx.graphics.getHeight() - Gdx.input.getY() - yPixmap);
             }
         }
-        Pixmap selectedColor = new Pixmap( pixmapWidth, pixmapHeight, Pixmap.Format.RGBA8888);
-        selectedColor.setColor(squareColor);
+        selectedColor.setColor(MainMenuScreen.squareColor);
         selectedColor.fillRectangle(0, 0, 50, 50);
         Texture selectedColorTexture = new Texture(selectedColor);
         controller.font.draw(batch, "Background: ", 1200, 300);
         controller.font.draw(batch, "Selected color: ", xPixmap + pixmapWidth / 2 - 50, 300);
         batch.draw(selectedColorTexture,xPixmap + pixmapWidth / 2 - 25 , 200);
-        Texture back1 = new Texture("background1.png");
-        Texture back2 = new Texture("background2.png");
-        batch.draw(back1, 1160, 220, 50, 50);
-        batch.draw(back2, 1235, 220, 50, 50);
+        batch.draw(back1, 860, 220, 50, 50);
+        batch.draw(back2, 935, 220, 50, 50);
         batch.end();
     }
 

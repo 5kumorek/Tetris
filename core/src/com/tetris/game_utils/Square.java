@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 class Square {
-    final static int PIXEL_SIZE = 30;
+    final static int PIXEL_SIZE = 20;
 
     private Texture squareTexture;
     private Point coordinates;
@@ -25,10 +25,10 @@ class Square {
 
     void drawNext(SpriteBatch batch, boolean isFirstNext) {
         if(isFirstNext) {
-            batch.draw(squareTexture, PIXEL_SIZE * coordinates.x + 50, PIXEL_SIZE * coordinates.y + 60);
+            batch.draw(squareTexture, PIXEL_SIZE * coordinates.x, PIXEL_SIZE * coordinates.y + 60);
         }
         else {
-            batch.draw(squareTexture, PIXEL_SIZE * coordinates.x - 100, PIXEL_SIZE * coordinates.y + 60);
+            batch.draw(squareTexture, PIXEL_SIZE * coordinates.x, PIXEL_SIZE * coordinates.y + 180);
         }
     }
 
