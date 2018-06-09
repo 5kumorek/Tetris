@@ -9,7 +9,8 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = Board.PIXEL_WIDTH * 6;
-        config.height = 720;
+        config.height = 700;
+        config.resizable = false;
         new LwjglApplication(new MainController(), config);
     }
 }
