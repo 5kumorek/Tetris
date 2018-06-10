@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.main_classes.MainController;
 import com.tetris.main_classes.MainMenuScreen;
 
+/**
+ * Class that encapsulates buttons on screens
+ */
 public class Button {
     public static final int BUTTON_WIDTH = Gdx.graphics.getWidth()/5;
     public static final int BUTTON_HEIGHT = Gdx.graphics.getHeight()/7;
@@ -15,13 +18,21 @@ public class Button {
     private MainController controller;
     private SpriteBatch batch = new SpriteBatch();
 
-
+    /**
+     * Constructor of a button
+     * @param path name of file with texture
+     */
     public Button(String path)
     {
         buttonTexture = new Texture(path + EXTENSION);
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
     }
 
+    /**
+     * Constructor of a button
+     * @param path name of file with texture
+     * @param controller controller to set screen
+     */
     public Button(String path, MainController controller)
     {
         this.controller = controller;
@@ -29,6 +40,13 @@ public class Button {
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
     }
 
+    /**
+     * Draws back button
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param width width of button
+     * @param height height of button
+     */
     public void drawBackButton(int x, int y, int width, int height)
     {
         batch.begin();
@@ -44,9 +62,18 @@ public class Button {
         batch.end();
     }
 
+    /**
+     * Getter of button texture
+     * @return button texture
+     */
     public Texture getButtonTexture()
     {
         return buttonTexture;
     }
+
+    /**
+     * Getter of button active texture
+     * @return button active texture
+     */
     public Texture getButtonActiveTexture() { return buttonActiveTexture; }
 }
