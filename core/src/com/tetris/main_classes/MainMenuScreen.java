@@ -22,7 +22,7 @@ public class MainMenuScreen implements Screen {
     public static int squareColor = Color.rgba8888(Color.RED);
 
     /**
-     * Constructor of game screen
+     * Constructor of main menu screen
      * @param controller controller to set screen
      */
     public MainMenuScreen(MainController controller) {

@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tetris.gui.Button;
 
+/**
+ * Class that represents options screen
+ */
 public class OptionsMenuScreen implements Screen {
 
     private final MainController controller;
@@ -38,6 +41,10 @@ public class OptionsMenuScreen implements Screen {
     private int pixmapWidth = 300;
     private int pixmapHeight = 50;
 
+    /**
+     * Constructor of options screen
+     * @param controller controller to set screen
+     */
     OptionsMenuScreen(MainController controller){
         this.controller = controller;
         skin = new Skin(Gdx.files.internal("glassy-ui.json"));
