@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
     private Button backButton;
 
     /**
-     * Constructor of game screnn
+     * Constructor of game screen
      * @param controller controller to set screen
      * @param boardCount number of boards to be played on
      * @param boardBackground name of file with texture of background

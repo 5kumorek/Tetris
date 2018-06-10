@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tetris.gui.Button;
 
+/**
+ * Class that represents main menu screen
+ */
 public class MainMenuScreen implements Screen {
     private final MainController controller;
     private SpriteBatch batch = new SpriteBatch();
@@ -18,7 +21,10 @@ public class MainMenuScreen implements Screen {
     public static String boardBackground = null;
     public static int squareColor = Color.rgba8888(Color.RED);
 
-
+    /**
+     * Constructor of game screen
+     * @param controller controller to set screen
+     */
     public MainMenuScreen(MainController controller) {
         this.controller = controller;
         startButton = new Button("start_button");
