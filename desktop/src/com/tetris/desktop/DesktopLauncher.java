@@ -5,6 +5,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.tetris.game_utils.Board;
 import com.tetris.main_classes.MainController;
 
+/**
+ * Starting class
+ */
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
