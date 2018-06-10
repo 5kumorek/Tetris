@@ -14,17 +14,17 @@ public class MainMenuScreen implements Screen {
     private Button optionsButton;
     private Button topButton;
     private Button exitButton;
-    public static int boardNumber = 6;
-    public static String boardBackground = null;
-    public static int squareColor = Color.rgba8888(Color.RED);
+    static int boardNumber = 6;
+    static String boardBackground = null;
+    static int squareColor = Color.rgba8888(Color.RED);
 
 
     public MainMenuScreen(MainController controller) {
         this.controller = controller;
-        startButton = new Button("start_button");
-        optionsButton = new Button("options_button");
-        topButton = new Button("top_button");
-        exitButton = new Button("exit_button");
+        startButton = new Button("start_button", new SpriteBatch());
+        optionsButton = new Button("options_button", new SpriteBatch());
+        topButton = new Button("top_button", new SpriteBatch());
+        exitButton = new Button("exit_button", new SpriteBatch());
     }
 
     @Override

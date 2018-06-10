@@ -13,20 +13,22 @@ public class Button {
     private Texture buttonActiveTexture;
     private static final String EXTENSION = ".png";
     private MainController controller;
-    private SpriteBatch batch = new SpriteBatch();
+    private SpriteBatch batch;
 
 
-    public Button(String path)
+    public Button(String path, SpriteBatch spriteBatch)
     {
         buttonTexture = new Texture(path + EXTENSION);
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
+        batch = spriteBatch;
     }
 
-    public Button(String path, MainController controller)
+    public Button(String path, MainController controller, SpriteBatch spriteBatch)
     {
         this.controller = controller;
         buttonTexture = new Texture(path + EXTENSION);
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
+        batch = spriteBatch;
     }
 
     public void drawBackButton(int x, int y, int width, int height)

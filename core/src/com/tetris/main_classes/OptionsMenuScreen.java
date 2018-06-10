@@ -42,10 +42,10 @@ public class OptionsMenuScreen implements Screen {
         this.controller = controller;
         skin = new Skin(Gdx.files.internal("glassy-ui.json"));
         stage = new Stage(new ScreenViewport());
-        startButton = new Button("start_button");
+        startButton = new Button("start_button", new SpriteBatch());
         back1 = new Texture("background1.png");
         back2 = new Texture("background2.png");
-        backButton = new Button("back_button", controller);
+        backButton = new Button("back_button", controller, new SpriteBatch());
         table = new Table();
         table2 = new Table();
         numberOfBoards = new Slider(1, 6, 1, false, skin);
