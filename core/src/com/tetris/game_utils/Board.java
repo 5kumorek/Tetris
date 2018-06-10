@@ -100,6 +100,8 @@ public class Board {
      *
      * @param pointsSum   sum of points
      * @param boardNumber number of board
+     *
+     * @return is game ended
      */
     public boolean update(int pointsSum, int boardNumber) {
         if (nextNextFigure == null) {
