@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Class that represents top scores screen
+ */
 public class TopScoresScreen implements Screen
 {
     private final MainController controller;
@@ -19,6 +22,10 @@ public class TopScoresScreen implements Screen
     private int width;
     private Button backButton;
 
+    /**
+     * Constructor of top scores screen
+     * @param controller controller to set screen
+     */
     TopScoresScreen(MainController controller) {
         this.controller = controller;
         topScores = new int[6][10];
@@ -73,6 +80,10 @@ public class TopScoresScreen implements Screen
 
     }
 
+    /**
+     * Draws table with scores
+     * @param boardNumber number of boards
+     */
     private void drawScore(int boardNumber)  {
         batch.begin();
         controller.font.draw(batch, "Number of boards: " + (boardNumber+1), width/10+boardNumber*(width/7), height-height/11);
@@ -83,6 +94,9 @@ public class TopScoresScreen implements Screen
         batch.end();
     }
 
+    /**
+     * Loads scores from file
+     */
     private void loadScores(){
         try
         {
