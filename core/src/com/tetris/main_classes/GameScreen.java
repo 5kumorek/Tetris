@@ -9,6 +9,9 @@ import com.tetris.gui.Button;
 
 import java.util.ArrayList;
 
+/**
+ * Class that represents GameScreen
+ */
 public class GameScreen implements Screen {
     private static float TIME_BETWEEN_FRAMES = 0.5f;
 
@@ -19,6 +22,13 @@ public class GameScreen implements Screen {
     private int boardNumber;
     private Button backButton;
 
+    /**
+     * Constructor of game screen
+     * @param controller controller to set screen
+     * @param boardCount number of boards to be played on
+     * @param boardBackground name of file with texture of background
+     * @param squareColor color of figures
+     */
     GameScreen(MainController controller, int boardCount, String boardBackground, int squareColor) {
         this.controller = controller;
         batch = new SpriteBatch();
@@ -69,6 +79,9 @@ public class GameScreen implements Screen {
     public void dispose() {
     }
 
+    /**
+     * Handles pressed key
+     */
     private void handleKeyboardPress() {
         int pressedKey = 0;
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
@@ -84,6 +97,9 @@ public class GameScreen implements Screen {
                 board.handleKeyPress(pressedKey);
     }
 
+    /**
+     * Updates board while time passes
+     */
     private void updateBoardsIfTimePassed() {
         if (timeSinceLastFrame >= TIME_BETWEEN_FRAMES) {
             timeSinceLastFrame -= TIME_BETWEEN_FRAMES;
@@ -93,11 +109,18 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Draws boards on screen
+     */
     private void drawBoards() {
         for (Board board : boardArray)
             board.draw();
     }
 
+    /**
+     * Sums points that player scored
+     * @return sum of points
+     */
     private int sumPoints(){
         int sum = 0;
         for (Board board : boardArray){

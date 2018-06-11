@@ -3,6 +3,9 @@ package com.tetris.enums;
 import java.awt.*;
 import java.util.Arrays;
 
+/**
+ * Class used to encapsulate possible figure shapes.
+ */
 public enum FigureShape {
     I(new int[][]{{0, -1}, {0, 0}, {0, 1}, {0, 2}}),
     O(new int[][]{{0, 0}, {1, 0}, {1, 1}, {0, 1}}),
@@ -14,6 +17,10 @@ public enum FigureShape {
 
     private final Point[] squareCoordinatesArray;
 
+    /**
+     * Constructor for example shapes.
+     * @param intCoordinatesArray array of arrays of coordinates of blocks in figure
+     */
     FigureShape(int[][] intCoordinatesArray) {
         squareCoordinatesArray = new Point[intCoordinatesArray.length];
 
@@ -23,6 +30,10 @@ public enum FigureShape {
         }
     }
 
+    /**
+     * Gets array of arrays of coordinates of given figure
+     * @return array of arrays of coordinates
+     */
     public Point[] getSquareCoordinatesArray() {
         return Arrays.stream(squareCoordinatesArray).map(Point::new).toArray(Point[]::new);
     }

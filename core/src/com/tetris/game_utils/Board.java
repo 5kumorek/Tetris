@@ -21,6 +21,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Class that encapsulates a single Board in which game takes place.
+ */
 public class Board {
     static final int ARRAY_WIDTH = 10;
     static final int ARRAY_HEIGHT = 20;
@@ -42,7 +45,14 @@ public class Board {
     private Sound sound;
     private int points = 0;
 
-
+    /**
+     * Initializes sound, batch, figure factory for this board. Also moves batch to match board number.
+     *
+     * @param boardNumber     number of board (1-6)
+     * @param boardBackground name of file with background
+     * @param squareColor     color of squares in this board
+     * @param spriteBatch     sprite batch to use
+     */
     public Board(int boardNumber, String boardBackground, int squareColor, SpriteBatch spriteBatch) {
         createBoardTexture(boardBackground);
         batch = spriteBatch;
@@ -56,6 +66,11 @@ public class Board {
         );
     }
 
+    /**
+     * Handles key press.
+     *
+     * @param pressedKey number of pressed key
+     */
     public void handleKeyPress(int pressedKey) {
         if (!isMouseInsideBoard())
             return;
@@ -80,13 +95,20 @@ public class Board {
         }
     }
 
+    /**
+     * Main loop of game.
+     *
+     * @param pointsSum   sum of points
+     * @param boardNumber number of board
+     *
+     * @return is game ended
+     */
     public boolean update(int pointsSum, int boardNumber) {
-        if (nextNextFigure == null){
+        if (nextNextFigure == null) {
             createRandomFigure();
             nextFigure = nextNextFigure;
             createRandomFigure();
-        }
-        else if (currentFigure == null) {
+        } else if (currentFigure == null) {
             currentFigure = nextFigure;
             nextFigure = nextNextFigure;
             createRandomFigure();
@@ -106,6 +128,12 @@ public class Board {
         return false;
     }
 
+
+    /**
+     * Checks if mouse inside board.
+     *
+     * @return is mouse inside board
+     */
     @SuppressWarnings("WeakerAccess")
     boolean isMouseInsideBoard() {
         int x = Gdx.input.getX();
@@ -116,6 +144,9 @@ public class Board {
                 && y < PIXEL_HEIGHT;
     }
 
+    /**
+     * Draws all things on this board.
+     */
     public void draw() {
         batch.begin();
         if (boardTexture != null)
@@ -131,6 +162,11 @@ public class Board {
         batch.end();
     }
 
+    /**
+     * Creates board texture given by provided background.
+     *
+     * @param boardBackground background from which create texture
+     */
     private void createBoardTexture(String boardBackground) {
         Pixmap pixmap = new Pixmap(PIXEL_WIDTH, PIXEL_HEIGHT, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.SKY);
@@ -142,6 +178,9 @@ public class Board {
             boardTexture = null;
     }
 
+    /**
+     * Creates random figure.
+     */
     private void createRandomFigure() {
         FigureShape[] figureShapeValues = FigureShape.values();
         int randomNumber = new Random().nextInt(figureShapeValues.length);
@@ -149,12 +188,18 @@ public class Board {
         nextNextFigure = figureFactory.getFigure(ARRAY_WIDTH / 2, ARRAY_HEIGHT - 1, randomFigureShape);
     }
 
+    /**
+     * Decomposes current moving figure to blocks that will stand still.
+     */
     private void decomposeCurrentFigure() {
         Square[] figureSquareArray = currentFigure.getSquareArray();
         squareArray.addAll(Arrays.asList(figureSquareArray));
         currentFigure = null;
     }
 
+    /**
+     * Deletes all filled rows.
+     */
     private void deleteFilledRows() {
         for (int row = ARRAY_HEIGHT - 1; row >= 0; row--)
             if (isRowFull(row)) {
@@ -164,6 +209,12 @@ public class Board {
             }
     }
 
+    /**
+     * Checks if row is full
+     *
+     * @param rowIndex index of row to check
+     * @return is row full
+     */
     private boolean isRowFull(int rowIndex) {
         int squaresInRow = squareArray.stream()
                 .filter(square -> square.getY() == rowIndex)
@@ -172,51 +223,65 @@ public class Board {
         return squaresInRow == ARRAY_WIDTH;
     }
 
+    /**
+     * Deletes all block in given row.
+     *
+     * @param rowIndex index of row to clear
+     */
     private void clearRow(int rowIndex) {
         squareArray = squareArray.stream()
                 .filter(square -> square.getY() != rowIndex)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Moves all blocks in starting row and higher 1 block below.
+     *
+     * @param startingRow row form which start moving blocks
+     */
     private void moveRowsDown(int startingRow) {
         squareArray.stream()
                 .filter(square -> square.getY() >= startingRow)
                 .forEach(square -> square.move(Direction.DOWN));
     }
 
+    /**
+     * Draws all blocks.
+     *
+     * @param batch batch to draw on
+     */
     private void drawSquareArray(SpriteBatch batch) {
         squareArray.forEach(square -> square.draw(batch));
     }
 
+    /**
+     * Saves score in file and exits game.
+     * @param pointsSum gained points
+     * @param boardNumber number of board
+     */
     private void loseGame(int pointsSum, int boardNumber) {
-        int topScores [][] = new int[6][10];
-        try
-        {
+        int topScores[][] = new int[6][10];
+        try {
             Scanner s = new Scanner(new File("TopScores.txt"));
             for (int i = 0; i < 6; i++)
-                for(int j = 0; j < 10; j++)
+                for (int j = 0; j < 10; j++)
                     topScores[i][j] = s.nextInt();
-        }
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             System.out.println("Unable to find a file");
         }
 
         int ind;
         boolean change = false;
-        for(ind = 0; ind < 10; ind++)
-            if(topScores[boardNumber][ind] < pointsSum)
-            {
+        for (ind = 0; ind < 10; ind++)
+            if (topScores[boardNumber][ind] < pointsSum) {
                 change = true;
                 break;
             }
 
-        if(change)
-        {
+        if (change) {
             int tmp = topScores[boardNumber][ind];
             topScores[boardNumber][ind] = pointsSum;
-            for(int i = ind; i < topScores[boardNumber].length - 1; i++)
-            {
+            for (int i = ind; i < topScores[boardNumber].length - 1; i++) {
                 int tmp2 = topScores[boardNumber][i + 1];
                 topScores[boardNumber][i + 1] = tmp;
                 tmp = tmp2;
@@ -224,22 +289,24 @@ public class Board {
         }
 
         BufferedWriter outputWriter;
-        try
-        {
+        try {
             outputWriter = new BufferedWriter(new FileWriter("TopScores.txt"));
             for (int i = 0; i < 6; i++)
-                for(int j = 0; j < 10; j++)
-                outputWriter.write(topScores[i][j] + "\n");
+                for (int j = 0; j < 10; j++)
+                    outputWriter.write(topScores[i][j] + "\n");
             outputWriter.flush();
             outputWriter.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("Unable to save score");
         }
     }
 
-    public int getPoints(){
+    /**
+     * Getter for points.
+     * @return points
+     */
+
+    public int getPoints() {
         return points;
     }
 }
