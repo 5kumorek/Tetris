@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
         for (int i = 0; i < boardCount; i++) {
             boardArray.add(new Board(i, boardBackground, squareColor, new SpriteBatch()));
         }
-        backButton = new Button("back_button", controller);
+        backButton = new Button("back_button", controller, new SpriteBatch());
     }
 
     @Override

@@ -55,7 +55,7 @@ public class Board {
      */
     public Board(int boardNumber, String boardBackground, int squareColor, SpriteBatch spriteBatch) {
         createBoardTexture(boardBackground);
-        batch = new SpriteBatch();
+        batch = spriteBatch;
         sound = Gdx.audio.newSound(Gdx.files.internal("sound.mp3"));
         figureFactory = new FigureFactory(squareColor);
         xCoordinateOfBoard = boardNumber * PIXEL_WIDTH;
@@ -128,12 +128,14 @@ public class Board {
         return false;
     }
 
+
     /**
      * Checks if mouse inside board.
      *
      * @return is mouse inside board
      */
-    private boolean isMouseInsideBoard() {
+    @SuppressWarnings("WeakerAccess")
+    boolean isMouseInsideBoard() {
         int x = Gdx.input.getX();
         int y = Gdx.graphics.getHeight() - Gdx.input.getY();
         return x >= xCoordinateOfBoard

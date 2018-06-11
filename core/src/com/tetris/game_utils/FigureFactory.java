@@ -32,6 +32,11 @@ class FigureFactory {
         Point[] pointArray = figureShape.getSquareCoordinatesArray();
         pointArray = translatePoints(centerX, centerY, pointArray);
         Square[] squareArray = convertPointsToSquares(pointArray);
+        for (Point point : pointArray)
+        {
+            if (point.x < 0 || point.y < 0)
+                throw new IllegalArgumentException();
+        }
         return new Figure(centerX, centerY, squareArray);
     }
 

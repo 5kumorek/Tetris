@@ -16,16 +16,19 @@ public class Button {
     private Texture buttonActiveTexture;
     private static final String EXTENSION = ".png";
     private MainController controller;
-    private SpriteBatch batch = new SpriteBatch();
+    private SpriteBatch batch;
+
 
     /**
      * Constructor of a button
      * @param path name of file with texture
      */
-    public Button(String path)
+    public Button(String path, SpriteBatch spriteBatch)
+
     {
         buttonTexture = new Texture(path + EXTENSION);
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
+        batch = spriteBatch;
     }
 
     /**
@@ -33,11 +36,12 @@ public class Button {
      * @param path name of file with texture
      * @param controller controller to set screen
      */
-    public Button(String path, MainController controller)
+    public Button(String path, MainController controller, SpriteBatch spriteBatch)
     {
         this.controller = controller;
         buttonTexture = new Texture(path + EXTENSION);
         buttonActiveTexture = new Texture(path + "_active" + EXTENSION);
+        batch = spriteBatch;
     }
 
     /**

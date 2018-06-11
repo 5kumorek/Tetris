@@ -21,6 +21,8 @@ class Figure {
      * @param squareArray array of blocks for this figure
      */
     Figure(int centerX, int centerY, Square[] squareArray) {
+        if (centerX < 0 || centerX >= Board.ARRAY_WIDTH || centerY < 0)
+            throw new IllegalArgumentException();
         center = new Point(centerX, centerY);
         this.squareArray = squareArray;
     }

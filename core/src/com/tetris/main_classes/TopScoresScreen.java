@@ -31,7 +31,7 @@ public class TopScoresScreen implements Screen
         topScores = new int[6][10];
         height = Gdx.graphics.getHeight();
         width = Gdx.graphics.getWidth();
-        backButton = new Button("back_button", controller);
+        backButton = new Button("back_button", controller, new SpriteBatch());
         loadScores();
     }
 
